@@ -23,7 +23,8 @@
     "nookies": "^2.5.2",
     "react": "^18",
     "react-dom": "^18",
-    "styled-components": "^5.3.10"
+    "styled-components": "^5.3.10",
+    "uuidv4": "^6.2.13"
   },
   "devDependencies": {
     "@types/node": "^20",

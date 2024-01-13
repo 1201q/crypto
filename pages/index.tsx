@@ -6,15 +6,20 @@ import { signOut } from "firebase/auth";
 import { authService } from "@/utils/firebase/client";
 import { useRouter } from "next/router";
 
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import getMarketList from "@/utils/common/getMarketList";
-import { MarketListDataType } from "@/utils/types/types";
-import axios from "axios";
+import { MarketListDataType, TickerDataType } from "@/utils/types/types";
+import createWebsocket from "@/utils/common/createWebsocket";
 
-export interface ServerSideProps {
+interface ServerSideProps {
   isLogin?: boolean;
   uid?: string | null;
-  coinList: MarketListDataType[] | null;
+  coinList: CoinListResponseType;
+}
+
+interface CoinListResponseType {
+  code: string[];
+  data: MarketListDataType[];
 }
 
 export const getServerSideProps: GetServerSideProps = async (
@@ -23,17 +28,23 @@ export const getServerSideProps: GetServerSideProps = async (
   const cookies = nookies.get(ctx);
   let isLogin = false;
   let uid = null;
+  let coinList: CoinListResponseType = { code: [], data: [] };
 
   try {
     const token = await admin.auth().verifyIdToken(cookies.token);
-    const coinList = await getMarketList("USDT");
+
+    try {
+      coinList = await getMarketList("KRW");
+    } catch (error) {
+      console.error("Error in getMarketList fetch:", error);
+    }
 
     if (token) {
       uid = token.uid;
       isLogin = true;
     }
 
-    return { props: { isLogin, uid, coinList: coinList } };
+    return { props: { isLogin, uid, coinList } };
   } catch (error) {
     console.log(error);
     return { redirect: { destination: "/auth/login" } } as {
@@ -44,15 +55,41 @@ export const getServerSideProps: GetServerSideProps = async (
 
 export default function Home({ uid, coinList }: ServerSideProps) {
   const router = useRouter();
+  const websocketRef = useRef<WebSocket | null>(null);
+  const [render, setRender] = useState<TickerDataType[]>([]);
 
-  console.log(coinList);
   useEffect(() => {
-    getCoinList();
+    websocket();
   }, []);
 
-  const getCoinList = async () => {
-    const coinList = await getMarketList("KRW");
-    console.log(coinList);
+  const websocket = async () => {
+    const ws = await createWebsocket("ticker", coinList.code);
+
+    if (ws) {
+      websocketRef.current = ws;
+      getTickerPriceData(websocketRef.current);
+    }
+  };
+
+  const getTickerPriceData = (ws: WebSocket) => {
+    ws.onmessage = async (event: any) => {
+      const { data } = event;
+      const blobToJson = await new Response(data).json();
+
+      if (blobToJson.stream_type === "SNAPSHOT") {
+        setRender((prev) => [...prev, blobToJson]);
+      } else {
+        setRender((prev) => {
+          const updatedArr = prev.map((coin) => {
+            if (coin.code === blobToJson.code) {
+              return { ...blobToJson };
+            }
+            return coin;
+          });
+          return updatedArr;
+        });
+      }
+    };
   };
 
   return (
@@ -66,6 +103,28 @@ export default function Home({ uid, coinList }: ServerSideProps) {
       >
         로그아웃
       </button>
+
+      <button
+        onClick={() => {
+          if (websocketRef.current) {
+            websocketRef.current.close();
+          }
+        }}
+      >
+        웹소켓종료
+      </button>
+      {render.map((coin) => (
+        <div
+          style={{ display: "flex" }}
+          onClick={() => {
+            console.log(coin);
+          }}
+          key={coin.code}
+        >
+          <div>{coin.code} / </div>
+          <div>{coin.trade_price}</div>
+        </div>
+      ))}
     </Container>
   );
 }
