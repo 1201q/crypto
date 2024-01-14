@@ -1,3 +1,22 @@
+export type WebsocketType = "ticker" | "trade" | "orderbook";
+export type MarketType = "KRW" | "USDT" | "BTC";
+export type CoinListType = string[] | string;
+
+// https://velog.io/@leehyewon0531/Cannot-find-name-SetAtom
+export type SetAtom<Args extends any[], Result> = (...args: Args) => Result;
+
+export interface ServerSideProps {
+  isLogin?: boolean;
+  uid?: string | null;
+  coinList: CoinListResponseType;
+  queryCode: string;
+}
+
+export interface CoinListResponseType {
+  code: string[];
+  data: MarketListDataType[];
+}
+
 export interface MarketListDataType {
   market: string;
   korean_name: string;
@@ -30,7 +49,7 @@ export interface TickerDataType {
   prev_closing_price: number;
   signed_change_price: number;
   signed_change_rate: number;
-  stream_type: string;
+  stream_type: "SNAPSHOT" | "REALTIME";
   timestamp: number;
   trade_date: string;
   trade_price: number;

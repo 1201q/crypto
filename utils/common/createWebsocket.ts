@@ -1,7 +1,5 @@
 import { v4 as uuid_v4 } from "uuid";
-
-type WebsocketType = "ticker" | "trade" | "orderbook";
-type CoinListType = string[] | string;
+import { WebsocketType, CoinListType } from "../types/types";
 
 export default async function createWebsocket(
   type: WebsocketType,

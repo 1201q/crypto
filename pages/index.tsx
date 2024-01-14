@@ -5,22 +5,19 @@ import { admin } from "@/utils/firebase/admin";
 import { signOut } from "firebase/auth";
 import { authService } from "@/utils/firebase/client";
 import { useRouter } from "next/router";
-
-import { useEffect, useRef, useState } from "react";
+import { MutableRefObject, useEffect, useMemo, useRef, useState } from "react";
 import getMarketList from "@/utils/common/getMarketList";
-import { MarketListDataType, TickerDataType } from "@/utils/types/types";
+import {
+  TickerDataType,
+  ServerSideProps,
+  CoinListResponseType,
+  WebsocketType,
+  SetAtom,
+} from "@/utils/types/types";
 import createWebsocket from "@/utils/common/createWebsocket";
-
-interface ServerSideProps {
-  isLogin?: boolean;
-  uid?: string | null;
-  coinList: CoinListResponseType;
-}
-
-interface CoinListResponseType {
-  code: string[];
-  data: MarketListDataType[];
-}
+import { allTickerDataAtom } from "@/utils/atoms/atoms";
+import { useAtom, atom } from "jotai";
+import { SetStateAction } from "jotai/vanilla";
 
 export const getServerSideProps: GetServerSideProps = async (
   ctx: any
@@ -44,7 +41,13 @@ export const getServerSideProps: GetServerSideProps = async (
       isLogin = true;
     }
 
-    return { props: { isLogin, uid, coinList } };
+    return {
+      props: { isLogin, uid, coinList, code: "KRW-BTC" },
+      redirect: { destination: "/exchange/KRW-BTC" },
+    } as {
+      props: ServerSideProps;
+      redirect: Redirect;
+    };
   } catch (error) {
     console.log(error);
     return { redirect: { destination: "/auth/login" } } as {
@@ -53,44 +56,8 @@ export const getServerSideProps: GetServerSideProps = async (
   }
 };
 
-export default function Home({ uid, coinList }: ServerSideProps) {
+export default function Home({ uid, code }: ServerSideProps) {
   const router = useRouter();
-  const websocketRef = useRef<WebSocket | null>(null);
-  const [render, setRender] = useState<TickerDataType[]>([]);
-
-  useEffect(() => {
-    websocket();
-  }, []);
-
-  const websocket = async () => {
-    const ws = await createWebsocket("ticker", coinList.code);
-
-    if (ws) {
-      websocketRef.current = ws;
-      getTickerPriceData(websocketRef.current);
-    }
-  };
-
-  const getTickerPriceData = (ws: WebSocket) => {
-    ws.onmessage = async (event: any) => {
-      const { data } = event;
-      const blobToJson = await new Response(data).json();
-
-      if (blobToJson.stream_type === "SNAPSHOT") {
-        setRender((prev) => [...prev, blobToJson]);
-      } else {
-        setRender((prev) => {
-          const updatedArr = prev.map((coin) => {
-            if (coin.code === blobToJson.code) {
-              return { ...blobToJson };
-            }
-            return coin;
-          });
-          return updatedArr;
-        });
-      }
-    };
-  };
 
   return (
     <Container>
@@ -103,28 +70,7 @@ export default function Home({ uid, coinList }: ServerSideProps) {
       >
         로그아웃
       </button>
-
-      <button
-        onClick={() => {
-          if (websocketRef.current) {
-            websocketRef.current.close();
-          }
-        }}
-      >
-        웹소켓종료
-      </button>
-      {render.map((coin) => (
-        <div
-          style={{ display: "flex" }}
-          onClick={() => {
-            console.log(coin);
-          }}
-          key={coin.code}
-        >
-          <div>{coin.code} / </div>
-          <div>{coin.trade_price}</div>
-        </div>
-      ))}
+      {code}
     </Container>
   );
 }

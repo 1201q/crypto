@@ -1,11 +1,9 @@
 import axios from "axios";
-import { MarketListDataType } from "@/utils/types/types";
-
-type MarketType = "KRW" | "USDT" | "BTC";
-interface CoinListResponseType {
-  code: string[];
-  data: MarketListDataType[];
-}
+import {
+  MarketListDataType,
+  MarketType,
+  CoinListResponseType,
+} from "@/utils/types/types";
 
 export default async function getMarketList(
   type: MarketType

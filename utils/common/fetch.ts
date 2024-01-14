@@ -1,7 +1,7 @@
 import axios from "axios";
 import { MarketListDataType } from "@/utils/types/types";
 
-export default async function getMarketList(type: string[]) {
+export default async function getMarketList() {
   try {
     const response = await axios.get<MarketListDataType[]>("/api/markets");
     const data = response.data;
