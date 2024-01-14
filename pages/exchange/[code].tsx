@@ -16,6 +16,7 @@ import {
   tradeDataAtom,
 } from "@/utils/atoms/atoms";
 import { useUpbit } from "@/utils/websocket/useUpbit";
+import List from "@/components/list/List";
 
 export const getServerSideProps: GetServerSideProps = async (
   ctx: any
@@ -135,26 +136,10 @@ export default function Home({ uid, coinList, queryCode }: ServerSideProps) {
       </button>
       <div>
         {selectTickerData.map((c) => (
-          <>
-            <div>{c.code}</div>
-            <div>{c.trade_price}</div>
-          </>
+          <div key={"@"}>{c.trade_price}</div>
         ))}
       </div>
-      {allTickerData.map((coin) => (
-        <div
-          style={{ display: "flex" }}
-          onClick={() => {
-            console.log(coin);
-            setSelectCode(coin.code);
-            router.push(`/exchange/${coin.code}`);
-          }}
-          key={coin.code}
-        >
-          <div>{coin.code} / </div>
-          <div>{coin.trade_price}</div>
-        </div>
-      ))}
+      <List selectCode={selectCode} setSelectCode={setSelectCode} />
     </Container>
   );
 }
