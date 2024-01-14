@@ -5,17 +5,31 @@ import { admin } from "@/utils/firebase/admin";
 import { signOut } from "firebase/auth";
 import { authService } from "@/utils/firebase/client";
 import { useRouter } from "next/router";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { MutableRefObject, useEffect, useMemo, useRef, useState } from "react";
 import getMarketList from "@/utils/common/getMarketList";
-import { ServerSideProps, CoinListResponseType } from "@/utils/types/types";
+import {
+  TickerDataType,
+  ServerSideProps,
+  CoinListResponseType,
+  WebsocketType,
+  SetAtom,
+  OrderBookDataType,
+  TradeDataType,
+} from "@/utils/types/types";
+import createWebsocket from "@/utils/websocket/createWebsocket";
 import { useAtom, atom } from "jotai";
+import { SetStateAction } from "jotai/vanilla";
+
 import {
   allTickerDataAtom,
   orderbookDataAtom,
   selectTickerDataAtom,
   tradeDataAtom,
 } from "@/utils/atoms/atoms";
-import { useUpbit } from "@/utils/websocket/useUpbit";
+import {
+  closeWebsocket,
+  openWebsocket,
+} from "@/utils/websocket/websocketUtils";
 
 export const getServerSideProps: GetServerSideProps = async (
   ctx: any
@@ -76,39 +90,27 @@ export default function Home({ uid, coinList, queryCode }: ServerSideProps) {
 
   const selectCodeAtom = useMemo(() => atom(queryCode), []);
   const [selectCode, setSelectCode] = useAtom(selectCodeAtom);
-  const [selectTickerData] = useAtom(selectTickerDataAtom(selectCode));
 
-  const {
-    data: allTickerData,
-    open: openTickerWebsocket,
-    close: closeTickerWebsocket,
-  } = useUpbit("ticker", coinList.code, tickerWsRef, allTickerDataAtom);
-  const {
-    data: tradeData,
-    open: openTradeWebsocket,
-    close: closeTradeWebsocket,
-  } = useUpbit("trade", selectCode, tradeWsRef, tradeDataAtom);
-  const {
-    data: orderbookData,
-    open: openOrderbookWebsocket,
-    close: closeOrderbookWebsocket,
-  } = useUpbit("orderbook", selectCode, orderbookWsRef, orderbookDataAtom);
+  const [allTickerData, setAllTickerData] = useAtom(allTickerDataAtom);
+  const [selectTickerData] = useAtom(selectTickerDataAtom(selectCode));
+  const [tradeData, setTradeData] = useAtom(tradeDataAtom);
+  const [orderbookData, setOrderbookData] = useAtom(orderbookDataAtom);
 
   useEffect(() => {
-    openTickerWebsocket();
+    openWebsocket("ticker", coinList.code, tickerWsRef, setAllTickerData);
 
     return () => {
-      closeTickerWebsocket();
+      closeWebsocket(tickerWsRef, setAllTickerData);
     };
   }, []);
 
   useEffect(() => {
-    openTradeWebsocket();
-    openOrderbookWebsocket();
+    openWebsocket("trade", selectCode, tradeWsRef, setTradeData);
+    openWebsocket("orderbook", selectCode, orderbookWsRef, setOrderbookData);
 
     return () => {
-      closeTradeWebsocket();
-      closeOrderbookWebsocket();
+      closeWebsocket(tradeWsRef, setTradeData);
+      closeWebsocket(orderbookWsRef, setOrderbookData);
     };
   }, [selectCode]);
 

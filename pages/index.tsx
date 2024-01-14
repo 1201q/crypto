@@ -14,10 +14,8 @@ import {
   WebsocketType,
   SetAtom,
 } from "@/utils/types/types";
-import createWebsocket from "@/utils/websocket/createWebsocket";
 import { allTickerDataAtom } from "@/utils/atoms/atoms";
-import { useAtom, atom } from "jotai";
-import { SetStateAction } from "jotai/vanilla";
+import { useUpbit, useTestUpbit } from "@/utils/websocket/useUpbit";
 
 export const getServerSideProps: GetServerSideProps = async (
   ctx: any
@@ -42,6 +40,7 @@ export const getServerSideProps: GetServerSideProps = async (
     }
 
     return {
+      // props: { coinList },
       redirect: { destination: "/exchange/KRW-BTC" },
     } as {
       props: ServerSideProps;
@@ -55,12 +54,14 @@ export const getServerSideProps: GetServerSideProps = async (
   }
 };
 
-export default function Home({ uid }: ServerSideProps) {
+export default function Home({ coinList }: ServerSideProps) {
   const router = useRouter();
+  const ref = useRef(null);
+  const [code, setCode] = useState("KRW-BTC");
+  // const { data, open, close } = useUpbit("trade", code, ref, allTickerDataAtom);
 
   return (
     <Container>
-      {uid}
       <button
         onClick={() => {
           signOut(authService);
@@ -69,7 +70,27 @@ export default function Home({ uid }: ServerSideProps) {
       >
         로그아웃
       </button>
-      {code}
+      <button
+        onClick={() => {
+          open();
+        }}
+      >
+        열기
+      </button>
+      <button
+        onClick={() => {
+          close();
+        }}
+      >
+        닫기
+      </button>
+      <button
+        onClick={() => {
+          setCode("KRW-ETH");
+        }}
+      >
+        변경
+      </button>
     </Container>
   );
 }

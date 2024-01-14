@@ -14,8 +14,10 @@ type SetStateType = TickerDataType[] | TradeDataType[] | OrderBookDataType[];
 export const openWebsocket = async (
   type: WebsocketType,
   code: string[] | string,
-  wsRef: MutableRefObject<WebSocket | null>,
-  setState: SetAtom<[SetStateAction<any>], void>
+  wsRef: MutableRefObject<WebSocket | null | undefined>,
+  setState:
+    | SetAtom<[SetStateAction<any>], void>
+    | React.Dispatch<React.SetStateAction<any>>
 ) => {
   const ws = await createWebsocket(type, code);
 
@@ -26,8 +28,10 @@ export const openWebsocket = async (
 };
 
 export const closeWebsocket = (
-  wsRef: MutableRefObject<WebSocket | null>,
-  setState: SetAtom<[SetStateAction<any>], void>
+  wsRef: MutableRefObject<WebSocket | null | undefined>,
+  setState:
+    | SetAtom<[SetStateAction<any>], void>
+    | React.Dispatch<React.SetStateAction<any>>
 ) => {
   if (wsRef.current) {
     wsRef.current.close();
@@ -37,7 +41,9 @@ export const closeWebsocket = (
 
 const getTickerData = (
   ws: WebSocket,
-  setState: SetAtom<[SetStateAction<any>], void>
+  setState:
+    | SetAtom<[SetStateAction<any>], void>
+    | React.Dispatch<React.SetStateAction<any>>
 ) => {
   ws.onmessage = async (event: any) => {
     const { data } = event;
@@ -55,7 +61,9 @@ const getTickerData = (
 
 const handleTickerUpdateEvent = (
   data: TickerDataType,
-  setState: SetAtom<[SetStateAction<TickerDataType[]>], void>
+  setState:
+    | SetAtom<[SetStateAction<TickerDataType[]>], void>
+    | React.Dispatch<React.SetStateAction<any>>
 ) => {
   if (data.stream_type === "SNAPSHOT") {
     setState((prev) => [...prev, data]);
@@ -74,14 +82,18 @@ const handleTickerUpdateEvent = (
 
 const handleOrderbookUpdateEvent = (
   data: OrderBookDataType,
-  setState: SetAtom<[SetStateAction<SetStateType>], void>
+  setState:
+    | SetAtom<[SetStateAction<SetStateType>], void>
+    | React.Dispatch<React.SetStateAction<any>>
 ) => {
   setState([data]);
 };
 
 const handleTradeUpdateEvent = (
   data: TradeDataType,
-  setState: SetAtom<[SetStateAction<TradeDataType[]>], void>
+  setState:
+    | SetAtom<[SetStateAction<TradeDataType[]>], void>
+    | React.Dispatch<React.SetStateAction<any>>
 ) => {
   setState((prev) => [...prev, data]);
 };
