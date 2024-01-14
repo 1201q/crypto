@@ -13,11 +13,23 @@ import {
   CoinListResponseType,
   WebsocketType,
   SetAtom,
+  OrderBookDataType,
+  TradeDataType,
 } from "@/utils/types/types";
-import createWebsocket from "@/utils/common/createWebsocket";
-import { allTickerDataAtom } from "@/utils/atoms/atoms";
+import createWebsocket from "@/utils/websocket/createWebsocket";
 import { useAtom, atom } from "jotai";
 import { SetStateAction } from "jotai/vanilla";
+
+import {
+  allTickerDataAtom,
+  orderbookDataAtom,
+  selectTickerDataAtom,
+  tradeDataAtom,
+} from "@/utils/atoms/atoms";
+import {
+  closeWebsocket,
+  openWebsocket,
+} from "@/utils/websocket/websocketUtils";
 
 export const getServerSideProps: GetServerSideProps = async (
   ctx: any
@@ -72,69 +84,35 @@ export const getServerSideProps: GetServerSideProps = async (
 export default function Home({ uid, coinList, queryCode }: ServerSideProps) {
   const router = useRouter();
 
-  const tickerWebsocketRef = useRef<WebSocket | null>(null);
-  const tradeWebsocketRef = useRef<WebSocket | null>(null);
-  const orderbookWebsocketRef = useRef<WebSocket | null>(null);
+  const tickerWsRef = useRef<WebSocket | null>(null);
+  const tradeWsRef = useRef<WebSocket | null>(null);
+  const orderbookWsRef = useRef<WebSocket | null>(null);
 
   const selectCodeAtom = useMemo(() => atom(queryCode), []);
   const [selectCode, setSelectCode] = useAtom(selectCodeAtom);
+
   const [allTickerData, setAllTickerData] = useAtom(allTickerDataAtom);
+  const [selectTickerData] = useAtom(selectTickerDataAtom(selectCode));
+  const [tradeData, setTradeData] = useAtom(tradeDataAtom);
+  const [orderbookData, setOrderbookData] = useAtom(orderbookDataAtom);
 
   useEffect(() => {
-    openWebsocket(
-      "ticker",
-      coinList.code,
-      tickerWebsocketRef,
-      setAllTickerData
-    );
+    openWebsocket("ticker", coinList.code, tickerWsRef, setAllTickerData);
 
     return () => {
-      if (tickerWebsocketRef.current) {
-        tickerWebsocketRef.current.close();
-
-        setAllTickerData([]);
-        console.log("닫아");
-      }
+      closeWebsocket(tickerWsRef, setAllTickerData);
     };
   }, []);
 
-  const openWebsocket = async (
-    type: WebsocketType,
-    code: string[],
-    websocketRef: MutableRefObject<WebSocket | null>,
-    setState: SetAtom<[SetStateAction<TickerDataType[]>], void>
-  ) => {
-    const ws = await createWebsocket(type, code);
+  useEffect(() => {
+    openWebsocket("trade", selectCode, tradeWsRef, setTradeData);
+    openWebsocket("orderbook", selectCode, orderbookWsRef, setOrderbookData);
 
-    if (ws) {
-      websocketRef.current = ws;
-      handleTickerDataUpdate(websocketRef.current, setState);
-    }
-  };
-
-  const handleTickerDataUpdate = (
-    ws: WebSocket,
-    setState: SetAtom<[SetStateAction<TickerDataType[]>], void>
-  ) => {
-    ws.onmessage = async (event: any) => {
-      const { data } = event;
-      const blobToJson = await new Response(data).json();
-
-      if (blobToJson.stream_type === "SNAPSHOT") {
-        setState((prev) => [...prev, blobToJson]);
-      } else {
-        setState((prev) => {
-          const updatedArr = prev.map((coin) => {
-            if (coin.code === blobToJson.code) {
-              return { ...blobToJson };
-            }
-            return coin;
-          });
-          return updatedArr;
-        });
-      }
+    return () => {
+      closeWebsocket(tradeWsRef, setTradeData);
+      closeWebsocket(orderbookWsRef, setOrderbookData);
     };
-  };
+  }, [selectCode]);
 
   return (
     <Container>
@@ -150,18 +128,28 @@ export default function Home({ uid, coinList, queryCode }: ServerSideProps) {
       {queryCode}
       <button
         onClick={() => {
-          if (websocketRef.current) {
-            websocketRef.current.close();
+          if (tickerWsRef.current) {
+            tickerWsRef.current.close();
           }
         }}
       >
         웹소켓종료
       </button>
+      <div>
+        {selectTickerData.map((c) => (
+          <>
+            <div>{c.code}</div>
+            <div>{c.trade_price}</div>
+          </>
+        ))}
+      </div>
       {allTickerData.map((coin) => (
         <div
           style={{ display: "flex" }}
           onClick={() => {
             console.log(coin);
+            setSelectCode(coin.code);
+            router.push(`/exchange/${coin.code}`);
           }}
           key={coin.code}
         >

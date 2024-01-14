@@ -23,6 +23,8 @@ export interface MarketListDataType {
   english_name: string;
 }
 
+// websocket에서 받아온 데이터의 타입
+// *****************************************************************
 export interface TickerDataType {
   acc_ask_volume: number;
   acc_bid_volume: number;
@@ -58,3 +60,38 @@ export interface TickerDataType {
   trade_volume: number;
   type: "ticker";
 }
+
+export interface TradeDataType {
+  ask_bid: "ASK" | "BID";
+  change: "EVEN" | "RISE" | "FALL";
+  change_price: number;
+  code: string;
+  prev_closing_price: number;
+  sequential_id: number;
+  stream_type: "SNAPSHOT" | "REALTIME";
+  timestamp: number;
+  trade_date: string;
+  trade_price: number;
+  trade_time: string;
+  trade_timestamp: number;
+  trade_volume: number;
+  type: "trade";
+}
+
+type OrderBookUnit = {
+  ask_price: number;
+  bid_price: number;
+  ask_size: number;
+  bid_size: number;
+};
+
+export interface OrderBookDataType {
+  code: string;
+  orderbook_units: OrderBookUnit[];
+  stream_type: "SNAPSHOT" | "REALTIME";
+  timestamp: number;
+  total_ask_size: number;
+  total_bid_size: number;
+  type: "orderbook";
+}
+// *****************************************************************

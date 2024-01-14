@@ -14,7 +14,7 @@ import {
   WebsocketType,
   SetAtom,
 } from "@/utils/types/types";
-import createWebsocket from "@/utils/common/createWebsocket";
+import createWebsocket from "@/utils/websocket/createWebsocket";
 import { allTickerDataAtom } from "@/utils/atoms/atoms";
 import { useAtom, atom } from "jotai";
 import { SetStateAction } from "jotai/vanilla";
@@ -42,7 +42,6 @@ export const getServerSideProps: GetServerSideProps = async (
     }
 
     return {
-      props: { isLogin, uid, coinList, code: "KRW-BTC" },
       redirect: { destination: "/exchange/KRW-BTC" },
     } as {
       props: ServerSideProps;
@@ -56,7 +55,7 @@ export const getServerSideProps: GetServerSideProps = async (
   }
 };
 
-export default function Home({ uid, code }: ServerSideProps) {
+export default function Home({ uid }: ServerSideProps) {
   const router = useRouter();
 
   return (
