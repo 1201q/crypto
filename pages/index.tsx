@@ -5,17 +5,9 @@ import { admin } from "@/utils/firebase/admin";
 import { signOut } from "firebase/auth";
 import { authService } from "@/utils/firebase/client";
 import { useRouter } from "next/router";
-import { MutableRefObject, useEffect, useMemo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import getMarketList from "@/utils/common/getMarketList";
-import {
-  TickerDataType,
-  ServerSideProps,
-  CoinListResponseType,
-  WebsocketType,
-  SetAtom,
-} from "@/utils/types/types";
-import { allTickerDataAtom } from "@/utils/atoms/atoms";
-import { useUpbit, useTestUpbit } from "@/utils/websocket/useUpbit";
+import { ServerSideProps, CoinListResponseType } from "@/utils/types/types";
 
 export const getServerSideProps: GetServerSideProps = async (
   ctx: any

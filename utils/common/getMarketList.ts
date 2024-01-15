@@ -9,7 +9,7 @@ export default async function getMarketList(
   type: MarketType
 ): Promise<CoinListResponseType> {
   try {
-    const API_URL = "http://localhost:3000/api/markets";
+    const API_URL = "https://api.upbit.com/v1/market/all";
     const response = await axios.get<MarketListDataType[]>(API_URL);
     const data = response.data;
 

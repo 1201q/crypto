@@ -5,7 +5,7 @@ import { admin } from "@/utils/firebase/admin";
 import { signOut } from "firebase/auth";
 import { authService } from "@/utils/firebase/client";
 import { useRouter } from "next/router";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import getMarketList from "@/utils/common/getMarketList";
 import { ServerSideProps, CoinListResponseType } from "@/utils/types/types";
 import { useAtom, atom } from "jotai";
