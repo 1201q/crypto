@@ -125,13 +125,13 @@ export default function Home({ uid, coinList, queryCode }: ServerSideProps) {
   return (
     <Container>
       <Padding>
-        <Main>{selectTickerData[0]?.trade_price}</Main>
         <Side>
           <MyInfo>1</MyInfo>
           <Div>
             <CoinList count={coinList.code.length} />
           </Div>
         </Side>
+        <Main>{selectTickerData[0]?.trade_price}</Main>
       </Padding>
     </Container>
   );

@@ -118,7 +118,7 @@ const CoinRow: React.FC<RowProps> = ({ coin }) => {
   );
 };
 
-const Row = styled.div<{ isSelect: boolean }>`
+const Row = styled.li<{ isSelect: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -194,7 +194,6 @@ const PriceText = styled(Text)`
   color: ${(props) => props.color};
   padding: 3px;
   border-radius: 2px;
-  background-color: ${(props) => props.bgcolor};
 `;
 const ChangeRateText = styled(Text)`
   letter-spacing: 0.1px;
