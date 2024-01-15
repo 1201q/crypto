@@ -7,16 +7,22 @@ import { authService } from "@/utils/firebase/client";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useRef } from "react";
 import getMarketList from "@/utils/common/getMarketList";
-import { ServerSideProps, CoinListResponseType } from "@/utils/types/types";
+import {
+  ServerSideProps,
+  CoinListResponseType,
+  MarketListDataType,
+} from "@/utils/types/types";
 import { useAtom, atom } from "jotai";
 import {
   allTickerDataAtom,
+  coinListAtom,
   orderbookDataAtom,
+  selectCodeAtom,
   selectTickerDataAtom,
   tradeDataAtom,
 } from "@/utils/atoms/atoms";
 import { useUpbit } from "@/utils/websocket/useUpbit";
-import List from "@/components/list/List";
+import CoinList from "@/components/coinlist/CoinList";
 
 export const getServerSideProps: GetServerSideProps = async (
   ctx: any
@@ -75,8 +81,8 @@ export default function Home({ uid, coinList, queryCode }: ServerSideProps) {
   const tradeWsRef = useRef<WebSocket | null>(null);
   const orderbookWsRef = useRef<WebSocket | null>(null);
 
-  const selectCodeAtom = useMemo(() => atom(queryCode), []);
   const [selectCode, setSelectCode] = useAtom(selectCodeAtom);
+  const [coinListData, setCoinListData] = useAtom(coinListAtom);
   const [selectTickerData] = useAtom(selectTickerDataAtom(selectCode));
 
   const {
@@ -96,6 +102,8 @@ export default function Home({ uid, coinList, queryCode }: ServerSideProps) {
   } = useUpbit("orderbook", selectCode, orderbookWsRef, orderbookDataAtom);
 
   useEffect(() => {
+    setSelectCode(queryCode);
+    setCoinListData(coinList.data);
     openTickerWebsocket();
 
     return () => {
@@ -104,6 +112,7 @@ export default function Home({ uid, coinList, queryCode }: ServerSideProps) {
   }, []);
 
   useEffect(() => {
+    setSelectCode(queryCode);
     openTradeWebsocket();
     openOrderbookWebsocket();
 
@@ -111,35 +120,37 @@ export default function Home({ uid, coinList, queryCode }: ServerSideProps) {
       closeTradeWebsocket();
       closeOrderbookWebsocket();
     };
-  }, [selectCode]);
+  }, [queryCode]);
 
   return (
     <Container>
-      {uid}
-      <button
-        onClick={() => {
-          signOut(authService);
-          router.reload();
-        }}
-      >
-        로그아웃
-      </button>
-      {queryCode}
-      <button
-        onClick={() => {
-          if (tickerWsRef.current) {
-            tickerWsRef.current.close();
-          }
-        }}
-      >
-        웹소켓종료
-      </button>
-      <div>
-        {selectTickerData.map((c) => (
-          <div key={"@"}>{c.trade_price}</div>
-        ))}
-      </div>
-      <List selectCode={selectCode} setSelectCode={setSelectCode} />
+      <>
+        {uid}
+        <button
+          onClick={() => {
+            signOut(authService);
+            router.reload();
+          }}
+        >
+          로그아웃
+        </button>
+        {selectCode}
+        <button
+          onClick={() => {
+            if (tickerWsRef.current) {
+              tickerWsRef.current.close();
+            }
+          }}
+        >
+          웹소켓종료
+        </button>
+        <div>
+          {selectTickerData.map((c) => (
+            <div key={"@"}>{c.trade_price}</div>
+          ))}
+        </div>
+      </>
+      <CoinList count={coinList.code.length} />
     </Container>
   );
 }
