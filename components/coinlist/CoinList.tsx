@@ -29,8 +29,7 @@ const CoinList: React.FC<ListProps> = ({ count }) => {
 
 const Container = styled.div`
   width: 100%;
-  height: 550px;
-  border-radius: 10px;
+  height: 100%;
   background-color: white;
 `;
 

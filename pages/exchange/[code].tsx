@@ -124,78 +124,26 @@ export default function Home({ uid, coinList, queryCode }: ServerSideProps) {
 
   return (
     <Container>
-      <Padding>
-        <Side>
-          <MyInfo>1</MyInfo>
-          <Div>
-            <CoinList count={coinList.code.length} />
-          </Div>
-        </Side>
-        <Main>{selectTickerData[0]?.trade_price}</Main>
-      </Padding>
+      <Mobile>
+        <CoinList count={coinList.code.length} />
+      </Mobile>
     </Container>
   );
 }
 
 const Container = styled.div`
   width: 100%;
-  min-width: 1400px;
+  height: 100vh;
   max-width: 100vw;
   position: relative;
-  background-color: ${({ theme }) => theme.backgroundColor};
-`;
-
-const Padding = styled.div`
-  padding: 20px;
+  background-color: #f2f4f6;
   display: flex;
-  justify-content: space-between;
-
-  @media screen and (max-width: 1200px) {
-  }
-
-  @media screen and (max-width: 979px) {
-    padding: 0;
-  }
+  justify-content: center;
 `;
 
-const Main = styled.div`
-  width: calc(100% - 350px);
-  height: 100vh;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
-  border-radius: 10px;
-  background-color: white;
-
-  @media screen and (max-width: 1200px) {
-    /* width: 100%; */
-  }
-
-  @media screen and (max-width: 979px) {
-    /* background-color: lightcoral; */
-  }
-
-  @media screen and (max-width: 768px) {
-    /* background-color: lightpink; */
-  }
-`;
-
-const Side = styled.div`
-  width: 330px;
-  height: 100vh;
-
-  @media screen and (max-width: 1200px) {
-    /* display: none;
-    width: 0px; */
-  }
-`;
-
-const Div = styled.div`
-  width: 100%;
-  background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-`;
-
-const MyInfo = styled(Div)`
-  height: 120px;
+const Mobile = styled.div`
+  width: 840px;
+  height: 100%;
+  border-right: 1px solid #d1d6db;
+  border-left: 1px solid #d1d6db;
 `;
