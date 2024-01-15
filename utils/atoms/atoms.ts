@@ -3,6 +3,7 @@ import {
   OrderBookDataType,
   TickerDataType,
   TradeDataType,
+  MarketListDataType,
 } from "../types/types";
 import { atomFamily } from "jotai/utils";
 
@@ -15,3 +16,6 @@ export const selectTickerDataAtom = atomFamily((code: string) =>
 
 export const tradeDataAtom = atom<TradeDataType[]>([]);
 export const orderbookDataAtom = atom<OrderBookDataType[]>([]);
+
+export const selectCodeAtom = atom<string>("");
+export const coinListAtom = atom<MarketListDataType[]>([]);
