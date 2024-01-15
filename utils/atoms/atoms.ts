@@ -19,3 +19,5 @@ export const orderbookDataAtom = atom<OrderBookDataType[]>([]);
 
 export const selectCodeAtom = atom<string>("");
 export const coinListAtom = atom<MarketListDataType[]>([]);
+
+// style

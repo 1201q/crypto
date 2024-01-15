@@ -28,10 +28,10 @@ const CoinList: React.FC<ListProps> = ({ count }) => {
 };
 
 const Container = styled.div`
-  width: 350px;
-  height: 700px;
-  border: 1px solid black;
-  margin: 10px;
+  width: 100%;
+  height: 550px;
+  border-radius: 10px;
+  background-color: white;
 `;
 
 export default React.memo(CoinList);

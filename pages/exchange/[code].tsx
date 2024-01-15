@@ -82,7 +82,7 @@ export default function Home({ uid, coinList, queryCode }: ServerSideProps) {
   const orderbookWsRef = useRef<WebSocket | null>(null);
 
   const [selectCode, setSelectCode] = useAtom(selectCodeAtom);
-  const [coinListData, setCoinListData] = useAtom(coinListAtom);
+  const [, setCoinListData] = useAtom(coinListAtom);
   const [selectTickerData] = useAtom(selectTickerDataAtom(selectCode));
 
   const {
@@ -124,40 +124,78 @@ export default function Home({ uid, coinList, queryCode }: ServerSideProps) {
 
   return (
     <Container>
-      <>
-        {uid}
-        <button
-          onClick={() => {
-            signOut(authService);
-            router.reload();
-          }}
-        >
-          로그아웃
-        </button>
-        {selectCode}
-        <button
-          onClick={() => {
-            if (tickerWsRef.current) {
-              tickerWsRef.current.close();
-            }
-          }}
-        >
-          웹소켓종료
-        </button>
-        <div>
-          {selectTickerData.map((c) => (
-            <div key={"@"}>{c.trade_price}</div>
-          ))}
-        </div>
-      </>
-      <CoinList count={coinList.code.length} />
+      <Padding>
+        <Main>{selectTickerData[0]?.trade_price}</Main>
+        <Side>
+          <MyInfo>1</MyInfo>
+          <Div>
+            <CoinList count={coinList.code.length} />
+          </Div>
+        </Side>
+      </Padding>
     </Container>
   );
 }
 
 const Container = styled.div`
   width: 100%;
-  max-height: 100vh;
+  min-width: 1400px;
+  max-width: 100vw;
   position: relative;
+  background-color: ${({ theme }) => theme.backgroundColor};
+`;
+
+const Padding = styled.div`
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+
+  @media screen and (max-width: 1200px) {
+  }
+
+  @media screen and (max-width: 979px) {
+    padding: 0;
+  }
+`;
+
+const Main = styled.div`
+  width: calc(100% - 350px);
+  height: 100vh;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+  border-radius: 10px;
   background-color: white;
+
+  @media screen and (max-width: 1200px) {
+    /* width: 100%; */
+  }
+
+  @media screen and (max-width: 979px) {
+    /* background-color: lightcoral; */
+  }
+
+  @media screen and (max-width: 768px) {
+    /* background-color: lightpink; */
+  }
+`;
+
+const Side = styled.div`
+  width: 330px;
+  height: 100vh;
+
+  @media screen and (max-width: 1200px) {
+    /* display: none;
+    width: 0px; */
+  }
+`;
+
+const Div = styled.div`
+  width: 100%;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+`;
+
+const MyInfo = styled(Div)`
+  height: 120px;
 `;

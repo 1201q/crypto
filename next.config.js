@@ -4,6 +4,9 @@ module.exports = {
   // build: {
   //   transpile: ["axios"],
   // },
+  images: {
+    domains: ["static.upbit.com"],
+  },
   webpack: (config) => {
     config.module.rules.push({
       test: /\.svg$/,
