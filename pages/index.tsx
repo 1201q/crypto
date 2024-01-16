@@ -40,7 +40,7 @@ export const getServerSideProps: GetServerSideProps = async (
     };
   } catch (error) {
     console.log(error);
-    return { redirect: { destination: "/auth/login" } } as {
+    return { redirect: { destination: "/exchange/KRW-BTC" } } as {
       redirect: Redirect;
     };
   }

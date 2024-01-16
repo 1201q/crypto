@@ -10,9 +10,10 @@ import Image from "next/image";
 
 interface RowProps {
   coin: TickerDataType;
+  index: number;
 }
 
-const CoinRow: React.FC<RowProps> = ({ coin }) => {
+const CoinRow: React.FC<RowProps> = ({ index, coin }) => {
   const router = useRouter();
   const [selectCode, setSelectCode] = useAtom(selectCodeAtom);
   const [coinList] = useAtom(coinListAtom);
@@ -36,41 +37,8 @@ const CoinRow: React.FC<RowProps> = ({ coin }) => {
     setCurrentPrice(coin.trade_price);
   }, []);
 
-  useEffect(() => {
-    if (isRendered) {
-      if (currentPrice !== coin.trade_price) {
-        let askTimeout: NodeJS.Timeout;
-        let bidTimeout: NodeJS.Timeout;
-
-        if (coin.ask_bid === "ASK") {
-          setBgcolor("#e6f1fc");
-        } else if (coin.ask_bid === "BID") {
-          setBgcolor("#fae7e7");
-        }
-
-        askTimeout = setTimeout(() => {
-          setBgcolor("none");
-        }, 200);
-        bidTimeout = setTimeout(() => {
-          setBgcolor("none");
-        }, 200);
-        setCurrentPrice((prev) => {
-          if (prev !== coin.trade_price) {
-            return coin.trade_price;
-          }
-          return prev;
-        });
-        return () => {
-          clearTimeout(askTimeout);
-          clearTimeout(bidTimeout);
-        };
-      }
-    }
-  }, [coin]);
-
   return (
     <Row
-      isSelect={selectCode === coin.code}
       onClick={() => {
         setSelectCode(coin.code);
         router.push(`/exchange/${coin.code}`);
@@ -78,139 +46,102 @@ const CoinRow: React.FC<RowProps> = ({ coin }) => {
       }}
       key={coin.code}
     >
-      <RowContainer>
-        <NameContainer>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginBottom: "5px",
-            }}
-          >
+      <LeftSide>
+        <IndexNumber>{index + 1}</IndexNumber>
+        <Flex>
+          <CodeImage>
             <Image
               src={`https://static.upbit.com/logos/${f("code", coin.code)}.png`}
               alt={"logo"}
-              width={13}
-              height={13}
+              width={23}
+              height={23}
             />
-            <NameText>{f("code", coin.code)}</NameText>
-          </div>
-          <KRNameText>{getKR(coinList, coin.code)}</KRNameText>
-        </NameContainer>
-        <ContentsContainer>
-          <PriceUpdateDiv>
-            <PriceText color={getTextColor(coin.change)}>
-              {f("price", coin.trade_price)}
-            </PriceText>
-          </PriceUpdateDiv>
-          <FlexDiv>
-            <ChangeRateText color={getTextColor(coin.change)}>
-              {f("change", coin.signed_change_rate)}%
-            </ChangeRateText>
-          </FlexDiv>
-          <FlexDiv>
-            <AccPriceText>{f("acc", coin.acc_trade_price_24h)}</AccPriceText>
-            <MillionText>백만</MillionText>
-          </FlexDiv>
-        </ContentsContainer>
-      </RowContainer>
+          </CodeImage>
+          <NameContainer>
+            <KRnameText>{getKR(coinList, coin.code)}</KRnameText>
+            <CodeText>{f("code", coin.code)}</CodeText>
+          </NameContainer>
+        </Flex>
+      </LeftSide>
+
+      <RightSide>
+        <PriceContainer>
+          <PercentText color={getTextColor(coin.change)}>
+            {f("change", coin.signed_change_rate)}%
+          </PercentText>
+
+          <PriceText>{f("price", coin.trade_price)}</PriceText>
+        </PriceContainer>
+      </RightSide>
     </Row>
   );
 };
 
-const Row = styled.li<{ isSelect: boolean }>`
+const Row = styled.li`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 34px;
-  padding: 10px;
-  background-color: ${(props) => (props.isSelect ? "#f5f5f5" : "none")};
+  height: 44px;
+  padding: 10px 20px;
   transition-duration: 0.5ms;
-
-  :hover {
-    background-color: ${(props) => (props.isSelect ? "#f5f5f5" : "#f5f5f5")};
-    cursor: pointer;
-  }
 `;
 
-const RowContainer = styled.div`
-  width: 100%;
-  height: 100%;
+const Flex = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
+`;
+
+const LeftSide = styled(Flex)``;
+const RightSide = styled.div``;
+
+const IndexNumber = styled.div`
+  width: 24px;
+  font-size: 16px;
+  font-weight: 600;
+  margin-right: 15px;
+  text-align: center;
+  color: #1b64da;
 `;
 
 const NameContainer = styled.div`
-  width: 90px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+  margin-left: 15px;
+`;
+const PriceContainer = styled(Flex)`
+  flex-direction: column;
+  align-items: flex-end;
 `;
 
-const ContentsContainer = styled.div`
-  display: grid;
-  grid-template-columns: 18fr 13fr 16fr;
-  width: 220px;
-  height: 100%;
+const KRnameText = styled.p`
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  margin-bottom: 6px;
 `;
-
-const FlexDiv = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-`;
-
-const PriceUpdateDiv = styled(FlexDiv)`
-  height: 100%;
-`;
-
-// text
-const Text = styled.p`
-  text-align: right;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: -0.5px;
-`;
-const NameText = styled(Text)`
-  font-size: 14px;
-  font-weight: 800;
-  margin-left: 6px;
-  margin-bottom: 1px;
-  letter-spacing: 0.5px;
-`;
-const KRNameText = styled.p`
-  width: 100%;
+const CodeText = styled.p`
+  font-size: 12px;
   color: gray;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: -0.5px;
-  text-overflow: ellipsis;
-  overflow: hidden;
+  margin-left: 1px;
 `;
-const PriceText = styled(Text)`
-  font-size: 14px;
-  letter-spacing: -0.2px;
-  color: ${(props) => props.color};
-  padding: 3px;
-  border-radius: 2px;
-`;
-const ChangeRateText = styled(Text)`
-  letter-spacing: 0.1px;
-  color: ${(props) => props.color};
-`;
-const AccPriceText = styled(Text)`
-  font-size: 12px;
+
+const PercentText = styled(KRnameText)<{ color: string }>`
+  font-size: 18px;
+  color: ${(props) => (props.color ? props.color : "black")};
   letter-spacing: -0.2px;
 `;
-const MillionText = styled.p`
-  color: #9e9e9e;
-  font-size: 11px;
-  letter-spacing: -0.5px;
-  margin-left: 0px;
-  margin-top: 1px;
-  text-align: right;
-  font-weight: 500;
+
+const CodeImage = styled.div`
+  width: 34px;
+  height: 34px;
+  background-color: #f2f4f6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const PriceText = styled.p`
+  font-size: 13px;
+  color: gray;
 `;
 
 export default React.memo(CoinRow);
