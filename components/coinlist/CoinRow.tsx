@@ -123,7 +123,7 @@ const CodeText = styled.p`
   margin-left: 1px;
 `;
 
-const PercentText = styled(KRnameText)<{ color: string }>`
+const PercentText = styled(KRnameText)<{ color: string | undefined }>`
   font-size: 18px;
   color: ${(props) => (props.color ? props.color : "black")};
   letter-spacing: -0.2px;
