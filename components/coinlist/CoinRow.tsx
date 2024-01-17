@@ -7,6 +7,7 @@ import { coinListAtom, selectCodeAtom } from "@/utils/atoms/atoms";
 import { useAtom } from "jotai";
 import getKR from "@/utils/common/getKR";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 interface RowProps {
   coin: TickerDataType;
@@ -77,6 +78,8 @@ const CoinRow: React.FC<RowProps> = ({ coin }) => {
         console.log(coin);
       }}
       key={coin.code}
+      initial={{ backgroundColor: "white" }}
+      whileTap={{ backgroundColor: "#F9FAFB" }}
     >
       <CoinInfo>
         <CodeIcon>
@@ -102,18 +105,14 @@ const CoinRow: React.FC<RowProps> = ({ coin }) => {
   );
 };
 
-const Row = styled.li`
+const Row = styled(motion.div)`
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 47px;
   padding: 5px 20px 3px 20px;
   position: relative;
-
-  :hover {
-    background-color: #f5f5f5;
-    cursor: pointer;
-  }
+  cursor: pointer;
 `;
 
 const CoinInfo = styled.div`
@@ -142,6 +141,7 @@ const CoinPrice = styled.div`
   align-items: flex-end;
   height: 100%;
   width: 80px;
+  margin-bottom: 2px;
 `;
 
 const PercentDisplayBox = styled.div<{
@@ -151,12 +151,10 @@ const PercentDisplayBox = styled.div<{
   align-items: center;
   justify-content: flex-end;
   width: 100%;
-  height: 20px;
+  height: 22px;
   background-color: ${(props) => props.bgcolor && props.bgcolor};
-  border-radius: 3px;
+  border-radius: 4px;
   margin-bottom: 3px;
-
-  transition-duration: 200ms;
 `;
 
 const CodeIcon = styled.div`
