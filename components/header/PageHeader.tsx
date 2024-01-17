@@ -22,7 +22,7 @@ const Container = styled.div`
 
 const PageTitle = styled.p`
   font-size: 25px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: -1px;
 `;
 

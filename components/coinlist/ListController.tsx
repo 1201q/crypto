@@ -1,12 +1,27 @@
+import { useAtom } from "jotai";
 import styled from "styled-components";
+import { sortOptionAtom } from "./atom/atom";
 
 const ListController = () => {
+  const [sortOptions, setSortOptions] = useAtom(sortOptionAtom);
   return (
     <Container>
-      <SortBtn isSelect={false}>거래대금</SortBtn>
-      <SortBtn isSelect={false}>상승</SortBtn>
-      <SortBtn isSelect={false}>하락</SortBtn>
-      <SortBtn isSelect={true}>이름</SortBtn>
+      {sortOptions.map((option, index) => (
+        <SortBtn
+          onClick={() => {
+            setSortOptions((prev) => {
+              return prev.map((o, oi) => ({
+                ...o,
+                select: oi === index,
+              }));
+            });
+          }}
+          key={option.name}
+          isSelect={option.select}
+        >
+          {option.name}
+        </SortBtn>
+      ))}
     </Container>
   );
 };

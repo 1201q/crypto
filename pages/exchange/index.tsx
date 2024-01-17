@@ -3,8 +3,12 @@ import { GetServerSideProps, Redirect } from "next";
 import { admin } from "@/utils/firebase/admin";
 import { useEffect, useRef } from "react";
 import getMarketList from "@/utils/common/getMarketList";
-import { ServerSideProps, CoinListResponseType } from "@/utils/types/types";
-import { useAtom } from "jotai";
+import {
+  ServerSideProps,
+  CoinListResponseType,
+  ServerSideInitialValues,
+} from "@/utils/types/types";
+import { useHydrateAtoms } from "jotai/utils";
 import { allTickerDataAtom, coinListAtom } from "@/utils/atoms/atoms";
 import { useUpbit } from "@/utils/websocket/useUpbit";
 
@@ -13,16 +17,17 @@ import PageRender from "@/components/page/PageRender";
 
 export default function Home({ coinList }: ServerSideProps) {
   const tickerWsRef = useRef<WebSocket | null>(null);
-  const [, setCoinListData] = useAtom(coinListAtom);
 
-  const {
-    data: allTickerData,
-    open: openTickerWebsocket,
-    close: closeTickerWebsocket,
-  } = useUpbit("ticker", coinList.code, tickerWsRef, allTickerDataAtom);
+  useHydrateAtoms([[coinListAtom, coinList.data]] as ServerSideInitialValues);
+
+  const { open: openTickerWebsocket, close: closeTickerWebsocket } = useUpbit(
+    "ticker",
+    coinList.code,
+    tickerWsRef,
+    allTickerDataAtom
+  );
 
   useEffect(() => {
-    setCoinListData(coinList.data);
     openTickerWebsocket();
 
     return () => {
@@ -42,13 +47,13 @@ export const getServerSideProps: GetServerSideProps = async (
   let coinList: CoinListResponseType = { code: [], data: [] };
 
   try {
-    const token = await admin.auth().verifyIdToken(cookies.token);
+    coinList = await getMarketList("KRW");
+  } catch (error) {
+    console.error("Error in getMarketList fetch:", error);
+  }
 
-    try {
-      coinList = await getMarketList("KRW");
-    } catch (error) {
-      console.error("Error in getMarketList fetch:", error);
-    }
+  try {
+    const token = await admin.auth().verifyIdToken(cookies.token);
 
     if (token) {
       uid = token.uid;
