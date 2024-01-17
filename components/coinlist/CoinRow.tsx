@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { TickerDataType } from "@/utils/types/types";
 import f from "@/utils/common/formatting";
@@ -10,32 +10,64 @@ import Image from "next/image";
 
 interface RowProps {
   coin: TickerDataType;
-  index: number;
 }
 
-const CoinRow: React.FC<RowProps> = ({ index, coin }) => {
+const CoinRow: React.FC<RowProps> = ({ coin }) => {
   const router = useRouter();
+  const updateTimerRef = useRef<NodeJS.Timeout>();
   const [selectCode, setSelectCode] = useAtom(selectCodeAtom);
   const [coinList] = useAtom(coinListAtom);
 
   const [isRendered, setIsRendered] = useState<boolean>(false);
   const [currentPrice, setCurrentPrice] = useState<number>(0);
-  const [bgColor, setBgcolor] = useState<string>("none");
+  const [isUpdated, setIsUpdated] = useState(false);
 
-  const getTextColor = (change: string) => {
+  const getBgColor = (change: string, isUpdated: boolean) => {
     if (change === "RISE") {
-      return "#E12343";
+      return isUpdated ? "#C1213C" : "#DF5068";
     } else if (change === "FALL") {
-      return "#1763B6";
+      return isUpdated ? "#1763D5" : "#448AEF";
     } else if (change === "EVEN") {
-      return "#9e9e9e";
+      return "#B1B1B1";
     }
   };
 
   useEffect(() => {
     setIsRendered(true);
     setCurrentPrice(coin.trade_price);
+
+    return () => {
+      if (updateTimerRef.current) {
+        clearTimeout(updateTimerRef.current);
+      }
+    };
   }, []);
+
+  useEffect(() => {
+    if (isRendered) {
+      // 처음 렌더가 되는 경우는 무시함.
+      if (currentPrice !== coin.trade_price) {
+        // price의 변화가 생긴경우
+        if (updateTimerRef.current) {
+          // 기존에 TIMER가 있다면 종료
+          clearTimeout(updateTimerRef.current);
+        }
+
+        updateTimerRef.current = setTimeout(() => {
+          setIsUpdated(false);
+        }, 200);
+
+        setIsUpdated(true);
+
+        setCurrentPrice((prev) => {
+          if (prev !== coin.trade_price) {
+            return coin.trade_price;
+          }
+          return prev;
+        });
+      }
+    }
+  }, [coin]);
 
   return (
     <Row
@@ -46,33 +78,26 @@ const CoinRow: React.FC<RowProps> = ({ index, coin }) => {
       }}
       key={coin.code}
     >
-      <LeftSide>
-        <IndexNumber>{index + 1}</IndexNumber>
-        <Flex>
-          <CodeImage>
-            <Image
-              src={`https://static.upbit.com/logos/${f("code", coin.code)}.png`}
-              alt={"logo"}
-              width={23}
-              height={23}
-            />
-          </CodeImage>
-          <NameContainer>
-            <KRnameText>{getKR(coinList, coin.code)}</KRnameText>
-            <CodeText>{f("code", coin.code)}</CodeText>
-          </NameContainer>
-        </Flex>
-      </LeftSide>
-
-      <RightSide>
-        <PriceContainer>
-          <PercentText color={getTextColor(coin.change)}>
-            {f("change", coin.signed_change_rate)}%
-          </PercentText>
-
-          <PriceText>{f("price", coin.trade_price)}</PriceText>
-        </PriceContainer>
-      </RightSide>
+      <CoinInfo>
+        <CodeIcon>
+          <Image
+            src={`https://static.upbit.com/logos/${f("code", coin.code)}.png`}
+            alt={"logo"}
+            width={23}
+            height={23}
+          />
+        </CodeIcon>
+        <NameContainer>
+          <KRnameText>{getKR(coinList, coin.code)}</KRnameText>
+          <CodeText>{f("code", coin.code)}</CodeText>
+        </NameContainer>
+      </CoinInfo>
+      <CoinPrice>
+        <PercentDisplayBox bgcolor={getBgColor(coin.change, isUpdated)}>
+          <PercentText>{f("change", coin.signed_change_rate)}%</PercentText>
+        </PercentDisplayBox>
+        <PriceText>{f("price", coin.trade_price)}</PriceText>
+      </CoinPrice>
     </Row>
   );
 };
@@ -81,57 +106,62 @@ const Row = styled.li`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 44px;
-  padding: 10px 20px;
-  transition-duration: 0.5ms;
+  height: 47px;
+  padding: 5px 20px 3px 20px;
+  position: relative;
+
+  :hover {
+    background-color: #f5f5f5;
+    cursor: pointer;
+  }
 `;
 
-const Flex = styled.div`
+const CoinInfo = styled.div`
   display: flex;
   align-items: center;
-`;
-
-const LeftSide = styled(Flex)``;
-const RightSide = styled.div``;
-
-const IndexNumber = styled.div`
-  width: 24px;
-  font-size: 16px;
-  font-weight: 600;
-  margin-right: 15px;
-  text-align: center;
-  color: #1b64da;
+  height: 100%;
 `;
 
 const NameContainer = styled.div`
-  margin-left: 15px;
-`;
-const PriceContainer = styled(Flex)`
+  display: flex;
   flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  margin-left: 15px;
+  white-space: break-spaces;
+
+  @media screen and (max-width: 320px) {
+    width: 95px;
+  }
+`;
+
+const CoinPrice = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: flex-end;
+  height: 100%;
+  width: 80px;
 `;
 
-const KRnameText = styled.p`
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: -1px;
-  margin-bottom: 6px;
-`;
-const CodeText = styled.p`
-  font-size: 12px;
-  color: gray;
-  margin-left: 1px;
+const PercentDisplayBox = styled.div<{
+  bgcolor: string | undefined;
+}>`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  height: 20px;
+  background-color: ${(props) => props.bgcolor && props.bgcolor};
+  border-radius: 3px;
+  margin-bottom: 3px;
+
+  transition-duration: 200ms;
 `;
 
-const PercentText = styled(KRnameText)<{ color: string | undefined }>`
-  font-size: 18px;
-  color: ${(props) => (props.color ? props.color : "black")};
-  letter-spacing: -0.2px;
-`;
-
-const CodeImage = styled.div`
-  width: 34px;
-  height: 34px;
+const CodeIcon = styled.div`
+  width: 36px;
+  height: 36px;
   background-color: #f2f4f6;
   border-radius: 50%;
   display: flex;
@@ -139,9 +169,33 @@ const CodeImage = styled.div`
   justify-content: center;
 `;
 
-const PriceText = styled.p`
+// text
+const KRnameText = styled.div`
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  margin-bottom: 6px;
+`;
+
+const CodeText = styled.div`
+  font-size: 12px;
+  color: gray;
+  margin-left: 1px;
+`;
+
+const PercentText = styled.p`
+  font-size: 13px;
+  font-weight: 700;
+  color: white;
+  margin-right: 5px;
+`;
+
+const PriceText = styled.div`
+  width: 100%;
   font-size: 13px;
   color: gray;
+  margin-right: 1px;
+  text-align: end;
 `;
 
 export default React.memo(CoinRow);

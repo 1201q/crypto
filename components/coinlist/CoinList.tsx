@@ -20,7 +20,7 @@ const CoinList: React.FC<ListProps> = ({ count }) => {
       <Virtuoso
         data={renderData}
         style={{ height: "100%" }}
-        itemContent={(index, data) => <CoinRow coin={data} index={index} />}
+        itemContent={(index, data) => <CoinRow coin={data} />}
         totalCount={count}
       />
     </Container>
