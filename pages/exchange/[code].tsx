@@ -72,7 +72,7 @@ export default function Home({ coinList, queryCode }: ServerSideProps) {
     <Container>
       <Mobile>
         <Header />
-        <CoinList count={coinList.code.length} />
+        <CoinList height={149} />
       </Mobile>
     </Container>
   );
