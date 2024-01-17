@@ -22,7 +22,7 @@ import { useUpbit } from "@/utils/websocket/useUpbit";
 import CoinList from "@/components/coinlist/CoinList";
 import Header from "@/components/header/Header";
 
-export default function Home({ uid, coinList, queryCode }: ServerSideProps) {
+export default function Home({ coinList, queryCode }: ServerSideProps) {
   const tickerWsRef = useRef<WebSocket | null>(null);
   const tradeWsRef = useRef<WebSocket | null>(null);
   const orderbookWsRef = useRef<WebSocket | null>(null);

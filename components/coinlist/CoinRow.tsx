@@ -78,8 +78,8 @@ const CoinRow: React.FC<RowProps> = ({ coin }) => {
         console.log(coin);
       }}
       key={coin.code}
-      initial={{ backgroundColor: "white" }}
-      whileTap={{ backgroundColor: "#F9FAFB" }}
+      initial={{ scale: 1, backgroundColor: "white" }}
+      whileTap={{ scale: 0.99, backgroundColor: "#F9FAFB" }}
     >
       <CoinInfo>
         <CodeIcon>
@@ -113,6 +113,7 @@ const Row = styled(motion.div)`
   padding: 5px 20px 3px 20px;
   position: relative;
   cursor: pointer;
+  border-radius: 5px;
 `;
 
 const CoinInfo = styled.div`
