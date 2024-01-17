@@ -21,8 +21,8 @@ const Container = styled.div`
 `;
 
 const PageTitle = styled.p`
-  font-size: 25px;
-  font-weight: 700;
+  font-size: 28px;
+  font-weight: 600;
   letter-spacing: -1px;
 `;
 

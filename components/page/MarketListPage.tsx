@@ -1,3 +1,4 @@
+import MenuTab from "../bottomTab/MenuTab";
 import CoinList from "../coinlist/CoinList";
 import ListController from "../coinlist/ListController";
 import Header from "../header/Header";
@@ -9,7 +10,8 @@ export default function MarketListPage() {
       <Header />
       <PageHeader title={"원화 마켓"} />
       <ListController />
-      <CoinList height={149} />
+      <CoinList height={199} />
+      <MenuTab />
     </>
   );
 }
