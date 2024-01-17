@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import styled from "styled-components";
 
 interface PageRenderProps {
@@ -6,15 +5,6 @@ interface PageRenderProps {
 }
 
 const PageRender: React.FC<PageRenderProps> = ({ Render }) => {
-  const setScreenSize = () => {
-    let vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty("--vh", `${vh}px`);
-  };
-
-  useEffect(() => {
-    window.addEventListener("resize", setScreenSize);
-  }, []);
-
   return (
     <Container>
       <Mobile>
@@ -26,7 +16,7 @@ const PageRender: React.FC<PageRenderProps> = ({ Render }) => {
 
 const Container = styled.div`
   width: 100%;
-  height: calc(var(--vh, 1vh) * 100);
+  height: 100dvh;
   position: relative;
   background-color: #f2f4f6;
   display: flex;
