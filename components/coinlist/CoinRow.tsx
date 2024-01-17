@@ -155,6 +155,8 @@ const PercentDisplayBox = styled.div<{
   background-color: ${(props) => props.bgcolor && props.bgcolor};
   border-radius: 4px;
   margin-bottom: 3px;
+
+  transition-duration: 200ms;
 `;
 
 const CodeIcon = styled.div`
