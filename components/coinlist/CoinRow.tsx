@@ -88,6 +88,8 @@ const CoinRow: React.FC<RowProps> = ({ coin }) => {
             alt={"logo"}
             width={23}
             height={23}
+            placeholder="blur"
+            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=="
           />
         </CodeIcon>
         <NameContainer>

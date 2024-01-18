@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@next/bundle-analyzer": "^14.0.4",
     "@svgr/webpack": "^8.1.0",
     "@types/firebase": "^3.2.1",
     "@types/nookies": "^2.0.3",

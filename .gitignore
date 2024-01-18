@@ -30,11 +30,18 @@ yarn-error.log*
 .env
 .env.local
 
-
 # vercel
 .vercel
 
-# typescript
-# *.tsbuildinfo
-# next-env.d.ts
+# my
+analyze/
 
+.eslintrc.json
+
+next.config.js
+
+tsconfig.json
+
+next-env.d.ts
+
+.gitignore
