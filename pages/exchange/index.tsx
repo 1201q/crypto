@@ -21,20 +21,20 @@ export default function Home({ coinList, pathname }: ServerSideProps) {
 
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues);
   useHydrateAtoms([[coinListAtom, coinList?.data]] as ServerSideInitialValues);
-
   const { open: openTickerWebsocket, close: closeTickerWebsocket } = useUpbit(
     "ticker",
-    coinList?.code,
+    coinList ? coinList.code : [],
     tickerWsRef,
     allTickerDataAtom
   );
-
   useEffect(() => {
-    openTickerWebsocket();
+    if (coinList) {
+      openTickerWebsocket();
 
-    return () => {
-      closeTickerWebsocket();
-    };
+      return () => {
+        closeTickerWebsocket();
+      };
+    }
   }, []);
 
   return <PageRender Render={MarketListPage} />;

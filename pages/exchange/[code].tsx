@@ -35,7 +35,12 @@ export default function Home({ coinList, queryCode }: ServerSideProps) {
     data: allTickerData,
     open: openTickerWebsocket,
     close: closeTickerWebsocket,
-  } = useUpbit("ticker", coinList?.code, tickerWsRef, allTickerDataAtom);
+  } = useUpbit(
+    "ticker",
+    coinList ? coinList.code : [],
+    tickerWsRef,
+    allTickerDataAtom
+  );
   const {
     data: tradeData,
     open: openTradeWebsocket,
