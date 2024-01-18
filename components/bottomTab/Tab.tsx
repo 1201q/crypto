@@ -1,18 +1,25 @@
 import styled from "styled-components";
 import Icon from "./Icon";
+import { useRouter } from "next/router";
 
 interface TabProps {
   name: string;
   isSelect: boolean;
-  icon: any;
+  icon: string;
+
+  routing: string;
 }
 
-const Tab: React.FC<TabProps> = ({ name, isSelect, icon }) => {
+const Tab: React.FC<TabProps> = ({ name, isSelect, icon, routing }) => {
+  const router = useRouter();
   return (
-    <TabContainer>
+    <TabContainer
+      onClick={() => {
+        router.push(routing);
+      }}
+    >
       <Icon icon={icon} isSelect={isSelect} />
-
-      <TabName>{name}</TabName>
+      <TabName $isselect={isSelect}>{name}</TabName>
     </TabContainer>
   );
 };
@@ -26,11 +33,13 @@ const TabContainer = styled.div`
   height: 100%;
   box-sizing: border-box;
   cursor: pointer;
+  border-radius: 5px;
 `;
 
-const TabName = styled.p`
+const TabName = styled.p<{ $isselect: boolean }>`
   font-size: 12px;
   font-weight: bold;
+  color: ${(props) => (props.$isselect ? "black" : "#b7bfc7")};
 `;
 
 export default Tab;

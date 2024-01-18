@@ -14,11 +14,13 @@ import { useUpbit } from "@/utils/websocket/useUpbit";
 
 import MarketListPage from "@/components/page/MarketListPage";
 import PageRender from "@/components/page/PageRender";
+import { pathnameAtom } from "@/components/bottomTab/atom/atom";
 
-export default function Home({ coinList }: ServerSideProps) {
+export default function Home({ coinList, pathname }: ServerSideProps) {
   const tickerWsRef = useRef<WebSocket | null>(null);
 
-  useHydrateAtoms([[coinListAtom, coinList.data]] as ServerSideInitialValues);
+  useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues);
+  useHydrateAtoms([[coinListAtom, coinList?.data]] as ServerSideInitialValues);
 
   const { open: openTickerWebsocket, close: closeTickerWebsocket } = useUpbit(
     "ticker",
@@ -45,6 +47,7 @@ export const getServerSideProps: GetServerSideProps = async (
   let isLogin = false;
   let uid = null;
   let coinList: CoinListResponseType = { code: [], data: [] };
+  let pathname = ctx.resolvedUrl;
 
   try {
     coinList = await getMarketList("KRW");
@@ -61,14 +64,14 @@ export const getServerSideProps: GetServerSideProps = async (
     }
 
     return {
-      props: { isLogin, uid, coinList },
+      props: { isLogin, uid, coinList, pathname },
     } as {
       props: ServerSideProps;
       redirect: Redirect;
     };
   } catch (error) {
     return {
-      props: { isLogin, uid, coinList },
+      props: { isLogin, uid, coinList, pathname },
     } as {
       props: ServerSideProps;
       redirect: Redirect;

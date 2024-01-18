@@ -28,6 +28,10 @@ const Mobile = styled.div`
   height: 100%;
   border-right: 1px solid #d1d6db;
   border-left: 1px solid #d1d6db;
+
+  @media screen and (max-width: 840px) {
+    border: none;
+  }
 `;
 
 export default PageRender;

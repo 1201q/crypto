@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
 
 module.exports = {
-  // build: {
-  //   transpile: ["axios"],
-  // },
+  compiler: {
+    styledComponents: true,
+  },
   images: {
     domains: ["static.upbit.com"],
   },

@@ -1,18 +1,29 @@
 import styled from "styled-components";
 import Tab from "./Tab";
-import { tabMenuAtom } from "./atom/atom";
+import { pathnameAtom, tabMenuAtom } from "./atom/atom";
 import { useAtom } from "jotai";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 const MenuTab = () => {
-  const [tab] = useAtom(tabMenuAtom);
+  const router = useRouter();
+  const [tabMenu] = useAtom(tabMenuAtom);
+  const [pathname, setPathname] = useAtom(pathnameAtom);
+
+  useEffect(() => {
+    console.log(router.pathname);
+    setPathname(router.pathname);
+  }, [router.pathname]);
+
   return (
     <Container>
-      {tab.map((tab, index) => (
+      {tabMenu.map((tab) => (
         <Tab
           key={tab.name}
           name={tab.name}
-          isSelect={tab.select}
+          isSelect={tab.routing === pathname}
           icon={tab.icon}
+          routing={tab.routing}
         />
       ))}
     </Container>

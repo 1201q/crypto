@@ -21,7 +21,7 @@ const Icon: React.FC<IconProps> = ({ icon, isSelect }) => {
       case "menu":
         return <Menu />;
       default:
-        break;
+        return null;
     }
   };
 
