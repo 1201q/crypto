@@ -177,7 +177,7 @@ const CodeIcon = styled.div`
 // text
 const KRnameText = styled.div`
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -1px;
   margin-bottom: 6px;
 `;
