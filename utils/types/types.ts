@@ -14,9 +14,9 @@ export type ServerSideInitialValues = [
 export interface ServerSideProps {
   isLogin?: boolean;
   uid?: string | null;
-  coinList: CoinListResponseType;
+  coinList?: CoinListResponseType;
   queryCode?: string;
-  pathname: string;
+  pathname?: string;
 }
 
 export interface CoinListResponseType {

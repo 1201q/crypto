@@ -16,5 +16,9 @@ export const getServerSideProps: GetServerSideProps = async (
 ): Promise<{ props: ServerSideProps }> => {
   let pathname = ctx?.resolvedUrl;
 
-  return { props: { pathname } };
+  return {
+    props: {
+      pathname,
+    },
+  };
 };

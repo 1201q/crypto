@@ -16,7 +16,7 @@ interface HookReturnType {
 
 export const useUpbit = (
   type: WebsocketType,
-  code: string[] | string,
+  code: string[] | string | undefined,
   wsRef: MutableRefObject<WebSocket | null | undefined>,
   atom: ReturnType<typeof useAtom>[0]
 ): HookReturnType => {

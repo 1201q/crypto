@@ -24,7 +24,7 @@ export default function Home({ coinList, pathname }: ServerSideProps) {
 
   const { open: openTickerWebsocket, close: closeTickerWebsocket } = useUpbit(
     "ticker",
-    coinList.code,
+    coinList?.code,
     tickerWsRef,
     allTickerDataAtom
   );
