@@ -35,7 +35,7 @@ export default function Home({ coinList, queryCode }: ServerSideProps) {
     data: allTickerData,
     open: openTickerWebsocket,
     close: closeTickerWebsocket,
-  } = useUpbit("ticker", coinList.code, tickerWsRef, allTickerDataAtom);
+  } = useUpbit("ticker", coinList?.code, tickerWsRef, allTickerDataAtom);
   const {
     data: tradeData,
     open: openTradeWebsocket,
@@ -48,8 +48,13 @@ export default function Home({ coinList, queryCode }: ServerSideProps) {
   } = useUpbit("orderbook", selectCode, orderbookWsRef, orderbookDataAtom);
 
   useEffect(() => {
-    setSelectCode(queryCode);
-    setCoinListData(coinList.data);
+    if (queryCode) {
+      setSelectCode(queryCode);
+    }
+    if (coinList) {
+      setCoinListData(coinList?.data);
+    }
+
     openTickerWebsocket();
 
     return () => {
@@ -58,7 +63,10 @@ export default function Home({ coinList, queryCode }: ServerSideProps) {
   }, []);
 
   useEffect(() => {
-    setSelectCode(queryCode);
+    if (queryCode) {
+      setSelectCode(queryCode);
+    }
+
     openTradeWebsocket();
     openOrderbookWebsocket();
 

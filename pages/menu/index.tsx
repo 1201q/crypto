@@ -8,7 +8,7 @@ import { pathnameAtom } from "@/components/bottomTab/atom/atom";
 export default function Home({ pathname }: ServerSideProps) {
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues);
 
-  return <PageRender Render={TestPage} />;
+  return <div>{pathname}</div>;
 }
 
 export const getServerSideProps: GetServerSideProps = async (
