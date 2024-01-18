@@ -7,10 +7,10 @@ import PageHeader from "../header/PageHeader";
 export default function MarketListPage() {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <PageHeader title={"원화 마켓"} />
       <ListController />
-      <CoinList height={200} />
+      <CoinList height={165} />
       <MenuTab />
     </>
   );
