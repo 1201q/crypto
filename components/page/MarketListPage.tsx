@@ -10,7 +10,7 @@ export default function MarketListPage() {
       {/* <Header /> */}
       <PageHeader title={"원화 마켓"} />
       <ListController />
-      <CoinList height={165} />
+      <CoinList height={155} />
       <MenuTab />
     </>
   );

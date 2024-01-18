@@ -20,7 +20,7 @@ const PageHeader: React.FC<HeaderProps> = ({ title }) => {
 };
 
 const Container = styled.div`
-  height: 70px;
+  height: 60px;
   background-color: white;
   padding: 0px 20px;
   position: sticky;
