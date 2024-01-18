@@ -23,11 +23,11 @@ const CoinRow: React.FC<RowProps> = ({ coin }) => {
   const [currentPrice, setCurrentPrice] = useState<number>(0);
   const [isUpdated, setIsUpdated] = useState(false);
 
-  const getBgColor = (change: string, isUpdated: boolean) => {
+  const getUpdateDisplayBgColor = (change: string, isUpdated: boolean) => {
     if (change === "RISE") {
-      return isUpdated ? "#C1213C" : "#DF5068";
+      return isUpdated ? "#85303E" : "#DF5068";
     } else if (change === "FALL") {
-      return isUpdated ? "#1763D5" : "#448AEF";
+      return isUpdated ? "#28528F" : "#448AEF";
     } else if (change === "EVEN") {
       return "#B1B1B1";
     }
@@ -96,7 +96,9 @@ const CoinRow: React.FC<RowProps> = ({ coin }) => {
         </NameContainer>
       </CoinInfo>
       <CoinPrice>
-        <PercentDisplayBox bgcolor={getBgColor(coin.change, isUpdated)}>
+        <PercentDisplayBox
+          bgcolor={getUpdateDisplayBgColor(coin.change, isUpdated)}
+        >
           <PercentText>{f("change", coin.signed_change_rate)}%</PercentText>
         </PercentDisplayBox>
         <PriceText>{f("price", coin.trade_price)}</PriceText>
@@ -157,7 +159,7 @@ const PercentDisplayBox = styled.div<{
   border-radius: 4px;
   margin-bottom: 3px;
 
-  transition-duration: 200ms;
+  transition-duration: 100ms;
 `;
 
 const CodeIcon = styled.div`

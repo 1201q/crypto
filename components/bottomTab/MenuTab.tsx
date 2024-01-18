@@ -4,7 +4,7 @@ import { tabMenuAtom } from "./atom/atom";
 import { useAtom } from "jotai";
 
 const MenuTab = () => {
-  const [tab, setTab] = useAtom(tabMenuAtom);
+  const [tab] = useAtom(tabMenuAtom);
   return (
     <Container>
       {tab.map((tab, index) => (
