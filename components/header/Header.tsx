@@ -1,14 +1,24 @@
 import styled from "styled-components";
+import Search from "@/public/search.svg";
 
 const Header = () => {
-  return <Container>1</Container>;
+  return (
+    <Container>
+      <Search
+        width={23}
+        height={23}
+        fill={"#b7bfc7"}
+        style={{ cursor: "pointer", marginTop: "10px" }}
+      />
+    </Container>
+  );
 };
 
 const Container = styled.header`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  height: 54px;
+  justify-content: flex-end;
+  height: 50px;
   background-color: white;
   position: sticky;
   top: 0;
