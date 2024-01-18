@@ -1,5 +1,5 @@
 {
-  "name": "nextjs-ts-template",
+  "name": "crypto",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -13,7 +13,6 @@
     "@types/firebase": "^3.2.1",
     "@types/nookies": "^2.0.3",
     "axios": "^1.6.5",
-    "babel-plugin-styled-components": "^2.1.4",
     "firebase": "^10.7.1",
     "firebase-admin": "^12.0.0",
     "framer-motion": "^10.18.0",

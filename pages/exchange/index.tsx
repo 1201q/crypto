@@ -21,6 +21,7 @@ export default function Home({ coinList, pathname }: ServerSideProps) {
 
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues);
   useHydrateAtoms([[coinListAtom, coinList?.data]] as ServerSideInitialValues);
+
   const { open: openTickerWebsocket, close: closeTickerWebsocket } = useUpbit(
     "ticker",
     coinList ? coinList.code : [],

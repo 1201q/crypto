@@ -1,8 +1,12 @@
 /** @type {import('next').NextConfig} */
 
 module.exports = {
+  swcMinify: true,
   compiler: {
     styledComponents: true,
+    removeConsole: {
+      exclude: ["log"],
+    },
   },
   images: {
     domains: ["static.upbit.com"],
