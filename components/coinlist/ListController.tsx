@@ -2,11 +2,17 @@ import { useAtom } from "jotai";
 import styled from "styled-components";
 import { sortOptionAtom } from "./atom/atom";
 import { motion } from "framer-motion";
+import {
+  coinListControllerHeightAtom,
+  headerHeightAtom,
+} from "@/utils/atoms/styles";
 
 const ListController = () => {
   const [sortOptions, setSortOptions] = useAtom(sortOptionAtom);
+  const [height] = useAtom(coinListControllerHeightAtom);
+  const [headerHeight] = useAtom(headerHeightAtom);
   return (
-    <Container>
+    <Container height={height} headerHeight={headerHeight}>
       {sortOptions.map((option, index) => (
         <SortBtn
           onClick={() => {
@@ -29,10 +35,15 @@ const ListController = () => {
   );
 };
 
-const Container = styled.div`
+const Container = styled.div<{ height: number; headerHeight: number }>`
+  position: sticky;
+  top: ${(props) => `${props.headerHeight}px`};
   padding: 0px 20px;
-  height: 45px;
+  height: ${(props) => `${props.height}px`};
   background-color: white;
+  z-index: 100;
+  display: flex;
+  align-items: center;
 `;
 
 const SortBtn = styled(motion.button)<{ $isselect: boolean }>`

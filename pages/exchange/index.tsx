@@ -12,7 +12,7 @@ import { useHydrateAtoms } from "jotai/utils";
 import { allTickerDataAtom, coinListAtom } from "@/utils/atoms/atoms";
 import { useUpbit } from "@/utils/websocket/useUpbit";
 
-import MarketListPage from "@/components/page/MarketListPage";
+import MarketPage from "@/components/page/MarketPage";
 import PageRender from "@/components/page/PageRender";
 import { pathnameAtom } from "@/components/bottomTab/atom/atom";
 
@@ -28,6 +28,7 @@ export default function Home({ coinList, pathname }: ServerSideProps) {
     tickerWsRef,
     allTickerDataAtom
   );
+
   useEffect(() => {
     if (coinList) {
       openTickerWebsocket();
@@ -38,7 +39,7 @@ export default function Home({ coinList, pathname }: ServerSideProps) {
     }
   }, []);
 
-  return <PageRender Render={MarketListPage} />;
+  return <PageRender Render={MarketPage} />;
 }
 
 export const getServerSideProps: GetServerSideProps = async (

@@ -4,11 +4,13 @@ import { pathnameAtom, tabMenuAtom } from "./atom/atom";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { bottomTabHeightAtom } from "@/utils/atoms/styles";
 
 const MenuTab = () => {
   const router = useRouter();
   const [tabMenu] = useAtom(tabMenuAtom);
   const [pathname, setPathname] = useAtom(pathnameAtom);
+  const [height] = useAtom(bottomTabHeightAtom);
 
   useEffect(() => {
     console.log(router.pathname);
@@ -16,7 +18,7 @@ const MenuTab = () => {
   }, [router.pathname]);
 
   return (
-    <Container>
+    <Container height={height}>
       {tabMenu.map((tab) => (
         <Tab
           key={tab.name}
@@ -30,8 +32,8 @@ const MenuTab = () => {
   );
 };
 
-const Container = styled.nav`
-  height: 50px;
+const Container = styled.nav<{ height: number }>`
+  height: ${(props) => `${props.height}px`};
   z-index: 100;
   background-color: white;
   position: sticky;

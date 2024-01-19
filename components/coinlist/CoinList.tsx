@@ -3,18 +3,16 @@ import { useAtom } from "jotai";
 import styled from "styled-components";
 import { Virtuoso } from "react-virtuoso";
 import CoinRow from "./CoinRow";
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import { sortOptionAtom } from "./atom/atom";
 import { TickerDataType } from "@/utils/types/types";
+import { coinListHeightAtom } from "@/utils/atoms/styles";
 
-interface CoinListProps {
-  height: number;
-}
-
-const CoinList: React.FC<CoinListProps> = ({ height }) => {
+const CoinList = () => {
   const [renderData] = useAtom(allTickerDataAtom);
   const [sort] = useAtom(sortOptionAtom);
   const [coinList] = useAtom(coinListAtom);
+  const [height] = useAtom(coinListHeightAtom);
 
   const sortedData: TickerDataType[] = useMemo(() => {
     return [...renderData]?.sort((a, b) => {
@@ -35,6 +33,7 @@ const CoinList: React.FC<CoinListProps> = ({ height }) => {
       {coinList.length === renderData.length ? (
         <Virtuoso
           data={sortedData}
+          useWindowScroll
           style={{ height: "100%" }}
           itemContent={(index, data) => <CoinRow coin={data} />}
           totalCount={coinList.length}
@@ -46,8 +45,9 @@ const CoinList: React.FC<CoinListProps> = ({ height }) => {
   );
 };
 
-const Container = styled.div<{ height: number }>`
-  height: ${(props) => `calc(100% - ${props.height}px)`};
+const Container = styled.div<{ height: string }>`
+  min-height: 100dvh;
+  height: ${(props) => props.height};
   background-color: white;
 `;
 

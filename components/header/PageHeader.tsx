@@ -1,30 +1,24 @@
 import styled from "styled-components";
-import Search from "@/public/search.svg";
+import { useAtom } from "jotai";
+import { pageHeaderHeightAtom } from "@/utils/atoms/styles";
 
 interface HeaderProps {
   title: string;
 }
 
 const PageHeader: React.FC<HeaderProps> = ({ title }) => {
+  const [height] = useAtom(pageHeaderHeightAtom);
   return (
-    <Container>
+    <Container height={height}>
       <PageTitle>{title}</PageTitle>
-      <Search
-        width={22}
-        height={22}
-        fill={"#b7bfc7"}
-        style={{ cursor: "pointer" }}
-      />
     </Container>
   );
 };
 
-const Container = styled.div`
-  height: 60px;
+const Container = styled.div<{ height: number }>`
+  height: ${(props) => `${props.height}px`};
   background-color: white;
   padding: 0px 20px;
-  position: sticky;
-  top: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -34,6 +28,7 @@ const PageTitle = styled.p`
   font-size: 26px;
   font-weight: 600;
   letter-spacing: -1px;
+  margin-bottom: 10px;
 `;
 
 export default PageHeader;
