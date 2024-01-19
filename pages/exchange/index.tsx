@@ -15,8 +15,9 @@ import { useUpbit } from "@/utils/websocket/useUpbit";
 import MarketPage from "@/components/page/MarketPage";
 import PageRender from "@/components/page/PageRender";
 import { pathnameAtom } from "@/components/bottomTab/atom/atom";
+import getServersideAuth from "@/utils/common/getServersideAuth";
 
-export default function Home({ coinList, pathname }: ServerSideProps) {
+export default function Home({ uid, coinList, pathname }: ServerSideProps) {
   const tickerWsRef = useRef<WebSocket | null>(null);
 
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues);
@@ -44,7 +45,7 @@ export default function Home({ coinList, pathname }: ServerSideProps) {
 
 export const getServerSideProps: GetServerSideProps = async (
   ctx: any
-): Promise<{ props: ServerSideProps } | { redirect: Redirect }> => {
+): Promise<{ props: ServerSideProps }> => {
   const cookies = nookies.get(ctx);
   let isLogin = false;
   let uid = null;
@@ -58,25 +59,16 @@ export const getServerSideProps: GetServerSideProps = async (
   }
 
   try {
-    const token = await admin.auth().verifyIdToken(cookies.token);
-
-    if (token) {
-      uid = token.uid;
+    const { myuid } = await getServersideAuth(cookies.token);
+    if (myuid) {
+      uid = myuid;
       isLogin = true;
     }
-
-    return {
-      props: { isLogin, uid, coinList, pathname },
-    } as {
-      props: ServerSideProps;
-      redirect: Redirect;
-    };
   } catch (error) {
-    return {
-      props: { isLogin, uid, coinList, pathname },
-    } as {
-      props: ServerSideProps;
-      redirect: Redirect;
-    };
+    console.log(error);
   }
+
+  return {
+    props: { isLogin, uid, coinList, pathname },
+  };
 };
