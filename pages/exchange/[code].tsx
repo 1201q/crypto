@@ -85,7 +85,7 @@ export default function Home({ coinList, queryCode }: ServerSideProps) {
     <Container>
       <Mobile>
         <Header />
-        <CoinList height={149} />
+        <CoinList />
       </Mobile>
     </Container>
   );

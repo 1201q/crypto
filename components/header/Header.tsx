@@ -2,13 +2,21 @@ import styled from "styled-components";
 import Search from "@/public/search.svg";
 import { useAtom } from "jotai";
 import { headerHeightAtom } from "@/utils/atoms/styles";
+import Image from "next/image";
 
 const Header = () => {
   const [height] = useAtom(headerHeightAtom);
 
   return (
     <Container height={height}>
-      <Title></Title>
+      <Title>
+        <Image
+          src={require("@/public/logo.png")}
+          alt={"logo"}
+          width={36}
+          height={25}
+        />
+      </Title>
       <Search
         width={23}
         height={23}
@@ -31,10 +39,9 @@ const Container = styled.header<{ height: number }>`
   z-index: 100;
 `;
 
-const Title = styled.p`
-  font-size: 20px;
-  font-weight: 600;
-  margin-top: 3px;
+const Title = styled.div`
+  margin-top: 5px;
+  margin-left: -3px;
 `;
 
 export default Header;
