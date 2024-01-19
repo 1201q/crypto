@@ -40,8 +40,10 @@ const Container = styled.header<{ height: number }>`
 `;
 
 const Title = styled.div`
+  display: flex;
   margin-top: 5px;
-  margin-left: -3px;
+  margin-left: -5px;
+  cursor: pointer;
 `;
 
 export default Header;
