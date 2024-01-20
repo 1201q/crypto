@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { throttle } from "lodash";
 import { motion, useAnimation } from "framer-motion";
 
@@ -27,22 +27,37 @@ const Header = () => {
       const currentY = window.scrollY;
 
       if (prevY > currentY) {
-        animation.start({ y: 0 });
+        animation.start({
+          y: 0,
+          transition: { duration: 0.1 },
+        });
       } else {
-        animation.start({ y: -50 });
+        animation.start({
+          y: -50,
+          transition: { duration: 0.1 },
+        });
       }
       prevY = currentY;
-    }, 150);
+    }, 100);
 
     window.addEventListener("scroll", handleScroll);
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const scrollToTop = () => {
+    const element = document.body;
+    element.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+      inline: "nearest",
+    });
+  };
+
   return (
-    <Container animate={animation} transition={{ duration: 0.15 }}>
+    <Container animate={animation}>
       <HeaderContainer height={headerHeight}>
-        <Title>
+        <Title onClick={scrollToTop}>
           <Image
             src={require("@/public/logo.png")}
             alt={"logo"}
@@ -123,4 +138,4 @@ const SortBtn = styled(motion.button)<{ $isselect: boolean }>`
   font-weight: ${(props) => (props.$isselect ? 700 : 500)};
 `;
 
-export default Header;
+export default React.memo(Header);
