@@ -12,8 +12,10 @@ import { sortOptionAtom } from "@/context/atoms";
 
 import Image from "next/image";
 import Search from "@/public/search.svg";
+import { useRouter } from "next/router";
 
 const Header = () => {
+  const router = useRouter();
   const [headerHeight] = useAtom(headerHeightAtom);
   const [sortOptions, setSortOptions] = useAtom(sortOptionAtom);
   const [listHeight] = useAtom(coinListControllerHeightAtom);
@@ -26,13 +28,18 @@ const Header = () => {
     const handleScroll = throttle(() => {
       const currentY = window.scrollY;
 
-      if (prevY > currentY) {
-        animation.start({
+      if (prevY === currentY) {
+        animation?.start({
+          y: 0,
+          transition: { duration: 0 },
+        });
+      } else if (prevY > currentY) {
+        animation?.start({
           y: 0,
           transition: { duration: 0.1 },
         });
-      } else {
-        animation.start({
+      } else if (prevY < currentY) {
+        animation?.start({
           y: -50,
           transition: { duration: 0.1 },
         });
@@ -42,8 +49,10 @@ const Header = () => {
 
     window.addEventListener("scroll", handleScroll);
 
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [animation]);
 
   const scrollToTop = () => {
     const element = document.body;
@@ -65,11 +74,15 @@ const Header = () => {
             height={25}
           />
         </Title>
+
         <Search
           width={23}
           height={23}
           fill={"#b7bfc7"}
           style={{ cursor: "pointer", marginTop: "3px" }}
+          onClick={() => {
+            router.push("/search");
+          }}
         />
       </HeaderContainer>
       <ListContainer height={listHeight}>

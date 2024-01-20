@@ -1,5 +1,3 @@
-import PageRender from "@/components/page/PageRender";
-import TestPage from "@/components/page/TestPage";
 import { GetServerSideProps } from "next";
 import { ServerSideProps, ServerSideInitialValues } from "@/types/types";
 import { useHydrateAtoms } from "jotai/utils";

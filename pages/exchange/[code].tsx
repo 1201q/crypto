@@ -16,7 +16,7 @@ import {
 } from "@/context/atoms";
 import { useUpbit } from "@/utils/websocket/useUpbit";
 import CoinList from "@/components/coinlist/CoinList";
-import Header from "@/components/header/MarketHeader";
+import Header from "@/components/coinlist/MarketHeader";
 
 export default function Home({ coinList, queryCode }: ServerSideProps) {
   const tickerWsRef = useRef<WebSocket | null>(null);

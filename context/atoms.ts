@@ -36,6 +36,8 @@ const menu = [
   { name: "커뮤니티", icon: "community", routing: "/community" },
   { name: "메뉴", icon: "menu", routing: "/menu" },
 ];
-
 export const tabMenuAtom = atom(menu);
 export const pathnameAtom = atom<string | null>(null);
+
+// search
+export const searchInputValueAtom = atom<string>("");

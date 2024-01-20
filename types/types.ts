@@ -17,6 +17,7 @@ export interface ServerSideProps {
   coinList?: CoinListResponseType;
   queryCode?: string;
   pathname?: string;
+  keyword?: string | undefined;
 }
 
 export interface CoinListResponseType {

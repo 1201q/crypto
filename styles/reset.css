@@ -129,6 +129,8 @@ table {
   -webkit-tap-highlight-color: transparent;
 }
 
+input,
+input::placeholder,
 button {
   font-family: "Pretendard Variable";
   font-feature-settings: "tnum";
