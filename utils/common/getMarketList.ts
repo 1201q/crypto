@@ -3,7 +3,7 @@ import {
   MarketListDataType,
   MarketType,
   CoinListResponseType,
-} from "@/utils/types/types";
+} from "@/types/types";
 
 export default async function getMarketList(
   type: MarketType

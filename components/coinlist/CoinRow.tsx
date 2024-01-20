@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { TickerDataType } from "@/utils/types/types";
+import { TickerDataType } from "@/types/types";
 import f from "@/utils/common/formatting";
-import { coinListAtom, selectCodeAtom } from "@/utils/atoms/atoms";
+import { coinListAtom, selectCodeAtom } from "@/context/atoms";
 import { useAtom } from "jotai";
 import getKR from "@/utils/common/getKR";
 import Image from "next/image";

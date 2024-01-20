@@ -5,7 +5,7 @@ import {
   TickerDataType,
   TradeDataType,
   OrderBookDataType,
-} from "../types/types";
+} from "../../types/types";
 import { SetStateAction } from "jotai";
 import createWebsocket from "./createWebsocket";
 

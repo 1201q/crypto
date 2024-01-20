@@ -26,6 +26,7 @@ const Container = styled.div`
 const Mobile = styled.div`
   width: 840px;
   height: 100%;
+  background-color: white;
   border-right: 1px solid #d1d6db;
   border-left: 1px solid #d1d6db;
 

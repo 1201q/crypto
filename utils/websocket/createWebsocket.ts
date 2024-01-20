@@ -1,5 +1,5 @@
 import { v4 as uuid_v4 } from "uuid";
-import { WebsocketType, CoinListType } from "../types/types";
+import { WebsocketType, CoinListType } from "../../types/types";
 
 export default async function createWebsocket(
   type: WebsocketType,

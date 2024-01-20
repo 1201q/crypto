@@ -7,14 +7,14 @@ import {
   ServerSideProps,
   CoinListResponseType,
   ServerSideInitialValues,
-} from "@/utils/types/types";
+} from "@/types/types";
 import { useHydrateAtoms } from "jotai/utils";
-import { allTickerDataAtom, coinListAtom } from "@/utils/atoms/atoms";
+import { allTickerDataAtom, coinListAtom } from "@/context/atoms";
 import { useUpbit } from "@/utils/websocket/useUpbit";
 
 import MarketPage from "@/components/page/MarketPage";
 import PageRender from "@/components/page/PageRender";
-import { pathnameAtom } from "@/components/bottomTab/atom/atom";
+import { pathnameAtom } from "@/context/atoms";
 import getServersideAuth from "@/utils/common/getServersideAuth";
 
 export default function Home({ uid, coinList, pathname }: ServerSideProps) {

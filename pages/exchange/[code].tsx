@@ -4,11 +4,7 @@ import { GetServerSideProps, Redirect } from "next";
 import { admin } from "@/utils/firebase/admin";
 import { useEffect, useMemo, useRef } from "react";
 import getMarketList from "@/utils/common/getMarketList";
-import {
-  ServerSideProps,
-  CoinListResponseType,
-  MarketListDataType,
-} from "@/utils/types/types";
+import { ServerSideProps, CoinListResponseType } from "@/types/types";
 import { useAtom, atom } from "jotai";
 import {
   allTickerDataAtom,
@@ -17,10 +13,10 @@ import {
   selectCodeAtom,
   selectTickerDataAtom,
   tradeDataAtom,
-} from "@/utils/atoms/atoms";
+} from "@/context/atoms";
 import { useUpbit } from "@/utils/websocket/useUpbit";
 import CoinList from "@/components/coinlist/CoinList";
-import Header from "@/components/header/Header";
+import Header from "@/components/header/MarketHeader";
 
 export default function Home({ coinList, queryCode }: ServerSideProps) {
   const tickerWsRef = useRef<WebSocket | null>(null);

@@ -1,12 +1,12 @@
-import { allTickerDataAtom, coinListAtom } from "@/utils/atoms/atoms";
+import { allTickerDataAtom, coinListAtom } from "@/context/atoms";
 import { useAtom } from "jotai";
 import styled from "styled-components";
 import { Virtuoso } from "react-virtuoso";
 import CoinRow from "./CoinRow";
 import React, { useMemo } from "react";
-import { sortOptionAtom } from "./atom/atom";
-import { TickerDataType } from "@/utils/types/types";
-import { coinListHeightAtom } from "@/utils/atoms/styles";
+import { sortOptionAtom } from "@/context/atoms";
+import { TickerDataType } from "@/types/types";
+import { coinListHeightAtom } from "@/context/styles";
 
 const CoinList = () => {
   const [renderData] = useAtom(allTickerDataAtom);
@@ -45,7 +45,7 @@ const CoinList = () => {
   );
 };
 
-const Container = styled.div<{ height: string }>`
+const Container = styled.main<{ height: string }>`
   min-height: 100dvh;
   height: ${(props) => props.height};
   background-color: white;

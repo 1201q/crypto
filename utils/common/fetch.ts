@@ -1,5 +1,5 @@
 import axios from "axios";
-import { MarketListDataType } from "@/utils/types/types";
+import { MarketListDataType } from "@/types/types";
 
 export default async function getMarketList() {
   try {

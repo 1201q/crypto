@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import Tab from "./Tab";
-import { pathnameAtom, tabMenuAtom } from "./atom/atom";
+import { pathnameAtom, tabMenuAtom } from "@/context/atoms";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { bottomTabHeightAtom } from "@/utils/atoms/styles";
+import { bottomTabHeightAtom } from "@/context/styles";
 
 const MenuTab = () => {
   const router = useRouter();

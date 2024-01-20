@@ -6,7 +6,7 @@ import {
   TickerDataType,
   TradeDataType,
   WebsocketType,
-} from "@/utils/types/types";
+} from "@/types/types";
 
 interface HookReturnType {
   data: TickerDataType[] | TradeDataType[] | OrderBookDataType[];
