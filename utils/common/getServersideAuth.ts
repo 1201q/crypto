@@ -1,11 +1,16 @@
 import { admin } from "../firebase/admin";
 
 export default async function getServersideAuth(token: string) {
-  const mytoken = await admin.auth().verifyIdToken(token);
+  let isLogin = false;
+  let uid = null;
+  if (token) {
+    const mytoken = await admin.auth().verifyIdToken(token);
 
-  if (mytoken) {
-    return { isLogin: true, uid: mytoken.uid };
-  } else {
-    return { isLogin: false, uid: null };
+    if (mytoken) {
+      isLogin = true;
+      uid = mytoken.uid;
+    }
   }
+
+  return { isLogin: isLogin, uid: uid };
 }

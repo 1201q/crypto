@@ -1,10 +1,14 @@
 /** @type {import('next').NextConfig} */
+const withPWA = require("next-pwa")({
+  dest: "public",
+});
+const withPlugins = require("next-compose-plugins");
 const withBundleAnalyzer = require("@next/bundle-analyzer")({
   enabled: process.env.ANALYZE === "true",
   openAnalyzer: false,
 });
 
-module.exports = withBundleAnalyzer({
+const nextconfig = withPWA({
   swcMinify: true,
   compiler: {
     styledComponents: true,
@@ -25,3 +29,5 @@ module.exports = withBundleAnalyzer({
     return config;
   },
 });
+
+module.exports = withPlugins([[nextconfig], [withBundleAnalyzer]]);

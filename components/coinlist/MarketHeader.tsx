@@ -71,8 +71,9 @@ const Header = () => {
           <Image
             src={require("@/public/logo.png")}
             alt={"logo"}
-            width={36}
-            height={25}
+            width={32}
+            height={28}
+            style={{ marginLeft: "4px" }}
           />
         </Title>
 
