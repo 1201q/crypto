@@ -30,7 +30,7 @@ const CoinList = () => {
 
   return (
     <Container height={height}>
-      {coinList.length === renderData.length ? (
+      {coinList?.length === renderData.length ? (
         <Virtuoso
           data={sortedData}
           useWindowScroll

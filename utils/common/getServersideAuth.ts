@@ -4,8 +4,8 @@ export default async function getServersideAuth(token: string) {
   const mytoken = await admin.auth().verifyIdToken(token);
 
   if (mytoken) {
-    return { myuid: mytoken.uid };
+    return { isLogin: true, uid: mytoken.uid };
   } else {
-    return { myuid: null };
+    return { isLogin: false, uid: null };
   }
 }

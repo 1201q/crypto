@@ -17,6 +17,7 @@ import {
 import { useUpbit } from "@/utils/websocket/useUpbit";
 import CoinList from "@/components/coinlist/CoinList";
 import Header from "@/components/coinlist/MarketHeader";
+import getServersideAuth from "@/utils/common/getServersideAuth";
 
 export default function Home({ coinList, queryCode }: ServerSideProps) {
   const tickerWsRef = useRef<WebSocket | null>(null);
@@ -105,50 +106,12 @@ const Mobile = styled.div`
 
 export const getServerSideProps: GetServerSideProps = async (
   ctx: any
-): Promise<{ props: ServerSideProps } | { redirect: Redirect }> => {
-  const cookies = nookies.get(ctx);
-  let isLogin = false;
-  let uid = null;
-  let coinList: CoinListResponseType = { code: [], data: [] };
-  let queryCode = ctx.query.code;
-  let isCodeCorrect = false;
+): Promise<{ props: ServerSideProps }> => {
+  const queryCode = ctx.query.code;
 
-  try {
-    const token = await admin.auth().verifyIdToken(cookies.token);
+  const coinList = await getMarketList("KRW");
 
-    try {
-      coinList = await getMarketList("KRW");
-      isCodeCorrect = coinList.code.includes(queryCode) ? true : false;
-    } catch (error) {
-      console.error("Error in getMarketList fetch:", error);
-    }
-
-    if (token) {
-      uid = token.uid;
-      isLogin = true;
-    }
-
-    if (isCodeCorrect) {
-      return {
-        props: { isLogin, uid, coinList, queryCode },
-      } as {
-        props: ServerSideProps;
-        redirect: Redirect;
-      };
-    } else {
-      queryCode = "KRW-BTC";
-      return {
-        props: { isLogin, uid, coinList, queryCode },
-        redirect: { destination: `/exchange/${queryCode}` },
-      } as {
-        props: ServerSideProps;
-        redirect: Redirect;
-      };
-    }
-  } catch (error) {
-    console.log(error);
-    return { redirect: { destination: "/exchange/KRW-BTC" } } as {
-      redirect: Redirect;
-    };
-  }
+  return {
+    props: { coinList, queryCode },
+  };
 };

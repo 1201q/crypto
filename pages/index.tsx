@@ -1,7 +1,7 @@
 import { GetServerSideProps, Redirect } from "next";
 
 export default function Home({}) {
-  return <div>1</div>;
+  return <div></div>;
 }
 
 export const getServerSideProps: GetServerSideProps = async (): Promise<{

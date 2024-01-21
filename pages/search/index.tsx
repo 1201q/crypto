@@ -18,11 +18,7 @@ export default function Home({ coinList }: ServerSideProps) {
 export const getStaticProps = async (): Promise<{
   props: ServerSideProps;
 }> => {
-  try {
-    const coinList: CoinListResponseType = await getMarketList("KRW");
-    return { props: { coinList } };
-  } catch (error) {
-    console.error("Error in getMarketList fetch:", error);
-    return { props: { coinList: { code: [], data: [] } } };
-  }
+  const coinList = await getMarketList("KRW");
+
+  return { props: { coinList } };
 };

@@ -56,10 +56,12 @@ const Header = () => {
   };
 
   const handleAnimation = (y: number) => {
-    animation?.start({
-      y: y,
-      transition: { duration: 0 },
-    });
+    if (animation) {
+      animation?.start({
+        y: y,
+        transition: { duration: 0 },
+      });
+    }
   };
 
   return (

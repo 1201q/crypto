@@ -1,13 +1,8 @@
 import nookies from "nookies";
-import { GetServerSideProps, Redirect } from "next";
-import { admin } from "@/utils/firebase/admin";
+import { GetServerSideProps } from "next";
 import { useEffect, useRef } from "react";
 import getMarketList from "@/utils/common/getMarketList";
-import {
-  ServerSideProps,
-  CoinListResponseType,
-  ServerSideInitialValues,
-} from "@/types/types";
+import { ServerSideProps, ServerSideInitialValues } from "@/types/types";
 import { useHydrateAtoms } from "jotai/utils";
 import { allTickerDataAtom, coinListAtom } from "@/context/atoms";
 import { useUpbit } from "@/utils/websocket/useUpbit";
@@ -17,7 +12,7 @@ import PageRender from "@/components/page/PageRender";
 import { pathnameAtom } from "@/context/atoms";
 import getServersideAuth from "@/utils/common/getServersideAuth";
 
-export default function Home({ uid, coinList, pathname }: ServerSideProps) {
+export default function Home({ coinList, pathname }: ServerSideProps) {
   const tickerWsRef = useRef<WebSocket | null>(null);
 
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues);
@@ -47,28 +42,12 @@ export const getServerSideProps: GetServerSideProps = async (
   ctx: any
 ): Promise<{ props: ServerSideProps }> => {
   const cookies = nookies.get(ctx);
-  let isLogin = false;
-  let uid = null;
-  let coinList: CoinListResponseType = { code: [], data: [] };
-  let pathname = ctx.resolvedUrl;
+  const pathname = ctx.resolvedUrl;
 
-  try {
-    coinList = await getMarketList("KRW");
-  } catch (error) {
-    console.error("Error in getMarketList fetch:", error);
-  }
-
-  try {
-    const { myuid } = await getServersideAuth(cookies.token);
-    if (myuid) {
-      uid = myuid;
-      isLogin = true;
-    }
-  } catch (error) {
-    console.log(error);
-  }
+  const coinList = await getMarketList("KRW");
+  const { isLogin, uid } = await getServersideAuth(cookies.token);
 
   return {
-    props: { isLogin, uid, coinList, pathname },
+    props: { coinList, isLogin, uid, pathname },
   };
 };
