@@ -108,7 +108,6 @@ export const getServerSideProps: GetServerSideProps = async (
   ctx: any
 ): Promise<{ props: ServerSideProps }> => {
   const queryCode = ctx.query.code;
-
   const coinList = await getMarketList("KRW");
 
   return {
