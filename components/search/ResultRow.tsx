@@ -1,6 +1,7 @@
 import f from "@/utils/common/formatting";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import styled from "styled-components";
 
 interface RowProps {
@@ -9,8 +10,12 @@ interface RowProps {
 }
 
 const ResultRow: React.FC<RowProps> = ({ market, KRname }) => {
+  const router = useRouter();
   return (
     <Row
+      onClick={() => {
+        router.push(`/exchange/${market}`);
+      }}
       initial={{ scale: 1, backgroundColor: "white" }}
       whileTap={{ scale: 0.99, backgroundColor: "#F9FAFB" }}
     >

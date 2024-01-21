@@ -16,7 +16,6 @@ interface RowProps {
 const CoinRow: React.FC<RowProps> = ({ coin }) => {
   const router = useRouter();
   const updateTimerRef = useRef<NodeJS.Timeout>();
-  const [selectCode, setSelectCode] = useAtom(selectCodeAtom);
   const [coinList] = useAtom(coinListAtom);
 
   const [isRendered, setIsRendered] = useState<boolean>(false);
@@ -73,11 +72,9 @@ const CoinRow: React.FC<RowProps> = ({ coin }) => {
   return (
     <Row
       onClick={() => {
-        setSelectCode(coin.code);
         router.push(`/exchange/${coin.code}`);
         console.log(coin);
       }}
-      key={coin.code}
       initial={{ scale: 1, backgroundColor: "white" }}
       whileTap={{ scale: 0.99, backgroundColor: "#F9FAFB" }}
     >

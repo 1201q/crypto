@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import React, { useEffect } from "react";
-import { throttle } from "lodash";
+import React, { useEffect, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
 
 import { useAtom } from "jotai";
@@ -25,27 +24,20 @@ const Header = () => {
   useEffect(() => {
     let prevY = window.scrollY;
 
-    const handleScroll = throttle(() => {
+    const handleScroll = () => {
       const currentY = window.scrollY;
 
       if (prevY === currentY) {
-        animation?.start({
-          y: 0,
-          transition: { duration: 0 },
-        });
+        handleAnimation(0);
       } else if (prevY > currentY) {
-        animation?.start({
-          y: 0,
-          transition: { duration: 0.1 },
-        });
+        handleAnimation(0);
       } else if (prevY < currentY) {
-        animation?.start({
-          y: -50,
-          transition: { duration: 0.1 },
-        });
+        if (currentY > 50) {
+          handleAnimation(-50);
+        }
       }
       prevY = currentY;
-    }, 100);
+    };
 
     window.addEventListener("scroll", handleScroll);
 
@@ -60,6 +52,13 @@ const Header = () => {
       behavior: "smooth",
       block: "start",
       inline: "nearest",
+    });
+  };
+
+  const handleAnimation = (y: number) => {
+    animation?.start({
+      y: y,
+      transition: { duration: 0 },
     });
   };
 

@@ -35,7 +35,7 @@ const CoinList = () => {
           data={sortedData}
           useWindowScroll
           style={{ height: "100%" }}
-          itemContent={(index, data) => <CoinRow coin={data} />}
+          itemContent={(index, data) => <CoinRow coin={data} key={data.code} />}
           totalCount={coinList.length}
         />
       ) : (

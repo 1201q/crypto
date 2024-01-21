@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Back from "@/public/back.svg";
 import X from "@/public/x.svg";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useAtom } from "jotai";
 import { searchInputValueAtom } from "@/context/atoms";
 
