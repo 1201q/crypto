@@ -4,10 +4,16 @@ import X from "@/public/x.svg";
 import { useEffect, useRef } from "react";
 import { useAtom } from "jotai";
 import { searchInputValueAtom } from "@/context/atoms";
+import { useRouter } from "next/router";
 
 const SearchHeader = () => {
+  const router = useRouter();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [keyword, setKeyword] = useAtom(searchInputValueAtom);
+
+  useEffect(() => {
+    setKeyword("");
+  }, []);
 
   useEffect(() => {
     if (inputRef.current) {
@@ -23,14 +29,17 @@ const SearchHeader = () => {
   return (
     <Container>
       <Back
-        width={28}
-        height={28}
+        width={26}
+        height={26}
         fill={"#b7bfc7"}
         style={{
           cursor: "pointer",
           marginLeft: "-4px",
           marginRight: "10px",
           marginTop: "2px",
+        }}
+        onClick={() => {
+          router.replace("/exchange");
         }}
       />
       <Input
@@ -49,6 +58,9 @@ const SearchHeader = () => {
           marginRight: "-2px",
           cursor: "pointer",
         }}
+        onClick={() => {
+          setKeyword("");
+        }}
       />
     </Container>
   );
@@ -64,6 +76,7 @@ const Container = styled.header`
   background-color: white;
   padding: 0px 20px;
   border-bottom: 1px solid #f2f4f6;
+  z-index: 100;
 `;
 
 const Input = styled.input`
@@ -75,6 +88,7 @@ const Input = styled.input`
   font-size: 16px;
   font-weight: 400;
   letter-spacing: -0.5px;
+  margin-bottom: 1px;
 `;
 
 export default SearchHeader;

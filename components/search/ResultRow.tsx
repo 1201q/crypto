@@ -44,10 +44,6 @@ const NameContainer = styled.div`
   height: 100%;
   margin-left: 15px;
   white-space: break-spaces;
-
-  @media screen and (max-width: 320px) {
-    width: 95px;
-  }
 `;
 const Row = styled(motion.div)`
   display: flex;
