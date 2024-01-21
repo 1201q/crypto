@@ -12,7 +12,7 @@ import { atomFamily } from "jotai/utils";
 // coin data
 export const allTickerDataAtom = atom<TickerDataType[]>([]);
 export const selectTickerDataAtom = atomFamily((code: string) =>
-  atom((get) => get(allTickerDataAtom).filter((c) => c.code === code))
+  atom((get) => get(allTickerDataAtom).find((coin) => coin.code === code))
 );
 
 export const tradeDataAtom = atom<TradeDataType[]>([]);

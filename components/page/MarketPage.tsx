@@ -1,6 +1,6 @@
 import MenuTab from "../bottomTab/MenuTab";
-import CoinList from "../coinlist/CoinList";
-import MarketHeader from "../coinlist/MarketHeader";
+import CoinList from "../coinList/CoinList";
+import MarketHeader from "../coinList/MarketHeader";
 
 export default function MarketPage() {
   return (

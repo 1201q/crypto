@@ -1,5 +1,5 @@
 import MenuTab from "../bottomTab/MenuTab";
-import Header from "../coinlist/MarketHeader";
+import Header from "../coinList/MarketHeader";
 
 export default function TestPage() {
   return (

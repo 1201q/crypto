@@ -4,7 +4,11 @@ import { GetServerSideProps, Redirect } from "next";
 import { admin } from "@/utils/firebase/admin";
 import { useEffect, useMemo, useRef } from "react";
 import getMarketList from "@/utils/common/getMarketList";
-import { ServerSideProps, CoinListResponseType } from "@/types/types";
+import {
+  ServerSideProps,
+  CoinListResponseType,
+  ServerSideInitialValues,
+} from "@/types/types";
 import { useAtom, atom } from "jotai";
 import {
   allTickerDataAtom,
@@ -15,18 +19,18 @@ import {
   tradeDataAtom,
 } from "@/context/atoms";
 import { useUpbit } from "@/utils/websocket/useUpbit";
-import CoinList from "@/components/coinlist/CoinList";
-import Header from "@/components/coinlist/MarketHeader";
-import getServersideAuth from "@/utils/common/getServersideAuth";
+import PageRender from "@/components/page/PageRender";
+import ExchangePage from "@/components/page/ExchangePage";
+import { useHydrateAtoms } from "jotai/utils";
 
 export default function Home({ coinList, queryCode }: ServerSideProps) {
   const tickerWsRef = useRef<WebSocket | null>(null);
   const tradeWsRef = useRef<WebSocket | null>(null);
   const orderbookWsRef = useRef<WebSocket | null>(null);
 
+  useHydrateAtoms([[coinListAtom, coinList?.data]] as ServerSideInitialValues);
+
   const [selectCode, setSelectCode] = useAtom(selectCodeAtom);
-  const [, setCoinListData] = useAtom(coinListAtom);
-  const [selectTickerData] = useAtom(selectTickerDataAtom(selectCode));
 
   const {
     data: allTickerData,
@@ -53,56 +57,24 @@ export default function Home({ coinList, queryCode }: ServerSideProps) {
     if (queryCode) {
       setSelectCode(queryCode);
     }
-    if (coinList) {
-      setCoinListData(coinList?.data);
-    }
-
-    openTickerWebsocket();
-
-    return () => {
-      closeTickerWebsocket();
-    };
   }, []);
 
   useEffect(() => {
-    if (queryCode) {
-      setSelectCode(queryCode);
+    if (queryCode === selectCode) {
+      openTickerWebsocket();
+      openTradeWebsocket();
+      openOrderbookWebsocket();
+
+      return () => {
+        closeTickerWebsocket();
+        closeTradeWebsocket();
+        closeOrderbookWebsocket();
+      };
     }
+  }, [selectCode]);
 
-    openTradeWebsocket();
-    openOrderbookWebsocket();
-
-    return () => {
-      closeTradeWebsocket();
-      closeOrderbookWebsocket();
-    };
-  }, [queryCode]);
-
-  return (
-    <Container>
-      <Mobile>
-        <Header />
-        <CoinList />
-      </Mobile>
-    </Container>
-  );
+  return <PageRender Render={ExchangePage} />;
 }
-
-const Container = styled.div`
-  width: 100%;
-  height: 100vh;
-  position: relative;
-  background-color: #f2f4f6;
-  display: flex;
-  justify-content: center;
-`;
-
-const Mobile = styled.div`
-  width: 840px;
-  height: 100%;
-  border-right: 1px solid #d1d6db;
-  border-left: 1px solid #d1d6db;
-`;
 
 export const getServerSideProps: GetServerSideProps = async (
   ctx: any

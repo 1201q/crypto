@@ -1,6 +1,16 @@
-type Funtciontype = "price" | "change" | "acc" | "volume" | "code";
+type Funtciontype =
+  | "price"
+  | "change"
+  | "acc"
+  | "volume"
+  | "code"
+  | "changePrice";
 
-export default function f(type: Funtciontype, value: number | string) {
+export default function f(
+  type: Funtciontype,
+  value: number | string,
+  value2?: number
+) {
   if (type === "price") {
     return getPrice(value as number);
   } else if (type === "change") {
@@ -9,6 +19,8 @@ export default function f(type: Funtciontype, value: number | string) {
     return getAccPrice(value as number);
   } else if (type === "code") {
     return getCode(value as string);
+  } else if (type === "changePrice") {
+    return getChangePrice(value as number, value2 as number);
   }
   return "Invalid type";
 }
@@ -20,6 +32,16 @@ function getPrice(price: number): string {
     return price.toFixed(2);
   } else {
     return price.toLocaleString();
+  }
+}
+
+function getChangePrice(price: number, changePrice: number): string {
+  if (price < 1) {
+    return changePrice.toFixed(4);
+  } else if (price < 100) {
+    return changePrice.toFixed(2);
+  } else {
+    return changePrice.toLocaleString();
   }
 }
 
