@@ -18,8 +18,6 @@ export default function App({ Component, pageProps }: AppProps) {
     fetcher: fetcher,
   };
 
-  console.log(options.fallback);
-
   return (
     <ThemeProvider theme={theme}>
       <AuthProvider>

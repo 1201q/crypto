@@ -5,7 +5,11 @@ import getServersideAuth from "@/utils/common/getServersideAuth";
 import { useUpbit } from "@/utils/websocket/useUpbit";
 
 import { useHydrateAtoms } from "jotai/utils";
-import { allTickerDataAtom, pathnameAtom } from "@/context/atoms";
+import {
+  allTickerDataAtom,
+  isTickerWebsocketOpenAtom,
+  pathnameAtom,
+} from "@/context/atoms";
 
 import MarketPage from "@/components/page/MarketPage";
 import PageRender from "@/components/page/PageRender";
@@ -16,24 +20,23 @@ import fetcher from "@/utils/common/fetcher";
 import { useList } from "@/utils/hooks/useList";
 
 export default function Home({ pathname }: ServerSideProps) {
-  const tickerWsRef = useRef<WebSocket | null>(null);
-
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues);
-  const { coinList, isValidating } = useList();
-  const { open: openTickerWebsocket, close: closeTickerWebsocket } = useUpbit(
+  const { coinList } = useList();
+
+  const {
+    open: openTickerWs,
+    close: closeTickerWs,
+    isOpen,
+  } = useUpbit(
     "ticker",
-    coinList ? coinList.code : [],
-    tickerWsRef,
-    allTickerDataAtom
+    coinList.code || [],
+    allTickerDataAtom,
+    isTickerWebsocketOpenAtom
   );
 
   useEffect(() => {
-    if (coinList) {
-      openTickerWebsocket();
-
-      return () => {
-        closeTickerWebsocket();
-      };
+    if (!isOpen) {
+      openTickerWs();
     }
   }, []);
 

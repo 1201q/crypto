@@ -6,11 +6,15 @@ import { ServerSideProps, ServerSideInitialValues } from "@/types/types";
 import { useAtom } from "jotai";
 import {
   allTickerDataAtom,
+  isTickerWebsocketOpenAtom,
+  isOrderbookWebsocketOpenAtom,
+  isTradeWebsocketOpenAtom,
   orderbookDataAtom,
   selectCodeAtom,
   tradeDataAtom,
 } from "@/context/atoms";
 import { useUpbit } from "@/utils/websocket/useUpbit";
+
 import PageRender from "@/components/page/PageRender";
 import ExchangePage from "@/components/page/ExchangePage";
 import { useHydrateAtoms } from "jotai/utils";
@@ -20,48 +24,50 @@ import fetcher from "@/utils/common/fetcher";
 import { useList } from "@/utils/hooks/useList";
 
 export default function Home({ queryCode }: ServerSideProps) {
-  const tickerWsRef = useRef<WebSocket | null>(null);
-  const tradeWsRef = useRef<WebSocket | null>(null);
-  const orderbookWsRef = useRef<WebSocket | null>(null);
-
-  const { coinList, isValidating } = useList();
+  const { coinList } = useList();
 
   useHydrateAtoms([[selectCodeAtom, queryCode]] as ServerSideInitialValues);
 
   const [, setSelectCode] = useAtom(selectCodeAtom);
 
   const {
-    data: allTickerData,
-    open: openTickerWebsocket,
-    close: closeTickerWebsocket,
+    open: openTickerWs,
+    close: closeTickerWs,
+    isOpen,
   } = useUpbit(
     "ticker",
-    coinList ? coinList.code : [],
-    tickerWsRef,
-    allTickerDataAtom
+    coinList.code || [],
+    allTickerDataAtom,
+    isTickerWebsocketOpenAtom
   );
-  const {
-    data: tradeData,
-    open: openTradeWebsocket,
-    close: closeTradeWebsocket,
-  } = useUpbit("trade", queryCode || "", tradeWsRef, tradeDataAtom);
-  const {
-    data: orderbookData,
-    open: openOrderbookWebsocket,
-    close: closeOrderbookWebsocket,
-  } = useUpbit("orderbook", queryCode || "", orderbookWsRef, orderbookDataAtom);
+
+  const { open: openTradeWs, close: closeTradeWs } = useUpbit(
+    "trade",
+    queryCode || "",
+    tradeDataAtom,
+    isTradeWebsocketOpenAtom
+  );
+
+  const { open: openOrderbookWs, close: closeOrderbookWs } = useUpbit(
+    "orderbook",
+    queryCode || "",
+    orderbookDataAtom,
+    isOrderbookWebsocketOpenAtom
+  );
 
   useEffect(() => {
     if (queryCode) {
       setSelectCode(queryCode);
-      openTickerWebsocket();
-      openTradeWebsocket();
-      openOrderbookWebsocket();
+      if (!isOpen) {
+        openTickerWs();
+      }
+
+      openTradeWs();
+      openOrderbookWs();
 
       return () => {
-        closeTickerWebsocket();
-        closeTradeWebsocket();
-        closeOrderbookWebsocket();
+        closeTradeWs();
+        closeOrderbookWs();
       };
     }
   }, []);

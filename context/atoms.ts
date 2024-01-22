@@ -41,3 +41,8 @@ export const pathnameAtom = atom<string | null>(null);
 
 // search
 export const searchInputValueAtom = atom<string>("");
+
+// websocket state
+export const isTickerWebsocketOpenAtom = atom(false);
+export const isTradeWebsocketOpenAtom = atom(false);
+export const isOrderbookWebsocketOpenAtom = atom(false);

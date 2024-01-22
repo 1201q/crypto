@@ -15,7 +15,10 @@ export const openWebsocket = async (
   type: WebsocketType,
   code: string[] | string,
   wsRef: MutableRefObject<WebSocket | null | undefined>,
-  setState:
+  setData:
+    | SetAtom<[SetStateAction<any>], void>
+    | React.Dispatch<React.SetStateAction<any>>,
+  setIsOpen?:
     | SetAtom<[SetStateAction<any>], void>
     | React.Dispatch<React.SetStateAction<any>>
 ) => {
@@ -23,7 +26,11 @@ export const openWebsocket = async (
 
   if (ws) {
     wsRef.current = ws;
-    getTickerData(wsRef.current, setState);
+    getTickerData(wsRef.current, setData);
+
+    if (setIsOpen) {
+      setIsOpen(true);
+    }
   }
 };
 
@@ -31,17 +38,23 @@ export const closeWebsocket = (
   wsRef: MutableRefObject<WebSocket | null | undefined>,
   setState:
     | SetAtom<[SetStateAction<any>], void>
+    | React.Dispatch<React.SetStateAction<any>>,
+  setIsOpen?:
+    | SetAtom<[SetStateAction<any>], void>
     | React.Dispatch<React.SetStateAction<any>>
 ) => {
   if (wsRef.current) {
     wsRef.current.close();
     setState([]);
+    if (setIsOpen) {
+      setIsOpen(false);
+    }
   }
 };
 
 const getTickerData = (
   ws: WebSocket,
-  setState:
+  setData:
     | SetAtom<[SetStateAction<any>], void>
     | React.Dispatch<React.SetStateAction<any>>
 ) => {
@@ -50,25 +63,25 @@ const getTickerData = (
     const blobToJson = await new Response(data).json();
 
     if (blobToJson.type === "ticker") {
-      handleTickerUpdateEvent(blobToJson, setState);
+      handleTickerUpdateEvent(blobToJson, setData);
     } else if (blobToJson.type === "trade") {
-      handleTradeUpdateEvent(blobToJson, setState);
+      handleTradeUpdateEvent(blobToJson, setData);
     } else if (blobToJson.type === "orderbook") {
-      handleOrderbookUpdateEvent(blobToJson, setState);
+      handleOrderbookUpdateEvent(blobToJson, setData);
     }
   };
 };
 
 const handleTickerUpdateEvent = (
   data: TickerDataType,
-  setState:
+  setData:
     | SetAtom<[SetStateAction<TickerDataType[]>], void>
     | React.Dispatch<React.SetStateAction<any>>
 ) => {
   if (data.stream_type === "SNAPSHOT") {
-    setState((prev) => [...prev, data]);
+    setData((prev) => [...prev, data]);
   } else {
-    setState((prev) => {
+    setData((prev) => {
       const updatedArr = prev.map((coin) => {
         if (coin.code === data.code) {
           return { ...data };
@@ -82,18 +95,18 @@ const handleTickerUpdateEvent = (
 
 const handleOrderbookUpdateEvent = (
   data: OrderBookDataType,
-  setState:
+  setData:
     | SetAtom<[SetStateAction<SetStateType>], void>
     | React.Dispatch<React.SetStateAction<any>>
 ) => {
-  setState([data]);
+  setData([data]);
 };
 
 const handleTradeUpdateEvent = (
   data: TradeDataType,
-  setState:
+  setData:
     | SetAtom<[SetStateAction<TradeDataType[]>], void>
     | React.Dispatch<React.SetStateAction<any>>
 ) => {
-  setState((prev) => [...prev, data]);
+  setData((prev) => [...prev, data]);
 };

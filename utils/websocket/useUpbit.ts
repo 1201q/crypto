@@ -1,6 +1,6 @@
-import { MutableRefObject, useEffect } from "react";
+import { MutableRefObject, useRef } from "react";
 import { closeWebsocket, openWebsocket } from "./websocketUtils";
-import { useAtom } from "jotai";
+import { PrimitiveAtom, atom, useAtom } from "jotai";
 import {
   OrderBookDataType,
   TickerDataType,
@@ -9,33 +9,35 @@ import {
 } from "@/types/types";
 
 interface HookReturnType {
-  data: TickerDataType[] | TradeDataType[] | OrderBookDataType[];
   open: () => void;
   close: () => void;
+  isOpen: boolean;
 }
 
 export const useUpbit = (
   type: WebsocketType,
   code: string[] | string,
-  wsRef: MutableRefObject<WebSocket | null | undefined>,
-  atom: ReturnType<typeof useAtom>[0]
+  atom: PrimitiveAtom<any[]>,
+  isOpenAtom: PrimitiveAtom<boolean>
 ): HookReturnType => {
   const [data, setData] = useAtom<
     TickerDataType[] | TradeDataType[] | OrderBookDataType[]
   >(atom);
+  const [isOpen, setIsOpen] = useAtom<boolean>(isOpenAtom);
+  const wsRef = useRef<WebSocket | null>(null);
 
   // 반환함수
   const closeWs = () => {
     if (wsRef.current) {
-      closeWebsocket(wsRef, setData);
+      closeWebsocket(wsRef, setData, setIsOpen);
     }
   };
 
   const openWs = () => {
     if (!wsRef.current || wsRef.current.readyState !== 1) {
-      openWebsocket(type, code, wsRef, setData);
+      openWebsocket(type, code, wsRef, setData, setIsOpen);
     }
   };
 
-  return { data: data, open: openWs, close: closeWs };
+  return { open: openWs, close: closeWs, isOpen: isOpen };
 };
