@@ -1,16 +1,18 @@
 import nookies from "nookies";
-import { GetServerSideProps } from "next";
+import useSWR from "swr";
 import { useEffect, useRef } from "react";
 import getMarketList from "@/utils/common/getMarketList";
-import { ServerSideProps, ServerSideInitialValues } from "@/types/types";
-import { useHydrateAtoms } from "jotai/utils";
-import { allTickerDataAtom, coinListAtom } from "@/context/atoms";
+import getServersideAuth from "@/utils/common/getServersideAuth";
 import { useUpbit } from "@/utils/websocket/useUpbit";
+
+import { useHydrateAtoms } from "jotai/utils";
+import { allTickerDataAtom, coinListAtom, pathnameAtom } from "@/context/atoms";
 
 import MarketPage from "@/components/page/MarketPage";
 import PageRender from "@/components/page/PageRender";
-import { pathnameAtom } from "@/context/atoms";
-import getServersideAuth from "@/utils/common/getServersideAuth";
+
+import { ServerSideProps, ServerSideInitialValues } from "@/types/types";
+import { GetServerSideProps } from "next";
 
 export default function Home({ coinList, pathname }: ServerSideProps) {
   const tickerWsRef = useRef<WebSocket | null>(null);

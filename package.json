@@ -29,6 +29,7 @@
     "react-dom": "^18",
     "react-virtuoso": "^4.6.2",
     "styled-components": "^5.3.10",
+    "swr": "^2.2.4",
     "uuidv4": "^6.2.13"
   },
   "devDependencies": {

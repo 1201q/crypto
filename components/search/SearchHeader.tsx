@@ -39,7 +39,7 @@ const SearchHeader = () => {
           marginTop: "2px",
         }}
         onClick={() => {
-          router.replace("/exchange");
+          router.replace("/market");
         }}
       />
       <Input

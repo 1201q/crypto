@@ -18,6 +18,7 @@ export interface ServerSideProps {
   queryCode?: string;
   pathname?: string;
   keyword?: string | undefined;
+  fallback?: { [key: string]: CoinListType };
 }
 
 export interface CoinListResponseType {

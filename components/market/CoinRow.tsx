@@ -1,13 +1,12 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { TickerDataType } from "@/types/types";
+import { CoinListResponseType, TickerDataType } from "@/types/types";
 import f from "@/utils/common/formatting";
-import { coinListAtom, selectCodeAtom } from "@/context/atoms";
-import { useAtom } from "jotai";
 import getKR from "@/utils/common/getKR";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import useSWR from "swr";
 
 interface RowProps {
   coin: TickerDataType;
@@ -16,7 +15,8 @@ interface RowProps {
 const CoinRow: React.FC<RowProps> = ({ coin }) => {
   const router = useRouter();
   const updateTimerRef = useRef<NodeJS.Timeout>();
-  const [coinList] = useAtom(coinListAtom);
+  // const [coinList] = useAtom(coinListAtom);
+  const { data: coinList } = useSWR<CoinListResponseType>("/api/markets");
 
   const [isRendered, setIsRendered] = useState<boolean>(false);
   const [currentPrice, setCurrentPrice] = useState<number>(0);
@@ -72,11 +72,11 @@ const CoinRow: React.FC<RowProps> = ({ coin }) => {
   return (
     <Row
       onClick={() => {
-        router.push(`/exchange/${coin.code}`);
+        router.push(`/market/${coin.code}`);
         console.log(coin);
       }}
-      initial={{ scale: 1, backgroundColor: "white" }}
-      whileTap={{ scale: 0.99, backgroundColor: "#F9FAFB" }}
+      initial={{ backgroundColor: "white" }}
+      whileTap={{ backgroundColor: "#F9FAFB" }}
     >
       <CoinInfo>
         <CodeIcon>
@@ -90,7 +90,7 @@ const CoinRow: React.FC<RowProps> = ({ coin }) => {
           />
         </CodeIcon>
         <NameContainer>
-          <KRnameText>{getKR(coinList, coin.code)}</KRnameText>
+          <KRnameText>{getKR(coinList?.data, coin.code)}</KRnameText>
           <CodeText>{f("code", coin.code)}</CodeText>
         </NameContainer>
       </CoinInfo>

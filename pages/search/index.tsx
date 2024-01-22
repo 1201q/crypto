@@ -1,24 +1,21 @@
-import {
-  ServerSideProps,
-  ServerSideInitialValues,
-  CoinListResponseType,
-} from "@/types/types";
-import { useHydrateAtoms } from "jotai/utils";
-import { coinListAtom } from "@/context/atoms";
+import { ServerSideProps } from "@/types/types";
+
 import PageRender from "@/components/page/PageRender";
 import SearchPage from "@/components/page/SearchPage";
-import getMarketList from "@/utils/common/getMarketList";
+import fetcher from "@/utils/common/fetcher";
 
-export default function Home({ coinList }: ServerSideProps) {
-  useHydrateAtoms([[coinListAtom, coinList?.data]] as ServerSideInitialValues);
-
+export default function Home() {
   return <PageRender Render={SearchPage} />;
 }
 
-export const getStaticProps = async (): Promise<{
-  props: ServerSideProps;
-}> => {
-  const coinList = await getMarketList("KRW");
+export const getStaticProps = async (
+  ctx: any
+): Promise<{ props: ServerSideProps }> => {
+  const coinList = await fetcher("/api/markets");
 
-  return { props: { coinList } };
+  return {
+    props: {
+      fallback: { "/api/markets": coinList },
+    },
+  };
 };

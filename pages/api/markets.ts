@@ -1,15 +1,20 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
+
 import {
   MarketListDataType,
   MarketType,
   CoinListResponseType,
 } from "@/types/types";
 
-export default async function getMarketList(
-  type: MarketType
-): Promise<CoinListResponseType> {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<CoinListResponseType>
+) {
+  const type = req.query?.type || "KRW";
+
   try {
-    const API_URL = "https://api.upbit.com/v1/market/all";
+    const API_URL = process.env.MARKETS_API_URL || "";
     const response = await axios.get<MarketListDataType[]>(API_URL);
     const data = response.data;
 
@@ -19,12 +24,12 @@ export default async function getMarketList(
 
     const codeList = filteredList.map((coin) => coin.market);
 
-    console.log("실행");
-    return { code: codeList, data: filteredList };
+    res.status(200).json({ code: codeList, data: filteredList });
+    console.log("리스트 fetch 호출됨");
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.log(error);
+      console.error(error);
     }
-    return { code: [], data: [] };
+    res.status(500).json({ code: [], data: [] });
   }
 }

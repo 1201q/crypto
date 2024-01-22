@@ -8,6 +8,6 @@ export const getServerSideProps: GetServerSideProps = async (): Promise<{
   redirect: Redirect;
 }> => {
   return {
-    redirect: { destination: "/exchange", permanent: false },
+    redirect: { destination: "/market", permanent: false },
   };
 };

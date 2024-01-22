@@ -1,14 +1,17 @@
-import { coinListAtom, searchInputValueAtom } from "@/context/atoms";
+import { searchInputValueAtom } from "@/context/atoms";
 import { useAtom } from "jotai";
 import styled from "styled-components";
 import ResultRow from "./ResultRow";
 import { Virtuoso } from "react-virtuoso";
+import useSWR from "swr";
+import { MarketListDataType } from "@/types/types";
 
-const SearchResult = () => {
-  const [coinList] = useAtom(coinListAtom);
+const SearchList = () => {
+  const { data: coinList } = useSWR("/api/markets");
+
   const [searchKeyword] = useAtom(searchInputValueAtom);
 
-  const filteredCoins = coinList.filter((coin) => {
+  const filteredCoins = coinList.data.filter((coin: MarketListDataType) => {
     const keyword = searchKeyword
       .toLocaleUpperCase()
       .replace("KRW-", "")
@@ -50,4 +53,4 @@ const Container = styled.div`
   padding-bottom: 20px;
 `;
 
-export default SearchResult;
+export default SearchList;

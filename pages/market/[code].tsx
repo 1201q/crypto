@@ -12,23 +12,26 @@ import {
 import { useAtom, atom } from "jotai";
 import {
   allTickerDataAtom,
-  coinListAtom,
   orderbookDataAtom,
   selectCodeAtom,
-  selectTickerDataAtom,
   tradeDataAtom,
 } from "@/context/atoms";
 import { useUpbit } from "@/utils/websocket/useUpbit";
 import PageRender from "@/components/page/PageRender";
 import ExchangePage from "@/components/page/ExchangePage";
 import { useHydrateAtoms } from "jotai/utils";
+import useSWR from "swr";
+import getServersideAuth from "@/utils/common/getServersideAuth";
+import fetcher from "@/utils/common/fetcher";
 
-export default function Home({ coinList, queryCode }: ServerSideProps) {
+export default function Home({ queryCode }: ServerSideProps) {
   const tickerWsRef = useRef<WebSocket | null>(null);
   const tradeWsRef = useRef<WebSocket | null>(null);
   const orderbookWsRef = useRef<WebSocket | null>(null);
 
-  useHydrateAtoms([[coinListAtom, coinList?.data]] as ServerSideInitialValues);
+  const { data: coinList } = useSWR("/api/markets");
+
+  useHydrateAtoms([[selectCodeAtom, queryCode]] as ServerSideInitialValues);
 
   const [selectCode, setSelectCode] = useAtom(selectCodeAtom);
 
@@ -54,12 +57,6 @@ export default function Home({ coinList, queryCode }: ServerSideProps) {
   } = useUpbit("orderbook", selectCode, orderbookWsRef, orderbookDataAtom);
 
   useEffect(() => {
-    if (queryCode) {
-      setSelectCode(queryCode);
-    }
-  }, []);
-
-  useEffect(() => {
     if (queryCode === selectCode) {
       openTickerWebsocket();
       openTradeWebsocket();
@@ -80,9 +77,18 @@ export const getServerSideProps: GetServerSideProps = async (
   ctx: any
 ): Promise<{ props: ServerSideProps }> => {
   const queryCode = ctx.query.code;
-  const coinList = await getMarketList("KRW");
+  const cookies = nookies.get(ctx);
+  const coinList = await fetcher("/api/markets");
+
+  const { isLogin, uid } = await getServersideAuth(cookies.token);
 
   return {
-    props: { coinList, queryCode },
+    props: {
+      fallback: { "/api/markets": coinList },
+      coinList,
+      isLogin,
+      uid,
+      queryCode,
+    },
   };
 };

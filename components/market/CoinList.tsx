@@ -1,17 +1,23 @@
-import { allTickerDataAtom, coinListAtom } from "@/context/atoms";
+import { allTickerDataAtom } from "@/context/atoms";
 import { useAtom } from "jotai";
 import styled from "styled-components";
 import { Virtuoso } from "react-virtuoso";
 import CoinRow from "./CoinRow";
 import React, { useMemo } from "react";
 import { sortOptionAtom } from "@/context/atoms";
-import { TickerDataType } from "@/types/types";
+import {
+  CoinListType,
+  TickerDataType,
+  CoinListResponseType,
+} from "@/types/types";
 import { coinListHeightAtom } from "@/context/styles";
+import useSWR from "swr";
 
 const CoinList = () => {
   const [renderData] = useAtom(allTickerDataAtom);
   const [sort] = useAtom(sortOptionAtom);
-  const [coinList] = useAtom(coinListAtom);
+  // const [coinList] = useAtom(coinListAtom);
+  const { data: coinList } = useSWR<CoinListResponseType>("/api/markets");
   const [height] = useAtom(coinListHeightAtom);
 
   const sortedData: TickerDataType[] = useMemo(() => {
@@ -30,13 +36,13 @@ const CoinList = () => {
 
   return (
     <Container height={height}>
-      {coinList?.length === renderData.length ? (
+      {coinList?.code.length === renderData.length ? (
         <Virtuoso
           data={sortedData}
           useWindowScroll
           style={{ height: "100%" }}
           itemContent={(index, data) => <CoinRow coin={data} key={data.code} />}
-          totalCount={coinList.length}
+          totalCount={coinList?.code.length}
         />
       ) : (
         <div></div>

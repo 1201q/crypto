@@ -14,10 +14,10 @@ const ResultRow: React.FC<RowProps> = ({ market, KRname }) => {
   return (
     <Row
       onClick={() => {
-        router.push(`/exchange/${market}`);
+        router.push(`/market/${market}`);
       }}
-      initial={{ scale: 1, backgroundColor: "white" }}
-      whileTap={{ scale: 0.99, backgroundColor: "#F9FAFB" }}
+      initial={{ backgroundColor: "white" }}
+      whileTap={{ backgroundColor: "#F9FAFB" }}
     >
       <CodeIcon>
         <Image

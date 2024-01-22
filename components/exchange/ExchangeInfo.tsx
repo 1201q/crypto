@@ -1,24 +1,22 @@
-import {
-  coinListAtom,
-  selectCodeAtom,
-  selectTickerDataAtom,
-} from "@/context/atoms";
+import { selectCodeAtom, selectTickerDataAtom } from "@/context/atoms";
 import { TickerDataType } from "@/types/types";
 import f from "@/utils/common/formatting";
 import getKR from "@/utils/common/getKR";
 import { useAtom } from "jotai";
 import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
+import useSWR from "swr";
 
 const ExchangeInfo = () => {
   const updateTimerRef = useRef<NodeJS.Timeout>();
-  const [coinList] = useAtom(coinListAtom);
   const [selectCode] = useAtom(selectCodeAtom);
   const [data] = useAtom(selectTickerDataAtom(selectCode));
 
   const [isRendered, setIsRendered] = useState<boolean>(false);
   const [currentPrice, setCurrentPrice] = useState<number>(0);
   const [isUpdated, setIsUpdated] = useState(false);
+
+  const { data: coinList } = useSWR("/api/markets");
 
   const getUpdateDisplayBgColor = (change: string, isUpdated: boolean) => {
     if (change === "RISE") {
@@ -33,7 +31,7 @@ const ExchangeInfo = () => {
   const Name = (bottom: number) => {
     return (
       <Flex bottom={bottom}>
-        <NameText>{getKR(coinList, selectCode)}</NameText>
+        <NameText>{getKR(coinList.data, selectCode)}</NameText>
         <Code>{f("code", selectCode)}</Code>
       </Flex>
     );
