@@ -1,5 +1,5 @@
 import nookies from "nookies";
-import useSWR from "swr";
+
 import { useEffect, useRef } from "react";
 import getServersideAuth from "@/utils/common/getServersideAuth";
 import { useUpbit } from "@/utils/websocket/useUpbit";

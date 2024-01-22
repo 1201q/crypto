@@ -3,7 +3,7 @@ import { useAtom } from "jotai";
 import styled from "styled-components";
 import ResultRow from "./ResultRow";
 import { Virtuoso } from "react-virtuoso";
-import useSWR from "swr";
+
 import { MarketListDataType } from "@/types/types";
 import { useList } from "@/utils/hooks/useList";
 

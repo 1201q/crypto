@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { use, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
 
 import { useAtom } from "jotai";

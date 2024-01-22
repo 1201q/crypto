@@ -5,13 +5,9 @@ import { Virtuoso } from "react-virtuoso";
 import CoinRow from "./CoinRow";
 import React, { useEffect, useMemo } from "react";
 import { sortOptionAtom } from "@/context/atoms";
-import {
-  CoinListType,
-  TickerDataType,
-  CoinListResponseType,
-} from "@/types/types";
+import { TickerDataType } from "@/types/types";
 import { coinListHeightAtom } from "@/context/styles";
-import useSWR from "swr";
+
 import { useList } from "@/utils/hooks/useList";
 
 const CoinList = () => {

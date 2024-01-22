@@ -14,7 +14,7 @@ import { useUpbit } from "@/utils/websocket/useUpbit";
 import PageRender from "@/components/page/PageRender";
 import ExchangePage from "@/components/page/ExchangePage";
 import { useHydrateAtoms } from "jotai/utils";
-import useSWR from "swr";
+
 import getServersideAuth from "@/utils/common/getServersideAuth";
 import fetcher from "@/utils/common/fetcher";
 import { useList } from "@/utils/hooks/useList";

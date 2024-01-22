@@ -6,7 +6,6 @@ import { useList } from "@/utils/hooks/useList";
 import { useAtom } from "jotai";
 import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import useSWR from "swr";
 
 const ExchangeInfo = () => {
   const updateTimerRef = useRef<NodeJS.Timeout>();

@@ -1,12 +1,12 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { CoinListResponseType, TickerDataType } from "@/types/types";
+import { TickerDataType } from "@/types/types";
 import f from "@/utils/common/formatting";
 import getKR from "@/utils/common/getKR";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import useSWR from "swr";
+
 import { useList } from "@/utils/hooks/useList";
 
 interface RowProps {

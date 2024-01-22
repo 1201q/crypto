@@ -1,5 +1,5 @@
 import nookies from "nookies";
-import useSWR from "swr";
+
 import { useEffect, useRef } from "react";
 import getMarketList from "@/utils/common/getMarketList";
 import getServersideAuth from "@/utils/common/getServersideAuth";
