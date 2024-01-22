@@ -11,7 +11,7 @@ const SearchList = () => {
 
   const [searchKeyword] = useAtom(searchInputValueAtom);
 
-  const filteredCoins = coinList.data.filter((coin: MarketListDataType) => {
+  const filteredCoins = coinList?.data.filter((coin: MarketListDataType) => {
     const keyword = searchKeyword
       .toLocaleUpperCase()
       .replace("KRW-", "")
@@ -42,7 +42,7 @@ const SearchList = () => {
             KRname={data.korean_name}
           />
         )}
-        totalCount={filteredCoins.length}
+        totalCount={filteredCoins?.length}
       />
     </Container>
   );
