@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import Back from "@/public/back.svg";
+import { useRouter } from "next/router";
 
 const ExchangeHeader = () => {
+  const router = useRouter();
   return (
     <Container>
       <Back
@@ -13,6 +15,9 @@ const ExchangeHeader = () => {
           marginLeft: "-4px",
           marginRight: "10px",
           marginTop: "2px",
+        }}
+        onClick={() => {
+          router.replace("/market");
         }}
       />
     </Container>

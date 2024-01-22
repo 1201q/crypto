@@ -2,6 +2,7 @@ import { selectCodeAtom, selectTickerDataAtom } from "@/context/atoms";
 import { TickerDataType } from "@/types/types";
 import f from "@/utils/common/formatting";
 import getKR from "@/utils/common/getKR";
+import { useList } from "@/utils/hooks/useList";
 import { useAtom } from "jotai";
 import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
@@ -16,7 +17,7 @@ const ExchangeInfo = () => {
   const [currentPrice, setCurrentPrice] = useState<number>(0);
   const [isUpdated, setIsUpdated] = useState(false);
 
-  const { data: coinList } = useSWR("/api/markets");
+  const { coinList, isValidating } = useList();
 
   const getUpdateDisplayBgColor = (change: string, isUpdated: boolean) => {
     if (change === "RISE") {

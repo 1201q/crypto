@@ -3,7 +3,7 @@ import { useAtom } from "jotai";
 import styled from "styled-components";
 import { Virtuoso } from "react-virtuoso";
 import CoinRow from "./CoinRow";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { sortOptionAtom } from "@/context/atoms";
 import {
   CoinListType,
@@ -12,12 +12,13 @@ import {
 } from "@/types/types";
 import { coinListHeightAtom } from "@/context/styles";
 import useSWR from "swr";
+import { useList } from "@/utils/hooks/useList";
 
 const CoinList = () => {
   const [renderData] = useAtom(allTickerDataAtom);
   const [sort] = useAtom(sortOptionAtom);
-  // const [coinList] = useAtom(coinListAtom);
-  const { data: coinList } = useSWR<CoinListResponseType>("/api/markets");
+
+  const { coinList, isValidating } = useList();
   const [height] = useAtom(coinListHeightAtom);
 
   const sortedData: TickerDataType[] = useMemo(() => {

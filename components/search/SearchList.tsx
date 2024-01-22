@@ -5,9 +5,10 @@ import ResultRow from "./ResultRow";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 import { MarketListDataType } from "@/types/types";
+import { useList } from "@/utils/hooks/useList";
 
 const SearchList = () => {
-  const { data: coinList } = useSWR("/api/markets");
+  const { coinList, isValidating } = useList();
 
   const [searchKeyword] = useAtom(searchInputValueAtom);
 

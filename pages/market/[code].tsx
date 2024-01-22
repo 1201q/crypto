@@ -17,17 +17,18 @@ import { useHydrateAtoms } from "jotai/utils";
 import useSWR from "swr";
 import getServersideAuth from "@/utils/common/getServersideAuth";
 import fetcher from "@/utils/common/fetcher";
+import { useList } from "@/utils/hooks/useList";
 
 export default function Home({ queryCode }: ServerSideProps) {
   const tickerWsRef = useRef<WebSocket | null>(null);
   const tradeWsRef = useRef<WebSocket | null>(null);
   const orderbookWsRef = useRef<WebSocket | null>(null);
 
-  const { data: coinList } = useSWR("/api/markets");
+  const { coinList, isValidating } = useList();
 
   useHydrateAtoms([[selectCodeAtom, queryCode]] as ServerSideInitialValues);
 
-  const [selectCode, setSelectCode] = useAtom(selectCodeAtom);
+  const [, setSelectCode] = useAtom(selectCodeAtom);
 
   const {
     data: allTickerData,
@@ -43,15 +44,16 @@ export default function Home({ queryCode }: ServerSideProps) {
     data: tradeData,
     open: openTradeWebsocket,
     close: closeTradeWebsocket,
-  } = useUpbit("trade", selectCode, tradeWsRef, tradeDataAtom);
+  } = useUpbit("trade", queryCode || "", tradeWsRef, tradeDataAtom);
   const {
     data: orderbookData,
     open: openOrderbookWebsocket,
     close: closeOrderbookWebsocket,
-  } = useUpbit("orderbook", selectCode, orderbookWsRef, orderbookDataAtom);
+  } = useUpbit("orderbook", queryCode || "", orderbookWsRef, orderbookDataAtom);
 
   useEffect(() => {
-    if (queryCode === selectCode) {
+    if (queryCode) {
+      setSelectCode(queryCode);
       openTickerWebsocket();
       openTradeWebsocket();
       openOrderbookWebsocket();
@@ -61,10 +63,8 @@ export default function Home({ queryCode }: ServerSideProps) {
         closeTradeWebsocket();
         closeOrderbookWebsocket();
       };
-    } else if (queryCode && queryCode !== selectCode) {
-      setSelectCode(queryCode);
     }
-  }, [selectCode, queryCode]);
+  }, []);
 
   return <PageRender Render={ExchangePage} />;
 }

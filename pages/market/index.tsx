@@ -13,12 +13,13 @@ import PageRender from "@/components/page/PageRender";
 import { ServerSideProps, ServerSideInitialValues } from "@/types/types";
 import { GetServerSideProps } from "next";
 import fetcher from "@/utils/common/fetcher";
+import { useList } from "@/utils/hooks/useList";
 
 export default function Home({ pathname }: ServerSideProps) {
   const tickerWsRef = useRef<WebSocket | null>(null);
 
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues);
-  const { data: coinList } = useSWR("/api/markets");
+  const { coinList, isValidating } = useList();
   const { open: openTickerWebsocket, close: closeTickerWebsocket } = useUpbit(
     "ticker",
     coinList ? coinList.code : [],

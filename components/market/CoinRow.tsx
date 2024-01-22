@@ -7,6 +7,7 @@ import getKR from "@/utils/common/getKR";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import useSWR from "swr";
+import { useList } from "@/utils/hooks/useList";
 
 interface RowProps {
   coin: TickerDataType;
@@ -16,7 +17,7 @@ const CoinRow: React.FC<RowProps> = ({ coin }) => {
   const router = useRouter();
   const updateTimerRef = useRef<NodeJS.Timeout>();
   // const [coinList] = useAtom(coinListAtom);
-  const { data: coinList } = useSWR<CoinListResponseType>("/api/markets");
+  const { coinList, isValidating } = useList();
 
   const [isRendered, setIsRendered] = useState<boolean>(false);
   const [currentPrice, setCurrentPrice] = useState<number>(0);

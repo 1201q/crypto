@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
 
 import { useAtom } from "jotai";
@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 
 const Header = () => {
   const router = useRouter();
+  const isRenderedRef = useRef(null);
   const [headerHeight] = useAtom(headerHeightAtom);
   const [sortOptions, setSortOptions] = useAtom(sortOptionAtom);
   const [listHeight] = useAtom(coinListControllerHeightAtom);
@@ -22,29 +23,31 @@ const Header = () => {
   const animation = useAnimation();
 
   useEffect(() => {
-    let prevY = window.scrollY;
+    if (isRenderedRef.current) {
+      let prevY = window.scrollY;
 
-    const handleScroll = () => {
-      const currentY = window.scrollY;
+      const handleScroll = () => {
+        const currentY = window.scrollY;
 
-      if (prevY === currentY) {
-        handleAnimation(0);
-      } else if (prevY > currentY) {
-        handleAnimation(0);
-      } else if (prevY < currentY) {
-        if (currentY > 50) {
-          handleAnimation(-50);
+        if (prevY === currentY) {
+          handleAnimation(0);
+        } else if (prevY > currentY) {
+          handleAnimation(0);
+        } else if (prevY < currentY) {
+          if (currentY > 50) {
+            handleAnimation(-50);
+          }
         }
-      }
-      prevY = currentY;
-    };
+        prevY = currentY;
+      };
 
-    window.addEventListener("scroll", handleScroll);
+      window.addEventListener("scroll", handleScroll);
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [animation]);
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }
+  }, [isRenderedRef.current]);
 
   const scrollToTop = () => {
     const element = document.body;
@@ -65,7 +68,7 @@ const Header = () => {
   };
 
   return (
-    <Container animate={animation}>
+    <Container animate={animation} ref={isRenderedRef}>
       <HeaderContainer height={headerHeight}>
         <Title onClick={scrollToTop}>
           <Image
