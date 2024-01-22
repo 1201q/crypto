@@ -1,15 +1,9 @@
-import styled from "styled-components";
 import nookies from "nookies";
-import { GetServerSideProps, Redirect } from "next";
+import { GetServerSideProps } from "next";
 import { admin } from "@/utils/firebase/admin";
-import { useEffect, useMemo, useRef } from "react";
-import getMarketList from "@/utils/common/getMarketList";
-import {
-  ServerSideProps,
-  CoinListResponseType,
-  ServerSideInitialValues,
-} from "@/types/types";
-import { useAtom, atom } from "jotai";
+import { useEffect, useRef } from "react";
+import { ServerSideProps, ServerSideInitialValues } from "@/types/types";
+import { useAtom } from "jotai";
 import {
   allTickerDataAtom,
   orderbookDataAtom,
@@ -67,8 +61,10 @@ export default function Home({ queryCode }: ServerSideProps) {
         closeTradeWebsocket();
         closeOrderbookWebsocket();
       };
+    } else if (queryCode && queryCode !== selectCode) {
+      setSelectCode(queryCode);
     }
-  }, [selectCode]);
+  }, [selectCode, queryCode]);
 
   return <PageRender Render={ExchangePage} />;
 }
@@ -88,7 +84,7 @@ export const getServerSideProps: GetServerSideProps = async (
       coinList,
       isLogin,
       uid,
-      queryCode,
+      queryCode: queryCode,
     },
   };
 };

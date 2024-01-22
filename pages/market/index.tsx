@@ -19,7 +19,6 @@ export default function Home({ pathname }: ServerSideProps) {
 
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues);
   const { data: coinList } = useSWR("/api/markets");
-
   const { open: openTickerWebsocket, close: closeTickerWebsocket } = useUpbit(
     "ticker",
     coinList ? coinList.code : [],
