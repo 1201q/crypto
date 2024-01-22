@@ -11,7 +11,6 @@ export const useList = (): ListHookResponse => {
     revalidateOnMount: false,
     revalidateOnFocus: false,
     dedupingInterval: 1800000,
-    suspense: true,
   });
   return { coinList: data as CoinListResponseType, isValidating: isValidating };
 };
