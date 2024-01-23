@@ -1,8 +1,7 @@
 import nookies from "nookies";
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import getServersideAuth from "@/utils/common/getServersideAuth";
-import { useUpbit } from "@/utils/websocket/useUpbit";
 
 import { useHydrateAtoms } from "jotai/utils";
 import {
@@ -18,24 +17,20 @@ import { ServerSideProps, ServerSideInitialValues } from "@/types/types";
 import { GetServerSideProps } from "next";
 import fetcher from "@/utils/common/fetcher";
 import { useList } from "@/utils/hooks/useList";
+import { useTicker } from "@/utils/websocket/websocketHooks";
 
 export default function Home({ pathname }: ServerSideProps) {
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues);
   const { coinList } = useList();
 
-  const {
-    open: openTickerWs,
-    close: closeTickerWs,
-    isOpen,
-  } = useUpbit(
-    "ticker",
+  const { open: openTickerWs, isWsOpen: isTickerWsOpen } = useTicker(
     coinList.code || [],
     allTickerDataAtom,
     isTickerWebsocketOpenAtom
   );
 
   useEffect(() => {
-    if (!isOpen) {
+    if (!isTickerWsOpen) {
       openTickerWs();
     }
   }, []);

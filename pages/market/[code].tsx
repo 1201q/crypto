@@ -1,19 +1,18 @@
 import nookies from "nookies";
 import { GetServerSideProps } from "next";
 import { admin } from "@/utils/firebase/admin";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { ServerSideProps, ServerSideInitialValues } from "@/types/types";
 import { useAtom } from "jotai";
 import {
   allTickerDataAtom,
   isTickerWebsocketOpenAtom,
-  isOrderbookWebsocketOpenAtom,
   isTradeWebsocketOpenAtom,
+  isOrderbookWebsocketOpenAtom,
   orderbookDataAtom,
   selectCodeAtom,
   tradeDataAtom,
 } from "@/context/atoms";
-import { useUpbit } from "@/utils/websocket/useUpbit";
 
 import PageRender from "@/components/page/PageRender";
 import ExchangePage from "@/components/page/ExchangePage";
@@ -22,6 +21,11 @@ import { useHydrateAtoms } from "jotai/utils";
 import getServersideAuth from "@/utils/common/getServersideAuth";
 import fetcher from "@/utils/common/fetcher";
 import { useList } from "@/utils/hooks/useList";
+import {
+  useTicker,
+  useTrade,
+  useOrderbook,
+} from "@/utils/websocket/websocketHooks";
 
 export default function Home({ queryCode }: ServerSideProps) {
   const { coinList } = useList();
@@ -30,26 +34,19 @@ export default function Home({ queryCode }: ServerSideProps) {
 
   const [, setSelectCode] = useAtom(selectCodeAtom);
 
-  const {
-    open: openTickerWs,
-    close: closeTickerWs,
-    isOpen,
-  } = useUpbit(
-    "ticker",
+  const { open: openTickerWs, isWsOpen: isTickerWsOpen } = useTicker(
     coinList.code || [],
     allTickerDataAtom,
     isTickerWebsocketOpenAtom
   );
 
-  const { open: openTradeWs, close: closeTradeWs } = useUpbit(
-    "trade",
+  const { open: openTradeWs, close: closeTradeWs } = useTrade(
     queryCode || "",
     tradeDataAtom,
     isTradeWebsocketOpenAtom
   );
 
-  const { open: openOrderbookWs, close: closeOrderbookWs } = useUpbit(
-    "orderbook",
+  const { open: openOrderbookWs, close: closeOrderbookWs } = useOrderbook(
     queryCode || "",
     orderbookDataAtom,
     isOrderbookWebsocketOpenAtom
@@ -58,7 +55,7 @@ export default function Home({ queryCode }: ServerSideProps) {
   useEffect(() => {
     if (queryCode) {
       setSelectCode(queryCode);
-      if (!isOpen) {
+      if (!isTickerWsOpen) {
         openTickerWs();
       }
 

@@ -1,82 +1,85 @@
-import { MutableRefObject } from "react";
+import { PrimitiveAtom, useAtom } from "jotai";
+import createWebsocket from "./createWebsocket";
 import {
-  SetAtom,
-  WebsocketType,
+  OrderBookDataType,
   TickerDataType,
   TradeDataType,
-  OrderBookDataType,
-} from "../../types/types";
-import { SetStateAction } from "jotai";
-import createWebsocket from "./createWebsocket";
+  WebsocketType,
+  SetAtomType,
+} from "@/types/types";
+import { useRef } from "react";
 
-type SetStateType = TickerDataType[] | TradeDataType[] | OrderBookDataType[];
+interface HookReturnType {
+  open: () => void;
+  close: () => void;
+  isWsOpen: boolean;
+}
 
-export const openWebsocket = async (
+export const useUpbit = <T>(
   type: WebsocketType,
   code: string[] | string,
-  wsRef: MutableRefObject<WebSocket | null | undefined>,
-  setData:
-    | SetAtom<[SetStateAction<any>], void>
-    | React.Dispatch<React.SetStateAction<any>>,
-  setIsOpen?:
-    | SetAtom<[SetStateAction<any>], void>
-    | React.Dispatch<React.SetStateAction<any>>
-) => {
-  const ws = await createWebsocket(type, code);
+  atom: PrimitiveAtom<T>,
+  isWsOpenAtom: PrimitiveAtom<boolean>
+): HookReturnType => {
+  const wsRef = useRef<WebSocket | null>(null);
+  const [, setData] = useAtom(atom);
+  const [isWsOpen, setIsWsOpen] = useAtom(isWsOpenAtom);
 
-  if (ws) {
-    wsRef.current = ws;
-    getTickerData(wsRef.current, setData);
+  const open = async () => {
+    if (!wsRef.current || wsRef.current.readyState !== 1) {
+      const ws = await openWebsocket(type, code);
 
-    if (setIsOpen) {
-      setIsOpen(true);
+      if (ws?.readyState === 1) {
+        wsRef.current = ws;
+        setIsWsOpen(true);
+        getTickerData(wsRef.current, setData);
+      }
     }
+  };
+
+  const close = async () => {
+    if (wsRef.current) {
+      wsRef.current.close();
+      setData([]);
+      setIsWsOpen(false);
+    }
+  };
+
+  return { open, close, isWsOpen };
+};
+
+const openWebsocket = async (type: WebsocketType, code: string[] | string) => {
+  const websocket = await createWebsocket(type, code);
+  if (websocket.readyState === 1) {
+    return websocket;
   }
 };
 
-export const closeWebsocket = (
-  wsRef: MutableRefObject<WebSocket | null | undefined>,
-  setState:
-    | SetAtom<[SetStateAction<any>], void>
-    | React.Dispatch<React.SetStateAction<any>>,
-  setIsOpen?:
-    | SetAtom<[SetStateAction<any>], void>
-    | React.Dispatch<React.SetStateAction<any>>
-) => {
-  if (wsRef.current) {
-    wsRef.current.close();
-    setState([]);
-    if (setIsOpen) {
-      setIsOpen(false);
-    }
-  }
-};
-
-const getTickerData = (
-  ws: WebSocket,
-  setData:
-    | SetAtom<[SetStateAction<any>], void>
-    | React.Dispatch<React.SetStateAction<any>>
-) => {
+const getTickerData = (ws: WebSocket, setData: SetAtomType<any>) => {
   ws.onmessage = async (event: any) => {
     const { data } = event;
     const blobToJson = await new Response(data).json();
+    const type = blobToJson?.type;
 
-    if (blobToJson.type === "ticker") {
-      handleTickerUpdateEvent(blobToJson, setData);
-    } else if (blobToJson.type === "trade") {
-      handleTradeUpdateEvent(blobToJson, setData);
-    } else if (blobToJson.type === "orderbook") {
-      handleOrderbookUpdateEvent(blobToJson, setData);
+    switch (type) {
+      case "ticker":
+        handleTickerUpdateEvent(blobToJson, setData);
+        return;
+      case "orderbook":
+        handleOrderbookUpdateEvent(blobToJson, setData);
+        return;
+      case "trade":
+        handleTradeUpdateEvent(blobToJson, setData);
+        return;
+      default:
+        return;
     }
   };
 };
 
 const handleTickerUpdateEvent = (
   data: TickerDataType,
-  setData:
-    | SetAtom<[SetStateAction<TickerDataType[]>], void>
-    | React.Dispatch<React.SetStateAction<any>>
+  setData: SetAtomType<TickerDataType[]>
 ) => {
   if (data.stream_type === "SNAPSHOT") {
     setData((prev) => [...prev, data]);
@@ -95,18 +98,14 @@ const handleTickerUpdateEvent = (
 
 const handleOrderbookUpdateEvent = (
   data: OrderBookDataType,
-  setData:
-    | SetAtom<[SetStateAction<SetStateType>], void>
-    | React.Dispatch<React.SetStateAction<any>>
+  setData: SetAtomType<OrderBookDataType[]>
 ) => {
   setData([data]);
 };
 
 const handleTradeUpdateEvent = (
   data: TradeDataType,
-  setData:
-    | SetAtom<[SetStateAction<TradeDataType[]>], void>
-    | React.Dispatch<React.SetStateAction<any>>
+  setData: SetAtomType<TradeDataType[]>
 ) => {
   setData((prev) => [...prev, data]);
 };

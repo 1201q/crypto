@@ -1,10 +1,12 @@
 import { WritableAtom } from "jotai";
+import { SetStateAction } from "jotai";
 
 export type WebsocketType = "ticker" | "trade" | "orderbook";
 export type MarketType = "KRW" | "USDT" | "BTC";
 export type CoinListType = string[] | string;
 
 // https://velog.io/@leehyewon0531/Cannot-find-name-SetAtom
+export type SetAtomType<T> = SetAtom<[SetStateAction<T>], void>;
 export type SetAtom<Args extends any[], Result> = (...args: Args) => Result;
 export type ServerSideInitialValues = [
   WritableAtom<unknown, any[], any>,
@@ -103,4 +105,6 @@ export interface OrderBookDataType {
   total_bid_size: number;
   type: "orderbook";
 }
+
+export type AtomType = TickerDataType[] | TradeDataType[] | OrderBookDataType[];
 // *****************************************************************
