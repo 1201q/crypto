@@ -40,7 +40,7 @@ export const useUpbit = <T>(
   const close = async () => {
     if (wsRef.current) {
       wsRef.current.close();
-      setData([]);
+      setData([] as T);
       setIsWsOpen(false);
     }
   };
