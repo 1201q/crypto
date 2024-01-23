@@ -1,15 +1,14 @@
 import { searchInputValueAtom } from "@/context/atoms";
 import { useAtom } from "jotai";
 import styled from "styled-components";
-import ResultRow from "./ResultRow";
 import { Virtuoso } from "react-virtuoso";
 
 import { MarketListDataType } from "@/types/types";
 import { useList } from "@/utils/hooks/useList";
+import CoinRow from "../shared/coinListRow/CoinRow";
 
 const SearchList = () => {
-  const { coinList, isValidating } = useList();
-
+  const { coinList } = useList();
   const [searchKeyword] = useAtom(searchInputValueAtom);
 
   const filteredCoins = coinList?.data.filter((coin: MarketListDataType) => {
@@ -37,10 +36,10 @@ const SearchList = () => {
         useWindowScroll
         style={{ height: "100%" }}
         itemContent={(index, data) => (
-          <ResultRow
+          <CoinRow
             key={data.market}
-            market={data.market}
-            KRname={data.korean_name}
+            name={data.korean_name}
+            code={data.market}
           />
         )}
         totalCount={filteredCoins?.length}

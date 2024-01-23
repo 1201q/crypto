@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "styled-components";
 
 interface PageRenderProps {
@@ -36,4 +37,4 @@ const Mobile = styled.div`
   }
 `;
 
-export default PageRender;
+export default React.memo(PageRender);

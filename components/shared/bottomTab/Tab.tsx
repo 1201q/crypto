@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Icon from "./Icon";
 import { useRouter } from "next/router";
+import React from "react";
 
 interface TabProps {
   name: string;
@@ -42,4 +43,4 @@ const TabName = styled.p<{ $isselect: boolean }>`
   color: ${(props) => (props.$isselect ? "black" : "#b7bfc7")};
 `;
 
-export default Tab;
+export default React.memo(Tab);

@@ -3,6 +3,7 @@ import Wallet from "@/public/wallet.svg";
 import Community from "@/public/community.svg";
 import Menu from "@/public/menu.svg";
 import styled from "styled-components";
+import React from "react";
 
 interface IconProps {
   icon: string;
@@ -37,4 +38,4 @@ const TabIcon = styled.div<{ $isselect: boolean }>`
   }
 `;
 
-export default Icon;
+export default React.memo(Icon);

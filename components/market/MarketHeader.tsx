@@ -13,7 +13,7 @@ import Image from "next/image";
 import Search from "@/public/search.svg";
 import { useRouter } from "next/router";
 
-const Header = () => {
+const MarketHeader = () => {
   const router = useRouter();
   const isRenderedRef = useRef(null);
   const [headerHeight] = useAtom(headerHeightAtom);
@@ -156,4 +156,4 @@ const SortBtn = styled(motion.button)<{ $isselect: boolean }>`
   font-weight: ${(props) => (props.$isselect ? 700 : 500)};
 `;
 
-export default React.memo(Header);
+export default MarketHeader;

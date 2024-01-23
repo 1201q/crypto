@@ -2,19 +2,18 @@ import { allTickerDataAtom } from "@/context/atoms";
 import { useAtom } from "jotai";
 import styled from "styled-components";
 import { Virtuoso } from "react-virtuoso";
-import CoinRow from "./CoinRow";
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import { sortOptionAtom } from "@/context/atoms";
 import { TickerDataType } from "@/types/types";
 import { coinListHeightAtom } from "@/context/styles";
 
 import { useList } from "@/utils/hooks/useList";
+import CoinRow from "../shared/coinListRow/CoinRow";
 
 const CoinList = () => {
+  const { coinList } = useList();
   const [renderData] = useAtom(allTickerDataAtom);
   const [sort] = useAtom(sortOptionAtom);
-
-  const { coinList, isValidating } = useList();
   const [height] = useAtom(coinListHeightAtom);
 
   const sortedData: TickerDataType[] = useMemo(() => {
@@ -38,7 +37,9 @@ const CoinList = () => {
           data={sortedData}
           useWindowScroll
           style={{ height: "100%" }}
-          itemContent={(index, data) => <CoinRow coin={data} key={data.code} />}
+          itemContent={(index, data) => (
+            <CoinRow key={data.code} code={data.code} tickerData={data} />
+          )}
           totalCount={coinList?.code.length}
         />
       ) : (
@@ -54,4 +55,4 @@ const Container = styled.main<{ height: string }>`
   background-color: white;
 `;
 
-export default React.memo(CoinList);
+export default CoinList;
