@@ -18,6 +18,7 @@ import { GetServerSideProps } from "next";
 import fetcher from "@/utils/common/fetcher";
 import { useList } from "@/utils/hooks/useList";
 import { useTicker } from "@/utils/websocket/websocketHooks";
+import HeadMeta from "@/components/shared/Meta/HeadMeta";
 
 export default function Home({ pathname }: ServerSideProps) {
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues);
@@ -35,7 +36,12 @@ export default function Home({ pathname }: ServerSideProps) {
     }
   }, []);
 
-  return <PageRender Render={MarketPage} />;
+  return (
+    <>
+      <HeadMeta title={"ALL UP! | 마켓"} />
+      <PageRender Render={MarketPage} />
+    </>
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async (

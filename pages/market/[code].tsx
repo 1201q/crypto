@@ -26,6 +26,7 @@ import {
   useTrade,
   useOrderbook,
 } from "@/utils/websocket/websocketHooks";
+import HeadMeta from "@/components/shared/Meta/HeadMeta";
 
 export default function Home({ queryCode }: ServerSideProps) {
   const { coinList } = useList();
@@ -69,7 +70,12 @@ export default function Home({ queryCode }: ServerSideProps) {
     }
   }, []);
 
-  return <PageRender Render={ExchangePage} />;
+  return (
+    <>
+      <HeadMeta title={`${queryCode} | ALL UP!`} />
+      <PageRender Render={ExchangePage} />
+    </>
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async (

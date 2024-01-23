@@ -37,8 +37,9 @@ export default class MyDocument extends Document {
 
   render() {
     return (
-      <Html>
+      <Html lang="ko">
         <Head>
+          <title>ALL UP!</title>
           <link rel="manifest" href="/manifest.json" />
           <link
             href="icons/favicon-16x16.png"
@@ -53,6 +54,14 @@ export default class MyDocument extends Document {
             sizes="32x32"
           />
           <meta name="msapplication-TileColor" content="#ffffff"></meta>
+          <meta
+            name="viewport"
+            content="initial-scale=1.0, width=device-width"
+          />
+          <meta property="og:title" content={"ALL UP!"} />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content={"https://allup.vercel.app/market"} />
+          <meta property="og:article:author" content="ALL UP!" />
         </Head>
         <body>
           <Main />
