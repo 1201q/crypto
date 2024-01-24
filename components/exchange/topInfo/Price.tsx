@@ -44,14 +44,14 @@ const Container = styled.div<{ bottom: number }>`
 // price
 const PriceText = styled.p`
   font-size: 33px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: -0.8px;
   margin-right: 15px;
 `;
 
 const PercentText = styled.p`
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   color: white;
 `;
 

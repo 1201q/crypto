@@ -59,7 +59,7 @@ const UpdateContainer = styled.div<{
 
 const PercentText = styled.p`
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   color: white;
   margin-right: 5px;
   letter-spacing: -0.1px;
