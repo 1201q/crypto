@@ -33,7 +33,7 @@ const Container = styled.header`
   height: 50px;
   background-color: white;
   padding: 0px 20px;
-  /* border-bottom: 1px solid #f2f4f6; */
+
   z-index: 100;
 `;
 

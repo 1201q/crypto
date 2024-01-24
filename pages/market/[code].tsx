@@ -70,12 +70,7 @@ export default function Home({ queryCode }: ServerSideProps) {
     }
   }, []);
 
-  return (
-    <>
-      <HeadMeta title={`${queryCode} | ALL UP!`} />
-      <PageRender Render={ExchangePage} />
-    </>
-  );
+  return <PageRender Render={ExchangePage} title={`${queryCode} | ALL UP!`} />;
 }
 
 export const getServerSideProps: GetServerSideProps = async (

@@ -10,7 +10,7 @@ import { coinListHeightAtom } from "@/context/styles";
 import { useList } from "@/utils/hooks/useList";
 import CoinRow from "../shared/coinListRow/CoinRow";
 
-const CoinList = () => {
+const MarketList = () => {
   const { coinList } = useList();
   const [renderData] = useAtom(allTickerDataAtom);
   const [sort] = useAtom(sortOptionAtom);
@@ -55,4 +55,4 @@ const Container = styled.main<{ height: string }>`
   background-color: white;
 `;
 
-export default CoinList;
+export default MarketList;

@@ -59,9 +59,10 @@ const UpdateContainer = styled.div<{
 
 const PercentText = styled.p`
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
   color: white;
   margin-right: 5px;
+  letter-spacing: -0.1px;
 `;
 
 const PriceText = styled.div`

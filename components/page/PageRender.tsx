@@ -1,13 +1,21 @@
 import React from "react";
 import styled from "styled-components";
+import HeadMeta from "../shared/Meta/HeadMeta";
 
 interface PageRenderProps {
   Render: React.FC;
+  title?: string | undefined;
+  description?: string | undefined;
 }
 
-const PageRender: React.FC<PageRenderProps> = ({ Render }) => {
+const PageRender: React.FC<PageRenderProps> = ({
+  Render,
+  title,
+  description,
+}) => {
   return (
     <Container>
+      <HeadMeta title={title} description={description} />
       <Mobile>
         <Render />
       </Mobile>

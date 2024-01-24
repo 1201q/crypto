@@ -60,7 +60,7 @@ const MarketHeader = () => {
 
   const handleAnimation = (y: number) => {
     if (animation) {
-      animation?.start({
+      animation.start({
         y: y,
         transition: { duration: 0 },
       });
@@ -156,4 +156,4 @@ const SortBtn = styled(motion.button)<{ $isselect: boolean }>`
   font-weight: ${(props) => (props.$isselect ? 700 : 500)};
 `;
 
-export default MarketHeader;
+export default React.memo(MarketHeader);
