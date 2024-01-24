@@ -23,7 +23,7 @@ export default function f(
   } else if (type === "changePrice") {
     return getChangePrice(value as number, value2 as number);
   } else if (type === "plus") {
-    return getPlus(value as number);
+    return getPlus(value as string);
   }
   return "Invalid type";
 }
