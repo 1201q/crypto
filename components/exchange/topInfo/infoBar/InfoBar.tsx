@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Info from "./Info";
 import f from "@/utils/common/formatting";
 import { TickerDataType } from "@/types/types";
-import React from "react";
+import React, { useState } from "react";
 
 interface PropsType {
   data: TickerDataType;
@@ -53,7 +53,8 @@ const Container = styled.div`
     justify-content: space-around;
     align-items: flex-start;
     flex-direction: column;
-    height: 37px;
+    height: auto;
+    padding: 7px 0px;
   }
 `;
 
