@@ -1,7 +1,6 @@
-import styled from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 import React, { useEffect, useRef, useState } from "react";
-import { motion, useAnimation } from "framer-motion";
-
+import { motion } from "framer-motion";
 import { useAtom } from "jotai";
 import {
   headerHeightAtom,
@@ -12,42 +11,26 @@ import { sortOptionAtom } from "@/context/atoms";
 import Image from "next/image";
 import Search from "@/public/search.svg";
 import { useRouter } from "next/router";
+import { throttle } from "lodash";
 
 const MarketHeader = () => {
   const router = useRouter();
-  const isRenderedRef = useRef(null);
-  const [headerHeight] = useAtom(headerHeightAtom);
+  const beforeScrollY = useRef(0);
+
+  const [headerHeight, setHeaderHeight] = useAtom(headerHeightAtom);
   const [sortOptions, setSortOptions] = useAtom(sortOptionAtom);
   const [listHeight] = useAtom(coinListControllerHeightAtom);
-
-  const animation = useAnimation();
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    if (isRenderedRef.current) {
-      let prevY = window.scrollY;
+    window.addEventListener("scroll", handleScroll);
 
-      const handleScroll = () => {
-        const currentY = window.scrollY;
-
-        if (prevY === currentY) {
-          handleAnimation(0);
-        } else if (prevY > currentY) {
-          handleAnimation(0);
-        } else if (prevY < currentY) {
-          if (currentY > 50) {
-            handleAnimation(-50);
-          }
-        }
-        prevY = currentY;
-      };
-
-      window.addEventListener("scroll", handleScroll);
-
-      return () => {
-        window.removeEventListener("scroll", handleScroll);
-      };
-    }
-  }, [isRenderedRef.current]);
+    return () => {
+      setHeaderHeight(50);
+      setIsVisible(true);
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const scrollToTop = () => {
     const element = document.body;
@@ -58,18 +41,23 @@ const MarketHeader = () => {
     });
   };
 
-  const handleAnimation = (y: number) => {
-    if (animation) {
-      animation.start({
-        y: y,
-        transition: { duration: 0 },
-      });
+  const handleScroll = throttle(() => {
+    const scrollY = window.scrollY;
+
+    if (scrollY > beforeScrollY.current) {
+      setIsVisible(false);
+      setHeaderHeight(0);
+    } else {
+      setIsVisible(true);
+      setHeaderHeight(50);
     }
-  };
+
+    beforeScrollY.current = scrollY;
+  }, 200);
 
   return (
-    <Container animate={animation} ref={isRenderedRef}>
-      <HeaderContainer height={headerHeight}>
+    <Container>
+      <HeaderContainer isvisible={isVisible} height={headerHeight}>
         <Title onClick={scrollToTop}>
           <Image
             src={require("@/public/logo.png")}
@@ -79,7 +67,6 @@ const MarketHeader = () => {
             style={{ marginLeft: "4px" }}
           />
         </Title>
-
         <Search
           width={23}
           height={23}
@@ -114,19 +101,23 @@ const MarketHeader = () => {
   );
 };
 
-const Container = styled(motion.header)`
+const Container = styled.header`
   position: sticky;
   top: 0;
   z-index: 100;
 `;
 
-const HeaderContainer = styled(motion.div)<{ height: number }>`
+const HeaderContainer = styled.div<{
+  height: number;
+  isvisible: boolean;
+}>`
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: ${(props) => `${props.height}px`};
   background-color: white;
   padding: 0px 20px;
+  display: ${(props) => (props.isvisible ? "" : "none")};
 `;
 
 const Title = styled.div`
