@@ -26,7 +26,6 @@ import {
   useTrade,
   useOrderbook,
 } from "@/utils/websocket/websocketHooks";
-import HeadMeta from "@/components/shared/Meta/HeadMeta";
 
 export default function Home({ queryCode }: ServerSideProps) {
   const { coinList } = useList();

@@ -5,15 +5,23 @@ import f from "@/utils/common/formatting";
 import { useAtom } from "jotai";
 import { selectCodeAtom } from "@/context/atoms";
 import { useList } from "@/utils/hooks/useList";
+import { useRouter } from "next/router";
 
 const Name = () => {
+  const router = useRouter();
   const { coinList } = useList();
   const [selectCode] = useAtom(selectCodeAtom);
 
   return (
     <Container bottom={5}>
-      <NameText>{getKR(coinList.data, selectCode)}</NameText>
-      <Code>{f("code", selectCode)}</Code>
+      {router.query.code === selectCode ? (
+        <>
+          <NameText>{getKR(coinList.data, selectCode)}</NameText>
+          <Code>{f("code", selectCode)}</Code>
+        </>
+      ) : (
+        <></>
+      )}
     </Container>
   );
 };

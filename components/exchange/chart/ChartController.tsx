@@ -1,23 +1,38 @@
+import { lineChartControllerOptionAtom } from "@/context/atoms";
 import { motion } from "framer-motion";
+import { useAtom } from "jotai";
 import styled from "styled-components";
 
 const ChartController = () => {
+  const [options, setOptions] = useAtom(lineChartControllerOptionAtom);
+
   return (
     <Controller>
-      <SortBtn $isselect={true}>1일</SortBtn>
-      <SortBtn $isselect={false}>1주</SortBtn>
-      <SortBtn $isselect={false}>1달</SortBtn>
-      <SortBtn $isselect={false}>3달</SortBtn>
-      <SortBtn $isselect={false}>1년</SortBtn>
+      {options.map((option, index) => (
+        <SortBtn
+          key={option.name}
+          onClick={() => {
+            setOptions((prev) => {
+              return prev.map((o, oi) => ({
+                ...o,
+                select: oi === index,
+              }));
+            });
+          }}
+          $isselect={option.select}
+        >
+          {option.name}
+        </SortBtn>
+      ))}
     </Controller>
   );
 };
 
 const Controller = styled.div`
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 10px;
-  height: 34px;
+  height: 100%;
   padding: 0px 21px;
 `;
 

@@ -1,39 +1,59 @@
 import styled from "styled-components";
 import ChartController from "./ChartController";
 import LineChart from "./LineChart";
+import { useAtom } from "jotai";
+import { selectCodeAtom, selectedLineChartOptionAtom } from "@/context/atoms";
+
+import { useEffect, useState } from "react";
+import axios from "axios";
+import dayjs from "dayjs";
+import { CandleDataType } from "@/types/types";
+import utc from "dayjs/plugin/utc";
+
+dayjs.extend(utc);
 
 const ExchangeChart = () => {
-  const initialData = [
-    { time: "2018-12-22", value: 32.51 },
-    { time: "2018-12-23", value: 31.11 },
-    { time: "2018-12-24", value: 27.02 },
-    { time: "2018-12-25", value: 27.32 },
-    { time: "2018-12-26", value: 25.17 },
-    { time: "2018-12-27", value: 28.89 },
-    { time: "2018-12-28", value: 25.46 },
-    { time: "2018-12-29", value: 23.92 },
-    { time: "2018-12-30", value: 22.68 },
-    { time: "2018-12-31", value: 22.67 },
-  ];
+  const [option] = useAtom(selectedLineChartOptionAtom);
+  const [selectCode] = useAtom(selectCodeAtom);
 
-  const numDaysToAdd = 50;
-  const lastDate = new Date(initialData[initialData.length - 1].time);
-  const extendedData = Array.from({ length: numDaysToAdd }, (_, index) => {
-    const currentDate = new Date(lastDate);
-    currentDate.setDate(lastDate.getDate() + index + 1);
+  const [isLoading, setIsLoading] = useState(true);
+  const [chartData, setChartData] = useState([]);
+  const URL =
+    option?.type === "minutes"
+      ? `/api/bong/minutes?minutes=${option.unit}`
+      : `/api/bong/${option?.type}`;
 
-    const formattedDate = currentDate.toISOString().split("T")[0];
-    const value = Math.random() * (40 - 20) + 20;
+  const fetchData = async () => {
+    setIsLoading(true);
+    const res = await axios.get(
+      `${URL}?market=${selectCode}&count=${option?.count}`
+    );
+    const data = res.data;
+    const formatting = data.map((d: CandleDataType) => {
+      return {
+        time: dayjs(d.candle_date_time_kst).unix(),
+        value: d.trade_price,
+      };
+    });
+    const reverse = formatting.reverse();
+    setChartData(reverse);
+    setIsLoading(false);
+  };
 
-    return { time: formattedDate, value };
-  });
+  useEffect(() => {
+    fetchData();
+  }, [option]);
 
-  const resultData = initialData.concat(extendedData);
   return (
     <Container>
       <Chart>
-        <LineChart data={resultData} />
+        {!isLoading && chartData.length > 0 ? (
+          <LineChart data={chartData} />
+        ) : (
+          <Loading></Loading>
+        )}
       </Chart>
+
       <ChartController />
     </Container>
   );
@@ -41,7 +61,6 @@ const ExchangeChart = () => {
 
 const Container = styled.header`
   height: 400px;
-
   margin-top: 10px;
   display: flex;
   flex-direction: column;
@@ -51,7 +70,11 @@ const Container = styled.header`
 const Chart = styled.div`
   display: flex;
   justify-content: center;
-  padding: 0px 21px;
+  padding: 0px 20px;
+`;
+
+const Loading = styled.div`
+  height: 370px;
 `;
 
 export default ExchangeChart;

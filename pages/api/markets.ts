@@ -1,11 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
-
-import {
-  MarketListDataType,
-  MarketType,
-  CoinListResponseType,
-} from "@/types/types";
+import { MarketListDataType, CoinListResponseType } from "@/types/types";
 
 export default async function handler(
   req: NextApiRequest,

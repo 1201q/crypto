@@ -64,7 +64,7 @@ const LineChart: React.FC<PropsType> = ({ data }) => {
         },
       },
       timeScale: {
-        visible: false,
+        visible: true,
         fixLeftEdge: true,
         fixRightEdge: true,
         lockVisibleTimeRangeOnResize: true,

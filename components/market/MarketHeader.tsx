@@ -53,7 +53,7 @@ const MarketHeader = () => {
     }
 
     beforeScrollY.current = scrollY;
-  }, 200);
+  }, 150);
 
   return (
     <Container>

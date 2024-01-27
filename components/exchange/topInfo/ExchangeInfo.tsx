@@ -13,13 +13,15 @@ const ExchangeInfo = () => {
 
   return (
     <>
-      {data && (
-        <Container>
-          <Name />
-          <Price data={data} />
-          <InfoBar data={data} />
-        </Container>
-      )}
+      <Container>
+        {data && (
+          <>
+            <Name />
+            <Price data={data} />
+            <InfoBar data={data} />
+          </>
+        )}
+      </Container>
     </>
   );
 };
