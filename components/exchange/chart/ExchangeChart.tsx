@@ -56,7 +56,7 @@ const ExchangeChart = () => {
   };
   useEffect(() => {
     fetchData();
-  }, [option]);
+  }, [selectCode, option]);
 
   return (
     <Container>

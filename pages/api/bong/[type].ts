@@ -60,7 +60,7 @@ export default async function handler(
 
       returnData = [...returnData, ...data];
 
-      params.to = dayjs(data[data.length - 1].candle_date_time_kst)
+      params.to = dayjs(data[data.length - 1].candle_date_time_utc)
         .add(date, dateType)
         .format("");
 
