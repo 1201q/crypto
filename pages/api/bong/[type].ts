@@ -2,9 +2,12 @@ import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 import dayjs from "dayjs";
 import { CandleDataType } from "@/types/types";
+import timezone from "dayjs/plugin/timezone";
+
+dayjs.extend(timezone);
+dayjs.tz.setDefault("Asia/Seoul");
 
 const MAX_REQUEST = 200;
-const KST_TIME = "candle_date_time_kst";
 
 interface ParamsType {
   market: string;
@@ -30,7 +33,7 @@ export default async function handler(
   const params: ParamsType = {
     market: market as string,
     count: typeof count === "string" ? parseInt(count, 10) || 1 : 1,
-    to: dayjs().format(""),
+    to: dayjs().tz().format(""),
   };
 
   const API_URL = process.env.BONG_API_URL;
@@ -54,7 +57,8 @@ export default async function handler(
 
       returnData = [...returnData, ...data];
 
-      params.to = dayjs(data[data.length - 1][KST_TIME])
+      params.to = dayjs(data[data.length - 1].candle_date_time_kst)
+        .tz()
         .add(date, dateType)
         .format("");
 
