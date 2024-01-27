@@ -36,7 +36,7 @@ export default async function handler(
   const params: ParamsType = {
     market: market as string,
     count: typeof count === "string" ? parseInt(count, 10) || 1 : 1,
-    to: dayjs().format(""),
+    to: dayjs().utc().format(""),
   };
 
   const API_URL = process.env.BONG_API_URL;
@@ -61,8 +61,6 @@ export default async function handler(
       returnData = [...returnData, ...data];
 
       params.to = dayjs(data[data.length - 1].candle_date_time_kst)
-        .utc()
-        .local()
         .add(date, dateType)
         .format("");
 
