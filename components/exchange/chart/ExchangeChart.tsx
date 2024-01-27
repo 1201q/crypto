@@ -37,9 +37,23 @@ const ExchangeChart = () => {
     });
     const reverse = formatting.reverse();
     setChartData(reverse);
+    console.log(data);
+    console.log(reverse);
+    console.log(duplicated(reverse));
     setIsLoading(false);
   };
 
+  const duplicated = (array: any) => {
+    const timeSet = new Set();
+
+    for (const obj of array) {
+      if (timeSet.has(obj.time)) {
+        return true;
+      }
+      timeSet.add(obj.time);
+    }
+    return false;
+  };
   useEffect(() => {
     fetchData();
   }, [option]);
