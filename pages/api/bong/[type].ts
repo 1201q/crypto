@@ -35,9 +35,6 @@ export default async function handler(
 
   const API_URL = process.env.BONG_API_URL;
 
-  const date = isMinutes ? -unit : type === "days" ? -23 : -1;
-  const dateType = isMinutes ? `minutes` : type === "days" ? "hours" : "days";
-
   try {
     let returnData: CandleDataType[] = [];
 
@@ -45,6 +42,12 @@ export default async function handler(
       const URL = isMinutes
         ? `${API_URL}/${type}/${minutes}`
         : `${API_URL}/${type}`;
+      const date = isMinutes ? -unit : type === "days" ? -23 : -1;
+      const dateType = isMinutes
+        ? `minutes`
+        : type === "days"
+        ? "hours"
+        : "days";
 
       const response = await axios.get(URL, { params });
       const data = response.data;
