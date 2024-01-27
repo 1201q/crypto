@@ -7,6 +7,7 @@ import Document, {
   NextScript,
 } from "next/document";
 import { ServerStyleSheet } from "styled-components";
+import dayjs from "dayjs";
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {

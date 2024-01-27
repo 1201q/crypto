@@ -1,6 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.tz.setDefault("Asia/Seoul");
+
 import { CandleDataType } from "@/types/types";
 
 const MAX_REQUEST = 200;
@@ -54,13 +61,13 @@ export default async function handler(
       returnData = [...returnData, ...data];
 
       params.to = dayjs(data[data.length - 1].candle_date_time_kst)
+        .utc()
+        .local()
         .add(date, dateType)
         .format("");
 
       params.count = params.count - MAX_REQUEST;
     }
-
-    console.log(returnData[returnData.length - 1]);
     res.status(200).json(returnData);
   } catch (error) {
     console.error(error);
