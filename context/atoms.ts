@@ -18,7 +18,6 @@ export const selectTickerDataAtom = atomFamily((code: string | undefined) =>
 export const tradeDataAtom = atom<TradeDataType[]>([]);
 export const orderbookDataAtom = atom<OrderBookDataType[]>([]);
 
-export const selectCodeAtom = atom<string>("");
 export const coinListAtom = atom<MarketListDataType[]>([]);
 
 export const queryCodeAtom = atom<string | undefined>("");

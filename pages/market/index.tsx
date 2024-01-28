@@ -21,8 +21,8 @@ import { useTicker } from "@/utils/websocket/websocketHooks";
 
 export default function Home({ pathname }: ServerSideProps) {
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues);
-  const { coinList } = useList();
 
+  const { coinList } = useList();
   const { open: openTickerWs, isWsOpen: isTickerWsOpen } = useTicker(
     coinList.code || [],
     allTickerDataAtom,

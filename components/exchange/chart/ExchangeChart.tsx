@@ -2,11 +2,7 @@ import styled from "styled-components";
 import ChartController from "./ChartController";
 import LineChart from "./LineChart";
 import { useAtom } from "jotai";
-import {
-  queryCodeAtom,
-  selectCodeAtom,
-  selectedLineChartOptionAtom,
-} from "@/context/atoms";
+import { queryCodeAtom, selectedLineChartOptionAtom } from "@/context/atoms";
 
 import { useEffect, useState } from "react";
 import axios from "axios";
