@@ -9,8 +9,8 @@ type Funtciontype =
 
 export default function f(
   type: Funtciontype,
-  value: number | string,
-  value2?: number
+  value: number | string | undefined,
+  value2?: number | undefined
 ) {
   if (type === "price") {
     return getPrice(value as number);

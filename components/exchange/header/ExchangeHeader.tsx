@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 
 const ExchangeHeader = () => {
   const router = useRouter();
+
   return (
     <Container>
       <Back
@@ -35,18 +36,6 @@ const Container = styled.header`
   padding: 0px 20px;
 
   z-index: 100;
-`;
-
-const Input = styled.input`
-  width: 100%;
-  height: 40px;
-  padding: 0;
-  border: none;
-  outline: none;
-  font-size: 16px;
-  font-weight: 400;
-  letter-spacing: -0.5px;
-  margin-bottom: 1px;
 `;
 
 export default ExchangeHeader;

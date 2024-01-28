@@ -1,9 +1,17 @@
 import nookies from "nookies";
 import { GetServerSideProps } from "next";
 import { admin } from "@/utils/firebase/admin";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { ServerSideProps, ServerSideInitialValues } from "@/types/types";
-import { useAtom } from "jotai";
+import {
+  PrimitiveAtom,
+  Provider,
+  WritableAtom,
+  atom,
+  createStore,
+  useAtom,
+  useSetAtom,
+} from "jotai";
 import {
   allTickerDataAtom,
   isTickerWebsocketOpenAtom,
@@ -12,6 +20,7 @@ import {
   orderbookDataAtom,
   selectCodeAtom,
   tradeDataAtom,
+  queryCodeAtom,
 } from "@/context/atoms";
 
 import PageRender from "@/components/page/PageRender";
@@ -30,9 +39,11 @@ import {
 export default function Home({ queryCode }: ServerSideProps) {
   const { coinList } = useList();
 
-  useHydrateAtoms([[selectCodeAtom, queryCode]] as ServerSideInitialValues);
+  // useHydrateAtoms([[selectCodeAtom, queryCode]] as ServerSideInitialValues);
+  useSyncAtom(queryCodeAtom, queryCode);
 
-  const [, setSelectCode] = useAtom(selectCodeAtom);
+  // const [selectCode, setSelectCode] = useAtom(selectCodeAtom);
+  const [selectCode] = useAtom(queryCodeAtom);
 
   const { open: openTickerWs, isWsOpen: isTickerWsOpen } = useTicker(
     coinList.code || [],
@@ -54,7 +65,6 @@ export default function Home({ queryCode }: ServerSideProps) {
 
   useEffect(() => {
     if (queryCode) {
-      setSelectCode(queryCode);
       if (!isTickerWsOpen) {
         openTickerWs();
       }
@@ -69,7 +79,13 @@ export default function Home({ queryCode }: ServerSideProps) {
     }
   }, []);
 
-  return <PageRender Render={ExchangePage} title={`${queryCode} | ALL UP!`} />;
+  return (
+    <>
+      {queryCode === selectCode && (
+        <PageRender Render={ExchangePage} title={`${selectCode} | ALL UP!`} />
+      )}
+    </>
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async (
@@ -90,4 +106,15 @@ export const getServerSideProps: GetServerSideProps = async (
       queryCode: queryCode,
     },
   };
+};
+
+export const useSyncAtom = (
+  atom: PrimitiveAtom<string | undefined>,
+  value: string | undefined
+) => {
+  useHydrateAtoms([[atom, value]]);
+  const setAtom = useSetAtom(atom);
+  useEffect(() => {
+    setAtom(value);
+  }, [setAtom, value]);
 };

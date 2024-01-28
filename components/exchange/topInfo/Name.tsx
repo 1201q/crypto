@@ -3,25 +3,17 @@ import styled from "styled-components";
 import getKR from "@/utils/common/getKR";
 import f from "@/utils/common/formatting";
 import { useAtom } from "jotai";
-import { selectCodeAtom } from "@/context/atoms";
+import { queryCodeAtom } from "@/context/atoms";
 import { useList } from "@/utils/hooks/useList";
-import { useRouter } from "next/router";
 
 const Name = () => {
-  const router = useRouter();
   const { coinList } = useList();
-  const [selectCode] = useAtom(selectCodeAtom);
+  const [selectCode] = useAtom(queryCodeAtom);
 
   return (
     <Container bottom={5}>
-      {router.query.code === selectCode ? (
-        <>
-          <NameText>{getKR(coinList.data, selectCode)}</NameText>
-          <Code>{f("code", selectCode)}</Code>
-        </>
-      ) : (
-        <></>
-      )}
+      <NameText>{getKR(coinList.data, selectCode)}</NameText>
+      <Code>{f("code", selectCode)}</Code>
     </Container>
   );
 };

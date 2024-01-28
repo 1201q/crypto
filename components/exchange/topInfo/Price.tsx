@@ -1,4 +1,4 @@
-import { selectCodeAtom } from "@/context/atoms";
+import { queryCodeAtom } from "@/context/atoms";
 import { TickerDataType } from "@/types/types";
 import f from "@/utils/common/formatting";
 import usePriceUpdate from "@/utils/hooks/usePriceUpdate";
@@ -12,7 +12,7 @@ interface PropsType {
 
 const Price: React.FC<PropsType> = ({ data }) => {
   const { isUpdated } = usePriceUpdate(data);
-  const [selectCode] = useAtom(selectCodeAtom);
+  const [selectCode] = useAtom(queryCodeAtom);
 
   const getUpdateDisplayBgColor = (change: string, isUpdated: boolean) => {
     if (change === "RISE") {

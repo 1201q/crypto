@@ -2,7 +2,11 @@ import styled from "styled-components";
 import ChartController from "./ChartController";
 import LineChart from "./LineChart";
 import { useAtom } from "jotai";
-import { selectCodeAtom, selectedLineChartOptionAtom } from "@/context/atoms";
+import {
+  queryCodeAtom,
+  selectCodeAtom,
+  selectedLineChartOptionAtom,
+} from "@/context/atoms";
 
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -14,7 +18,7 @@ dayjs.extend(utc);
 
 const ExchangeChart = () => {
   const [option] = useAtom(selectedLineChartOptionAtom);
-  const [selectCode] = useAtom(selectCodeAtom);
+  const [selectCode] = useAtom(queryCodeAtom);
 
   const [isLoading, setIsLoading] = useState(true);
   const [chartData, setChartData] = useState([]);
@@ -37,9 +41,10 @@ const ExchangeChart = () => {
     });
     const reverse = formatting.reverse();
     setChartData(reverse);
-    console.log(data);
-    console.log(reverse);
-    console.log(duplicated(reverse));
+    // console.log(data);
+    // console.log(reverse);
+    // console.log(duplicated(reverse));
+
     setIsLoading(false);
   };
 

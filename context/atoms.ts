@@ -11,8 +11,8 @@ import { atomFamily } from "jotai/utils";
 
 // coin data
 export const allTickerDataAtom = atom<TickerDataType[]>([]);
-export const selectTickerDataAtom = atomFamily((code: string) =>
-  atom((get) => get(allTickerDataAtom).find((coin) => coin.code === code))
+export const selectTickerDataAtom = atomFamily((code: string | undefined) =>
+  atom((get) => get(allTickerDataAtom).find((coin) => coin?.code === code))
 );
 
 export const tradeDataAtom = atom<TradeDataType[]>([]);
@@ -20,6 +20,8 @@ export const orderbookDataAtom = atom<OrderBookDataType[]>([]);
 
 export const selectCodeAtom = atom<string>("");
 export const coinListAtom = atom<MarketListDataType[]>([]);
+
+export const queryCodeAtom = atom<string | undefined>("");
 
 // coinList
 const options = [

@@ -1,4 +1,8 @@
-import { selectCodeAtom, selectTickerDataAtom } from "@/context/atoms";
+import {
+  queryCodeAtom,
+  selectCodeAtom,
+  selectTickerDataAtom,
+} from "@/context/atoms";
 import { useAtom } from "jotai";
 import React from "react";
 import styled from "styled-components";
@@ -8,7 +12,7 @@ import Name from "./Name";
 import InfoBar from "./infoBar/InfoBar";
 
 const ExchangeInfo = () => {
-  const [selectCode] = useAtom(selectCodeAtom);
+  const [selectCode] = useAtom(queryCodeAtom);
   const [data] = useAtom(selectTickerDataAtom(selectCode));
 
   return (
