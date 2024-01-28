@@ -6,7 +6,6 @@ import timezone from "dayjs/plugin/timezone";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
-dayjs.tz.setDefault("Asia/Seoul");
 
 import { CandleDataType } from "@/types/types";
 
@@ -32,8 +31,7 @@ export default async function handler(
   const { type, market, count, minutes } = req.query as QueryType;
   const isMinutes = type === "minutes";
   const unit = typeof minutes === "number" ? minutes : 1;
-  const isUTC = dayjs().isUTC();
-  const timeType = isUTC ? "candle_date_time_utc" : "candle_date_time_kst";
+  const timeType = "candle_date_time_kst";
 
   const params: ParamsType = {
     market: market as string,
@@ -42,7 +40,6 @@ export default async function handler(
   };
 
   const API_URL = process.env.BONG_API_URL;
-  console.log(isUTC);
 
   try {
     let returnData: CandleDataType[] = [];
@@ -63,9 +60,16 @@ export default async function handler(
 
       returnData = [...returnData, ...data];
 
-      params.to = dayjs(data[data.length - 1][timeType])
-        .add(date, dateType)
-        .format("");
+      if (process.env.VERCEL_ENV === "production") {
+        params.to = dayjs(data[data.length - 1][timeType])
+          .add(date, dateType)
+          .add(-9, "hours")
+          .format("");
+      } else {
+        params.to = dayjs(data[data.length - 1][timeType])
+          .add(date, dateType)
+          .format("");
+      }
 
       params.count = params.count - MAX_REQUEST;
     }
