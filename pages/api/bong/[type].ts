@@ -32,6 +32,8 @@ export default async function handler(
   const { type, market, count, minutes } = req.query as QueryType;
   const isMinutes = type === "minutes";
   const unit = typeof minutes === "number" ? minutes : 1;
+  const isUTC = dayjs().isUTC();
+  const timeType = isUTC ? "candle_date_time_utc" : "candle_date_time_kst";
 
   const params: ParamsType = {
     market: market as string,
@@ -40,6 +42,7 @@ export default async function handler(
   };
 
   const API_URL = process.env.BONG_API_URL;
+  console.log(isUTC);
 
   try {
     let returnData: CandleDataType[] = [];
@@ -60,7 +63,7 @@ export default async function handler(
 
       returnData = [...returnData, ...data];
 
-      params.to = dayjs(data[data.length - 1].candle_date_time_kst)
+      params.to = dayjs(data[data.length - 1][timeType])
         .add(date, dateType)
         .format("");
 

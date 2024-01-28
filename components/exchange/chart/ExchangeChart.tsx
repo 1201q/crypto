@@ -31,15 +31,15 @@ const ExchangeChart = () => {
     const data = res.data;
     const formatting = data.map((d: CandleDataType) => {
       return {
-        time: dayjs(d.candle_date_time_kst).unix(),
+        time: dayjs(d.candle_date_time_utc).unix(),
         value: d.trade_price,
       };
     });
     const reverse = formatting.reverse();
     setChartData(reverse);
-    // console.log(data);
-    // console.log(reverse);
-    // console.log(duplicated(reverse));
+    console.log(data);
+    console.log(reverse);
+    console.log(duplicated(reverse));
 
     setIsLoading(false);
   };
@@ -74,8 +74,8 @@ const ExchangeChart = () => {
   );
 };
 
-const Container = styled.header`
-  height: 400px;
+const Container = styled.div`
+  height: 3800px;
   margin-top: 10px;
   display: flex;
   flex-direction: column;
@@ -89,7 +89,7 @@ const Chart = styled.div`
 `;
 
 const Loading = styled.div`
-  height: 370px;
+  height: 330px;
 `;
 
 export default ExchangeChart;

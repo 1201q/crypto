@@ -39,7 +39,7 @@ const LineChart: React.FC<PropsType> = ({ data }) => {
           background: { color: "white" },
         },
         width: ref.current.clientWidth,
-        height: 370,
+        height: 330,
       });
       return chart;
     }
@@ -56,6 +56,10 @@ const LineChart: React.FC<PropsType> = ({ data }) => {
     chart.applyOptions({
       rightPriceScale: {
         visible: false,
+        scaleMargins: {
+          top: 0.05,
+          bottom: 0.1,
+        },
       },
       crosshair: {
         horzLine: {
@@ -64,7 +68,7 @@ const LineChart: React.FC<PropsType> = ({ data }) => {
         },
       },
       timeScale: {
-        visible: true,
+        visible: false,
         fixLeftEdge: true,
         fixRightEdge: true,
         lockVisibleTimeRangeOnResize: true,
@@ -79,8 +83,8 @@ const LineChart: React.FC<PropsType> = ({ data }) => {
       },
     });
 
-    newSeries.setData(chartData);
     chart.timeScale().fitContent();
+    newSeries.setData(chartData);
   };
 
   const resizeChart = (chart: IChartApi | null) => {
