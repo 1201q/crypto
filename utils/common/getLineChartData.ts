@@ -35,7 +35,7 @@ const getLineChartData = async (
     return reverse;
   } catch (error) {
     console.error("Error fetching data:", error);
-    throw error;
+    return null;
   }
 };
 

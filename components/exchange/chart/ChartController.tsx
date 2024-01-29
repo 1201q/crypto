@@ -29,11 +29,11 @@ const ChartController = () => {
 };
 
 const Controller = styled.div`
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 10px;
   height: 40px;
-  padding: 0px 21px;
 `;
 
 const SortBtn = styled(motion.button)<{ $isselect: boolean }>`

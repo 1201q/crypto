@@ -1,36 +1,50 @@
-import React, { useEffect, useRef, MutableRefObject } from "react";
+import React, { useEffect, useRef, MutableRefObject, useMemo } from "react";
 import { createChart, IChartApi } from "lightweight-charts";
 import styled from "styled-components";
+import { LineChartPropsType } from "@/types/types";
+import { useLineChart } from "@/utils/hooks/useLineChart";
+import getBongFetchURL from "@/utils/common/getBongFetchURL";
+import { useAtom } from "jotai";
+import { queryCodeAtom, selectedLineChartOptionAtom } from "@/context/atoms";
 
-interface PropsType {
-  data: any[];
-}
-
-const LineChart: React.FC<PropsType> = ({ data }) => {
+const LineChart: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<HTMLDivElement>(null);
 
+  const [option] = useAtom(selectedLineChartOptionAtom);
+  const [selectCode] = useAtom(queryCodeAtom);
+
+  const URL = useMemo(
+    () => getBongFetchURL(option, selectCode),
+    [option, selectCode]
+  );
+
+  const { data: chartData, isValidating } = useLineChart(URL);
+
   useEffect(() => {
-    const chart = InitChart(chartRef);
+    if (!isValidating && chartData) {
+      console.log(chartData);
+      const chart = InitChart(chartRef);
 
-    if (chart) {
-      setChart(chart, data);
+      if (chart) {
+        setChart(chart, chartData);
 
-      window.addEventListener("resize", () => {
-        resizeChart(chart);
-      });
-    }
-
-    return () => {
-      if (chartRef.current) {
-        window.removeEventListener("resize", () => {
+        window.addEventListener("resize", () => {
           resizeChart(chart);
         });
-
-        chart?.remove();
       }
-    };
-  }, []);
+
+      return () => {
+        if (chartRef.current) {
+          window.removeEventListener("resize", () => {
+            resizeChart(chart);
+          });
+
+          chart?.remove();
+        }
+      };
+    }
+  }, [isValidating, chartData]);
 
   const InitChart = (ref: MutableRefObject<HTMLDivElement | null>) => {
     if (ref.current) {
@@ -58,7 +72,7 @@ const LineChart: React.FC<PropsType> = ({ data }) => {
         visible: false,
         scaleMargins: {
           top: 0.05,
-          bottom: 0.1,
+          bottom: 0.2,
         },
       },
       crosshair: {
@@ -94,14 +108,24 @@ const LineChart: React.FC<PropsType> = ({ data }) => {
   };
 
   return (
-    <Chart ref={containerRef}>
-      <div ref={chartRef} />
-    </Chart>
+    <>
+      {!isValidating ? (
+        <Chart ref={containerRef}>
+          <div ref={chartRef} />
+        </Chart>
+      ) : (
+        <Loading>로딩</Loading>
+      )}
+    </>
   );
 };
 
 const Chart = styled.div`
   width: calc(100vw - 40px);
+  max-width: 100%;
 `;
 
+const Loading = styled.div`
+  height: 330px;
+`;
 export default LineChart;
