@@ -2,20 +2,13 @@ import styled from "styled-components";
 import Tab from "./Tab";
 import { pathnameAtom, tabMenuAtom } from "@/context/atoms";
 import { useAtom } from "jotai";
-import { useEffect } from "react";
-import { useRouter } from "next/router";
+
 import { bottomTabHeightAtom } from "@/context/styles";
 
 const MenuTab = () => {
-  const router = useRouter();
   const [tabMenu] = useAtom(tabMenuAtom);
-  const [pathname, setPathname] = useAtom(pathnameAtom);
+  const [pathname] = useAtom(pathnameAtom);
   const [height] = useAtom(bottomTabHeightAtom);
-
-  useEffect(() => {
-    console.log(router.pathname);
-    setPathname(router.pathname);
-  }, [router.pathname]);
 
   return (
     <Container height={height}>
