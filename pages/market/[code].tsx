@@ -25,10 +25,10 @@ import {
   useTrade,
   useOrderbook,
 } from "@/utils/websocket/websocketHooks";
-import useSyncAtom from "@/utils/hooks/useSyncAtom";
+import { useHydrateAtoms } from "jotai/utils";
 
 export default function Home({ queryCode }: ServerSideProps) {
-  useSyncAtom(queryCodeAtom, queryCode);
+  useHydrateAtoms([[queryCodeAtom, queryCode]]);
   const { coinList } = useList();
   const [selectCode] = useAtom(queryCodeAtom);
 
@@ -51,28 +51,20 @@ export default function Home({ queryCode }: ServerSideProps) {
   );
 
   useEffect(() => {
-    if (queryCode === selectCode) {
-      if (!ticker.isOpen) {
-        ticker.open();
-      }
-
-      trade.open();
-      orderbook.open();
-
-      return () => {
-        trade.close();
-        orderbook.close();
-      };
+    if (!ticker.isOpen) {
+      ticker.open();
     }
-  }, [selectCode]);
 
-  return (
-    <>
-      {queryCode === selectCode && (
-        <PageRender Render={ExchangePage} title={`${selectCode} | ALL UP!`} />
-      )}
-    </>
-  );
+    trade.open();
+    orderbook.open();
+
+    return () => {
+      trade.close();
+      orderbook.close();
+    };
+  }, []);
+
+  return <PageRender Render={ExchangePage} title={`${selectCode} | ALL UP!`} />;
 }
 
 export const getServerSideProps: GetServerSideProps = async (

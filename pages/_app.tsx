@@ -9,8 +9,11 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SWRConfig, SWRConfiguration } from "swr";
 
 import fetcher from "@/utils/common/fetcher";
+import { Provider, createStore } from "jotai";
 
 export default function App({ Component, pageProps }: AppProps) {
+  const store = createStore();
+
   const { fallback } = pageProps;
 
   const options: SWRConfiguration = {
@@ -23,7 +26,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <AuthProvider>
         <SpeedInsights />
         <SWRConfig value={options}>
-          <Component {...pageProps} />
+          <Provider store={store}>
+            <Component {...pageProps} />
+          </Provider>
         </SWRConfig>
       </AuthProvider>
     </ThemeProvider>

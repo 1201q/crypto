@@ -1,8 +1,6 @@
 import nookies from "nookies";
-
 import { useEffect } from "react";
 import getServersideAuth from "@/utils/common/getServersideAuth";
-
 import { useHydrateAtoms } from "jotai/utils";
 import {
   allTickerDataAtom,

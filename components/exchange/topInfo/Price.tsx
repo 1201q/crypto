@@ -1,8 +1,7 @@
-import { queryCodeAtom } from "@/context/atoms";
 import { TickerDataType } from "@/types/types";
 import f from "@/utils/common/formatting";
 import usePriceUpdate from "@/utils/hooks/usePriceUpdate";
-import { useAtom } from "jotai";
+
 import React from "react";
 import styled from "styled-components";
 
@@ -12,7 +11,6 @@ interface PropsType {
 
 const Price: React.FC<PropsType> = ({ data }) => {
   const { isUpdated } = usePriceUpdate(data);
-  const [selectCode] = useAtom(queryCodeAtom);
 
   const getUpdateDisplayBgColor = (change: string, isUpdated: boolean) => {
     if (change === "RISE") {
@@ -27,18 +25,13 @@ const Price: React.FC<PropsType> = ({ data }) => {
   const price = data.trade_price;
   const changePercent = data.signed_change_rate;
   const change = data.change;
+
   return (
     <Container bottom={15}>
-      {data.code === selectCode ? (
-        <>
-          <PriceText>{f("price", price)}</PriceText>
-          <Update bgcolor={getUpdateDisplayBgColor(change, isUpdated)}>
-            <PercentText>{f("change", changePercent)}%</PercentText>
-          </Update>
-        </>
-      ) : (
-        <div></div>
-      )}
+      <PriceText>{f("price", price)}</PriceText>
+      <Update bgcolor={getUpdateDisplayBgColor(change, isUpdated)}>
+        <PercentText>{f("change", changePercent)}%</PercentText>
+      </Update>
     </Container>
   );
 };

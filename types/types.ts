@@ -125,3 +125,9 @@ export interface CandleDataType {
   change_price: number;
   change_rate: number;
 }
+
+// 라인 차트 타입
+export interface LineChartPropsType {
+  time: number;
+  value: number;
+}

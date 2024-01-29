@@ -9,6 +9,7 @@ import axios from "axios";
 import dayjs from "dayjs";
 import { CandleDataType } from "@/types/types";
 import utc from "dayjs/plugin/utc";
+import getLineChartData from "@/utils/common/getLineChartData";
 
 dayjs.extend(utc);
 
@@ -18,6 +19,7 @@ const ExchangeChart = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [chartData, setChartData] = useState([]);
+
   const URL =
     option?.type === "minutes"
       ? `/api/bong/minutes?minutes=${option.unit}`
@@ -37,24 +39,23 @@ const ExchangeChart = () => {
     });
     const reverse = formatting.reverse();
     setChartData(reverse);
-    console.log(data);
-    console.log(reverse);
-    console.log(duplicated(reverse));
+    // console.log(data);
+    // console.log(reverse);
+    // console.log(duplicated(reverse));
 
     setIsLoading(false);
   };
 
-  const duplicated = (array: any) => {
-    const timeSet = new Set();
+  const fetch = async () => {
+    setIsLoading(true);
+    const data = await getLineChartData(option, selectCode);
 
-    for (const obj of array) {
-      if (timeSet.has(obj.time)) {
-        return true;
-      }
-      timeSet.add(obj.time);
+    if (data) {
+      setChartData(data);
+      setIsLoading(false);
     }
-    return false;
   };
+
   useEffect(() => {
     fetchData();
   }, [selectCode, option]);
@@ -68,14 +69,13 @@ const ExchangeChart = () => {
           <Loading></Loading>
         )}
       </Chart>
-
       <ChartController />
     </Container>
   );
 };
 
 const Container = styled.div`
-  height: 3800px;
+  height: 380px;
   margin-top: 10px;
   display: flex;
   flex-direction: column;

@@ -1,4 +1,4 @@
-import { atom, useAtom } from "jotai";
+import { atom } from "jotai";
 import {
   OrderBookDataType,
   TickerDataType,
@@ -53,12 +53,12 @@ const lineChartControllerOptions = [
   { name: "1일", select: false, type: "minutes", count: 480, unit: 3 },
   { name: "1주", select: true, type: "minutes", count: 336, unit: 30 },
   { name: "1달", select: false, type: "minutes", count: 180, unit: 240 },
-  { name: "3달", select: false, type: "days", count: 90 },
-  { name: "1년", select: false, type: "weeks", count: 52 },
-  { name: "전체", select: false, type: "months", count: 200 },
+  { name: "3달", select: false, type: "days", count: 90, unit: 0 },
+  { name: "1년", select: false, type: "weeks", count: 52, unit: 0 },
+  { name: "전체", select: false, type: "months", count: 200, unit: 0 },
 ];
 export const lineChartControllerOptionAtom = atom(lineChartControllerOptions);
 export const selectedLineChartOptionAtom = atom((get) => {
   const options = get(lineChartControllerOptionAtom);
-  return options.find((option) => option.select);
+  return options.find((option) => option.select) || options[0];
 });

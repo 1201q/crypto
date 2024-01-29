@@ -32,7 +32,7 @@ const Controller = styled.div`
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 10px;
-  height: 100%;
+  height: 40px;
   padding: 0px 21px;
 `;
 
