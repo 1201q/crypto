@@ -3,7 +3,7 @@ import { GetServerSideProps } from "next";
 import { admin } from "@/utils/firebase/admin";
 import { useEffect } from "react";
 import { ServerSideProps } from "@/types/types";
-import { useAtom } from "jotai";
+import { Provider, useAtom } from "jotai";
 import {
   allTickerDataAtom,
   isTickerWebsocketOpenAtom,

@@ -16,6 +16,8 @@ import { GetServerSideProps } from "next";
 import fetcher from "@/utils/common/fetcher";
 import { useList } from "@/utils/hooks/useList";
 import { useTicker } from "@/utils/websocket/websocketHooks";
+import { Provider } from "jotai";
+import { marketStore } from "@/context/store";
 
 export default function Home({ pathname }: ServerSideProps) {
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues);
