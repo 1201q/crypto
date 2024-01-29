@@ -11,7 +11,7 @@ export const useTicker = (
   atom: PrimitiveAtom<TickerDataType[]>,
   isWsOpenAtom: PrimitiveAtom<boolean>
 ) => {
-  return useUpbit("ticker", code, atom, isWsOpenAtom);
+  return { ticker: useUpbit("ticker", code, atom, isWsOpenAtom) };
 };
 
 export const useTrade = (
@@ -19,7 +19,7 @@ export const useTrade = (
   atom: PrimitiveAtom<TradeDataType[]>,
   isWsOpenAtom: PrimitiveAtom<boolean>
 ) => {
-  return useUpbit("trade", code, atom, isWsOpenAtom);
+  return { trade: useUpbit("trade", code, atom, isWsOpenAtom) };
 };
 
 export const useOrderbook = (
@@ -27,5 +27,5 @@ export const useOrderbook = (
   atom: PrimitiveAtom<OrderBookDataType[]>,
   isWsOpenAtom: PrimitiveAtom<boolean>
 ) => {
-  return useUpbit("orderbook", code, atom, isWsOpenAtom);
+  return { orderbook: useUpbit("orderbook", code, atom, isWsOpenAtom) };
 };

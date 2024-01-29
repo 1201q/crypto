@@ -12,7 +12,7 @@ import { useRef } from "react";
 interface HookReturnType {
   open: () => void;
   close: () => void;
-  isWsOpen: boolean;
+  isOpen: boolean;
 }
 
 export const useUpbit = <T>(
@@ -23,7 +23,7 @@ export const useUpbit = <T>(
 ): HookReturnType => {
   const wsRef = useRef<WebSocket | null>(null);
   const [, setData] = useAtom(atom);
-  const [isWsOpen, setIsWsOpen] = useAtom(isWsOpenAtom);
+  const [isOpen, setIsOpen] = useAtom(isWsOpenAtom);
 
   const open = async () => {
     if (!wsRef.current || wsRef.current.readyState !== 1) {
@@ -31,7 +31,7 @@ export const useUpbit = <T>(
 
       if (ws?.readyState === 1) {
         wsRef.current = ws;
-        setIsWsOpen(true);
+        setIsOpen(true);
         getTickerData(wsRef.current, setData);
       }
     }
@@ -41,11 +41,11 @@ export const useUpbit = <T>(
     if (wsRef.current) {
       wsRef.current.close();
       setData([] as T);
-      setIsWsOpen(false);
+      setIsOpen(false);
     }
   };
 
-  return { open, close, isWsOpen };
+  return { open, close, isOpen };
 };
 
 const openWebsocket = async (type: WebsocketType, code: string[] | string) => {

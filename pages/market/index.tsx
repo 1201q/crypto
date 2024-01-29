@@ -23,15 +23,15 @@ export default function Home({ pathname }: ServerSideProps) {
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues);
 
   const { coinList } = useList();
-  const { open: openTickerWs, isWsOpen: isTickerWsOpen } = useTicker(
+  const { ticker } = useTicker(
     coinList.code || [],
     allTickerDataAtom,
     isTickerWebsocketOpenAtom
   );
 
   useEffect(() => {
-    if (!isTickerWsOpen) {
-      openTickerWs();
+    if (!ticker.isOpen) {
+      ticker.open();
     }
   }, []);
 

@@ -32,19 +32,19 @@ export default function Home({ queryCode }: ServerSideProps) {
   const { coinList } = useList();
   const [selectCode] = useAtom(queryCodeAtom);
 
-  const { open: openTickerWs, isWsOpen: isTickerWsOpen } = useTicker(
+  const { ticker } = useTicker(
     coinList.code || [],
     allTickerDataAtom,
     isTickerWebsocketOpenAtom
   );
 
-  const { open: openTradeWs, close: closeTradeWs } = useTrade(
+  const { trade } = useTrade(
     queryCode || "",
     tradeDataAtom,
     isTradeWebsocketOpenAtom
   );
 
-  const { open: openOrderbookWs, close: closeOrderbookWs } = useOrderbook(
+  const { orderbook } = useOrderbook(
     queryCode || "",
     orderbookDataAtom,
     isOrderbookWebsocketOpenAtom
@@ -52,16 +52,16 @@ export default function Home({ queryCode }: ServerSideProps) {
 
   useEffect(() => {
     if (queryCode === selectCode) {
-      if (!isTickerWsOpen) {
-        openTickerWs();
+      if (!ticker.isOpen) {
+        ticker.open();
       }
 
-      openTradeWs();
-      openOrderbookWs();
+      trade.open();
+      orderbook.open();
 
       return () => {
-        closeTradeWs();
-        closeOrderbookWs();
+        trade.close();
+        orderbook.close();
       };
     }
   }, [selectCode]);
