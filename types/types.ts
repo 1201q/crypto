@@ -129,5 +129,10 @@ export interface CandleDataType {
 // 라인 차트 타입
 export interface LineChartPropsType {
   time: number;
-  value?: number;
+  value: number;
+  open?: number;
+  close?: number;
+  high?: number;
+  low?: number;
+  volume?: number;
 }

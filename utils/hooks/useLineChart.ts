@@ -1,4 +1,4 @@
-import useSWR, { KeyedMutator } from "swr";
+import useSWR from "swr";
 import lineChartFetcher from "../common/lineChartFetcher";
 import { LineChartPropsType } from "@/types/types";
 

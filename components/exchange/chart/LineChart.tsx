@@ -67,8 +67,10 @@ const LineChart: React.FC<ChartPropsType> = ({ latestData }) => {
   }, [isValidating, chartData]);
 
   useEffect(() => {
-    if (latestData?.value !== 0 && chartSeriesRef.current) {
-      chartSeriesRef.current.update(handleUpdateLatestData(chartData));
+    if (chartData) {
+      if (latestData?.value !== 0 && chartSeriesRef.current) {
+        chartSeriesRef.current.update(handleUpdateLatestData(chartData));
+      }
     }
   }, [latestData]);
 
@@ -87,11 +89,22 @@ const LineChart: React.FC<ChartPropsType> = ({ latestData }) => {
   };
 
   const setChart = (chart: IChartApi, chartData: any[]) => {
-    const newSeries = chart.addAreaSeries({
-      lineColor: "#3d86f0",
-      topColor: "white",
-      bottomColor: "white",
+    const volumeData = chartData.map((data) => {
+      return { time: data.time, value: data.volume };
+    });
+    const newSeries = chart.addLineSeries({
+      color: getLineColor(chartData),
       lastPriceAnimation: 1,
+      baseLineStyle: 1,
+      priceLineVisible: false,
+      crosshairMarkerVisible: false,
+      lineType: 0,
+    });
+    const volumeSeries = chart.addHistogramSeries({
+      color: "#d1d6db",
+      priceFormat: { type: "volume" },
+      priceLineVisible: false,
+      priceScaleId: "",
     });
 
     chart.subscribeCrosshairMove((param) => toolTipControl(param, newSeries));
@@ -100,12 +113,11 @@ const LineChart: React.FC<ChartPropsType> = ({ latestData }) => {
       handleScale: {
         mouseWheel: false,
       },
-
       rightPriceScale: {
         visible: false,
         scaleMargins: {
-          top: 0.2,
-          bottom: 0.2,
+          top: 0.15,
+          bottom: 0.25,
         },
       },
       crosshair: {
@@ -137,10 +149,17 @@ const LineChart: React.FC<ChartPropsType> = ({ latestData }) => {
       },
     });
 
+    volumeSeries.priceScale().applyOptions({
+      scaleMargins: {
+        top: 0.8,
+        bottom: 0.08,
+      },
+    });
+
     newSeries.setData(chartData);
+    volumeSeries.setData(volumeData);
 
     chart.timeScale().fitContent();
-
     chartSeriesRef.current = newSeries;
   };
 
@@ -203,8 +222,18 @@ const LineChart: React.FC<ChartPropsType> = ({ latestData }) => {
     latestData.time = latestDataTime;
 
     return (
-      data[chartData.length - 1] && (data[chartData.length - 1] = latestData)
+      data && data[data.length - 1] && (data[data.length - 1] = latestData)
     );
+  };
+
+  const getLineColor = (data: LineChartPropsType[]) => {
+    if (data[0].value > data[data.length - 1].value) {
+      return "#448aef";
+    } else if (data[0].value < data[data.length - 1].value) {
+      return "#df5068";
+    } else {
+      return "#6b7684";
+    }
   };
 
   return (
@@ -244,7 +273,7 @@ const ToolTip = styled.div`
 
   p {
     margin-top: 2px;
-    font-size: 14px;
+    font-size: 16px;
     color: black;
     font-weight: 700;
     letter-spacing: -0px;

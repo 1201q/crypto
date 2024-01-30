@@ -12,6 +12,11 @@ const LineChartFetcher = async (url: string) => {
       return {
         time: dayjs(d.candle_date_time_utc).unix(),
         value: d.trade_price,
+        close: d.trade_price,
+        high: d.high_price,
+        low: d.low_price,
+        open: d.opening_price,
+        volume: d.candle_acc_trade_volume,
       };
     });
     const reverse = formatting.reverse();

@@ -14,6 +14,10 @@ const ExchangeChart = () => {
     return {
       value: data?.trade_price || 0,
       time: dayjs(data?.trade_timestamp).add(-9, "hour").unix(),
+      open: data?.opening_price || 0,
+      close: data?.trade_price || 0,
+      high: data?.high_price || 0,
+      low: data?.low_price || 0,
     };
   }, [data?.trade_price]);
 
