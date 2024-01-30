@@ -4,6 +4,7 @@ import { CandleDataType } from "@/types/types";
 
 const LineChartFetcher = async (url: string) => {
   const URL = process.env.NEXT_PUBLIC_API_URL + url;
+
   try {
     const res = await axios.get(URL);
     const data = res.data;

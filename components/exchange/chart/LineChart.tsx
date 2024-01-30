@@ -14,8 +14,11 @@ import getBongFetchURL from "@/utils/common/getBongFetchURL";
 import { useAtom } from "jotai";
 import { queryCodeAtom, selectedLineChartOptionAtom } from "@/context/atoms";
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import f from "@/utils/common/formatting";
 import { LineChartPropsType } from "@/types/types";
+
+dayjs.extend(utc);
 
 interface ChartPropsType {
   latestData: LineChartPropsType;
@@ -35,7 +38,10 @@ const LineChart: React.FC<ChartPropsType> = ({ latestData }) => {
     [option, selectCode]
   );
 
-  const { data: chartData, isValidating } = useLineChart(URL);
+  let { data: chartData, isValidating } = useLineChart(URL);
+
+  let latestDataTime = chartData && chartData[chartData.length - 1].time;
+
   useEffect(() => {
     if (!isValidating && chartData) {
       const chart = InitChart(chartRef);
@@ -62,7 +68,7 @@ const LineChart: React.FC<ChartPropsType> = ({ latestData }) => {
 
   useEffect(() => {
     if (latestData?.value !== 0 && chartSeriesRef.current) {
-      chartSeriesRef.current.update(latestData);
+      chartSeriesRef.current.update(handleUpdateLatestData(chartData));
     }
   }, [latestData]);
 
@@ -119,6 +125,7 @@ const LineChart: React.FC<ChartPropsType> = ({ latestData }) => {
         fixLeftEdge: true,
         fixRightEdge: true,
         lockVisibleTimeRangeOnResize: true,
+        shiftVisibleRangeOnNewBar: false,
       },
       grid: {
         vertLines: {
@@ -130,9 +137,10 @@ const LineChart: React.FC<ChartPropsType> = ({ latestData }) => {
       },
     });
 
+    newSeries.setData(chartData);
+
     chart.timeScale().fitContent();
 
-    newSeries.setData(chartData);
     chartSeriesRef.current = newSeries;
   };
 
@@ -148,16 +156,22 @@ const LineChart: React.FC<ChartPropsType> = ({ latestData }) => {
         // 마우스 커서가 차트 위에 없을때
         toolTipRef.current.style.display = "none";
       } else {
+        console.log();
         toolTipRef.current.style.display = "block";
         toolTipRef.current.style.position = "absolute";
         const date = param.time;
         const unix = dayjs.unix(Number(date));
+        let isHoverLastData = param.logical === chartData.length - 1;
         let dateToString = "";
 
-        if (option.type === "minutes") {
-          dateToString = unix.add(9, "hour").format("YYYY.MM.DD HH:mm");
+        if (isHoverLastData) {
+          dateToString = unix.add(9, "hour").format("현재");
         } else {
-          dateToString = unix.add(9, "hour").format("YYYY.MM.DD");
+          if (option.type === "minutes") {
+            dateToString = unix.add(9, "hour").format("YYYY.MM.DD HH:mm");
+          } else {
+            dateToString = unix.add(9, "hour").format("YYYY.MM.DD");
+          }
         }
 
         const data = param.seriesData.get(series);
@@ -166,24 +180,31 @@ const LineChart: React.FC<ChartPropsType> = ({ latestData }) => {
 
         toolTipRef.current.innerHTML = `<div>
         <div>${dateToString}</div>
-        <p>${f("price", price || 0)}원</p></div>`;
+        <p>${f("price", price || 0)}</p></div>`;
 
-        const y = param.point.y;
         let left = param.point.x;
 
-        if (left < 30) {
-          left = 30 as Coordinate;
+        if (left < 50) {
+          left = 50 as Coordinate;
           toolTipRef.current.style.textAlign = "left";
-        } else if (left > chartRef.current.clientWidth - 30) {
-          left = (chartRef.current.clientWidth - 30) as Coordinate;
+        } else if (left > chartRef.current.clientWidth - 50) {
+          left = (chartRef.current.clientWidth - 50) as Coordinate;
           toolTipRef.current.style.textAlign = "right";
         } else {
-          toolTipRef.current.style.left = left - 35 + "px";
+          toolTipRef.current.style.left = left - 50 + "px";
           toolTipRef.current.style.textAlign = "center";
         }
         toolTipRef.current.style.top = 0 + "px";
       }
     }
+  };
+
+  const handleUpdateLatestData = (data: LineChartPropsType[]) => {
+    latestData.time = latestDataTime;
+
+    return (
+      data[chartData.length - 1] && (data[chartData.length - 1] = latestData)
+    );
   };
 
   return (
@@ -211,22 +232,22 @@ const Loading = styled.div`
 `;
 
 const ToolTip = styled.div`
-  width: 80px;
+  width: 100px;
   height: 40px;
   z-index: 100;
   text-align: center;
   display: none;
   background-color: white;
-  font-size: 11px;
+  font-size: 12px;
   color: gray;
   font-weight: 500;
 
   p {
     margin-top: 2px;
-    font-size: 13px;
+    font-size: 14px;
     color: black;
-    font-weight: 600;
-    letter-spacing: -0.3px;
+    font-weight: 700;
+    letter-spacing: -0px;
   }
 `;
 

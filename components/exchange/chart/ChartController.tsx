@@ -31,7 +31,7 @@ const ChartController = () => {
 const Controller = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 10px;
   height: 40px;
 `;
