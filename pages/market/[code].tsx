@@ -30,7 +30,7 @@ import { useHydrateAtoms } from "jotai/utils";
 export default function Home({ queryCode }: ServerSideProps) {
   useHydrateAtoms([[queryCodeAtom, queryCode]]);
   const { coinList } = useList();
-  const [selectCode] = useAtom(queryCodeAtom);
+  const [selectCode, setSelectCode] = useAtom(queryCodeAtom);
 
   const { ticker } = useTicker(
     coinList.code || [],
@@ -51,6 +51,7 @@ export default function Home({ queryCode }: ServerSideProps) {
   );
 
   useEffect(() => {
+    setSelectCode(queryCode);
     if (!ticker.isOpen) {
       ticker.open();
     }
@@ -64,7 +65,13 @@ export default function Home({ queryCode }: ServerSideProps) {
     };
   }, []);
 
-  return <PageRender Render={ExchangePage} title={`${selectCode} | ALL UP!`} />;
+  return (
+    <>
+      {queryCode === selectCode && (
+        <PageRender Render={ExchangePage} title={`${queryCode} | ALL UP!`} />
+      )}
+    </>
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async (
