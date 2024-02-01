@@ -3,14 +3,10 @@ import { GetServerSideProps } from "next";
 import { admin } from "@/utils/firebase/admin";
 import { useEffect } from "react";
 import { ServerSideProps } from "@/types/types";
-import { Provider, useAtom } from "jotai";
+import { useAtom } from "jotai";
 import {
   allTickerDataAtom,
   isTickerWebsocketOpenAtom,
-  isTradeWebsocketOpenAtom,
-  isOrderbookWebsocketOpenAtom,
-  orderbookDataAtom,
-  tradeDataAtom,
   queryCodeAtom,
 } from "@/context/atoms";
 
@@ -20,11 +16,7 @@ import ExchangePage from "@/components/page/ExchangePage";
 import getServersideAuth from "@/utils/common/getServersideAuth";
 import fetcher from "@/utils/common/fetcher";
 import { useList } from "@/utils/hooks/useList";
-import {
-  useTicker,
-  useTrade,
-  useOrderbook,
-} from "@/utils/websocket/websocketHooks";
+import { useTicker } from "@/utils/websocket/websocketHooks";
 import { useHydrateAtoms } from "jotai/utils";
 
 export default function Home({ queryCode }: ServerSideProps) {
@@ -38,31 +30,11 @@ export default function Home({ queryCode }: ServerSideProps) {
     isTickerWebsocketOpenAtom
   );
 
-  const { trade } = useTrade(
-    queryCode || "",
-    tradeDataAtom,
-    isTradeWebsocketOpenAtom
-  );
-
-  const { orderbook } = useOrderbook(
-    queryCode || "",
-    orderbookDataAtom,
-    isOrderbookWebsocketOpenAtom
-  );
-
   useEffect(() => {
     setSelectCode(queryCode);
     if (!ticker.isOpen) {
       ticker.open();
     }
-
-    trade.open();
-    orderbook.open();
-
-    return () => {
-      trade.close();
-      orderbook.close();
-    };
   }, []);
 
   return (
@@ -78,6 +50,7 @@ export const getServerSideProps: GetServerSideProps = async (
   ctx: any
 ): Promise<{ props: ServerSideProps }> => {
   const queryCode = ctx.query.code;
+
   const cookies = nookies.get(ctx);
   const coinList = await fetcher("/api/markets");
 

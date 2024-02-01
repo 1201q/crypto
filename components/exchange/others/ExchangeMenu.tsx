@@ -1,27 +1,53 @@
+import { queryCodeAtom } from "@/context/atoms";
 import { motion } from "framer-motion";
+import { useAtom } from "jotai";
+import { useRouter } from "next/router";
 import styled from "styled-components";
 
 const ExchangeMenu = () => {
+  const router = useRouter();
+  const [queryCode] = useAtom(queryCodeAtom);
+
   return (
-    <Container>
+    <Container layoutId="menu">
       <MenuContainer>
-        <ExchangeBtn whileTap={{ backgroundColor: "#D9DBDD" }}>
+        <ExchangeBtn
+          whileTap={{ backgroundColor: "#D9DBDD" }}
+          onClick={() => {
+            router.push(
+              {
+                pathname: `/market/${queryCode}/orderbook`,
+                query: { access: true },
+              },
+              `/market/${queryCode}/orderbook`
+            );
+          }}
+        >
           호가
         </ExchangeBtn>
         <Line />
-        <ExchangeBtn whileTap={{ backgroundColor: "#D9DBDD" }}>
-          거래내역
+        <ExchangeBtn
+          whileTap={{ backgroundColor: "#D9DBDD" }}
+          onClick={() => {
+            router.push(
+              {
+                pathname: `/market/${queryCode}/trade`,
+                query: { access: true },
+              },
+              `/market/${queryCode}/trade`
+            );
+          }}
+        >
+          체결내역
         </ExchangeBtn>
       </MenuContainer>
     </Container>
   );
 };
 
-const Container = styled.div`
+const Container = styled(motion.div)`
   border-radius: 6px;
   padding: 0px 20px;
-  margin-top: 30px;
-  height: 800px;
 `;
 
 const MenuContainer = styled.div`

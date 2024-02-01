@@ -30,18 +30,18 @@ const ChartController = () => {
   );
 };
 
-const Controller = styled.div`
+const Controller = styled(motion.div)`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-
   margin-top: 10px;
+  margin-bottom: 25px;
   background-color: #f2f4f6;
   border-radius: 6px;
 `;
 
 const SortBtn = styled(motion.button)<{ $isselect: boolean }>`
-  height: 30px;
+  height: 33px;
   border: none;
   padding: 0px 0px;
   border-radius: 6px;

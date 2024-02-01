@@ -4,6 +4,9 @@ import ExchangeHeader from "../exchange/header/ExchangeHeader";
 import ExchangeInfo from "../exchange/topInfo/ExchangeInfo";
 import { motion } from "framer-motion";
 import ExchangeMenu from "../exchange/others/ExchangeMenu";
+
+import Footer from "../shared/footer/Footer";
+import ExchangeDetail from "../exchange/detail/ExchangeDetail";
 import SectionLine from "../exchange/others/SectionLine";
 
 export default function ExchangePage() {
@@ -12,8 +15,10 @@ export default function ExchangePage() {
       <ExchangeHeader />
       <ExchangeInfo />
       <ExchangeChart />
-      <SectionLine />
       <ExchangeMenu />
+      <SectionLine />
+      <ExchangeDetail />
+      <Footer />
     </Container>
   );
 }

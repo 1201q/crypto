@@ -1,13 +1,12 @@
 import styled from "styled-components";
 
-const SectionLine = () => {
+const Footer = () => {
   return <Container></Container>;
 };
 
 const Container = styled.div`
-  width: 100%;
-  height: 15px;
   background-color: #f2f4f6;
-  margin-top: 40px;
+  height: 200px;
 `;
-export default SectionLine;
+
+export default Footer;

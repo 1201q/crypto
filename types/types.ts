@@ -18,9 +18,14 @@ export interface ServerSideProps {
   uid?: string | null;
   coinList?: CoinListResponseType;
   queryCode?: string;
+  access?: boolean;
   pathname?: string;
   keyword?: string | undefined;
   fallback?: { [key: string]: CoinListType };
+}
+
+export interface RedirectProps {
+  destination: string;
 }
 
 export interface CoinListResponseType {
