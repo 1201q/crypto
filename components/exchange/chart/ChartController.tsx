@@ -33,7 +33,7 @@ const Controller = styled.div`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 10px;
-  height: 40px;
+  margin-top: 25px;
 `;
 
 const SortBtn = styled(motion.button)<{ $isselect: boolean }>`

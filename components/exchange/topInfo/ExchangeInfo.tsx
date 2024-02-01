@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 import Price from "./Price";
 import Name from "./Name";
-import InfoBar from "./infoBar/InfoBar";
+import InfoBar from "../infobar/InfoBar";
 
 const ExchangeInfo = () => {
   const [selectCode] = useAtom(queryCodeAtom);
@@ -25,7 +25,7 @@ const ExchangeInfo = () => {
 };
 
 const Container = styled.div`
-  height: 100px;
+  min-height: 100px;
   padding: 10px 21px;
 `;
 

@@ -34,8 +34,8 @@ const ExchangeChart = () => {
 };
 
 const Container = styled.div`
-  height: 380px;
-  margin-top: 10px;
+  /* height: 380px; */
+  margin-top: 0px;
   display: flex;
   flex-direction: column;
   align-items: center;

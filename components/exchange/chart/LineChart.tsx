@@ -70,6 +70,10 @@ const LineChart: React.FC<ChartPropsType> = ({ latestData }) => {
     if (chartData) {
       if (latestData?.value !== 0 && chartSeriesRef.current) {
         chartSeriesRef.current.update(handleUpdateLatestData(chartData));
+
+        chartSeriesRef.current.applyOptions({
+          color: getLineColor(chartData[0].value, latestData.value),
+        });
       }
     }
   }, [latestData]);
@@ -81,7 +85,7 @@ const LineChart: React.FC<ChartPropsType> = ({ latestData }) => {
           background: { type: ColorType.Solid, color: "white" },
         },
         width: ref.current.clientWidth,
-        height: 330,
+        height: 320,
       });
       return chart;
     }
@@ -93,7 +97,10 @@ const LineChart: React.FC<ChartPropsType> = ({ latestData }) => {
       return { time: data.time, value: data.volume };
     });
     const newSeries = chart.addLineSeries({
-      color: getLineColor(chartData),
+      color: getLineColor(
+        chartData[0].value,
+        chartData[chartData.length - 1].value
+      ),
       lastPriceAnimation: 1,
       baseLineStyle: 1,
       priceLineVisible: false,
@@ -116,8 +123,8 @@ const LineChart: React.FC<ChartPropsType> = ({ latestData }) => {
       rightPriceScale: {
         visible: false,
         scaleMargins: {
-          top: 0.15,
-          bottom: 0.25,
+          top: 0.2,
+          bottom: 0.2,
         },
       },
       crosshair: {
@@ -151,8 +158,8 @@ const LineChart: React.FC<ChartPropsType> = ({ latestData }) => {
 
     volumeSeries.priceScale().applyOptions({
       scaleMargins: {
-        top: 0.8,
-        bottom: 0.08,
+        top: 0.9,
+        bottom: 0.0,
       },
     });
 
@@ -175,7 +182,6 @@ const LineChart: React.FC<ChartPropsType> = ({ latestData }) => {
         // 마우스 커서가 차트 위에 없을때
         toolTipRef.current.style.display = "none";
       } else {
-        console.log();
         toolTipRef.current.style.display = "block";
         toolTipRef.current.style.position = "absolute";
         const date = param.time;
@@ -196,10 +202,22 @@ const LineChart: React.FC<ChartPropsType> = ({ latestData }) => {
         const data = param.seriesData.get(series);
 
         const price = data && "value" in data ? data.value : "";
+        const currentPrice =
+          chartData[chartData.length - 1] &&
+          chartData[chartData.length - 1].value;
 
-        toolTipRef.current.innerHTML = `<div>
-        <div>${dateToString}</div>
-        <p>${f("price", price || 0)}</p></div>`;
+        toolTipRef.current.innerHTML = `
+        <div>
+          <span>${dateToString}</span>
+          <p>${f("price", price || 0)}</p>
+          <div style="color: ${
+            typeof price === "number" && getTextColor(price, currentPrice)
+          }">
+          ${
+            typeof price === "number" &&
+            f("change", (price - currentPrice) / currentPrice)
+          }%</div>
+        </div>`;
 
         let left = param.point.x;
 
@@ -226,11 +244,21 @@ const LineChart: React.FC<ChartPropsType> = ({ latestData }) => {
     );
   };
 
-  const getLineColor = (data: LineChartPropsType[]) => {
-    if (data[0].value > data[data.length - 1].value) {
+  const getLineColor = (firstData: number, lastData: number) => {
+    if (firstData > lastData) {
       return "#448aef";
-    } else if (data[0].value < data[data.length - 1].value) {
+    } else if (firstData < lastData) {
       return "#df5068";
+    } else {
+      return "#6b7684";
+    }
+  };
+
+  const getTextColor = (targetPrice: number, currentPrice: number) => {
+    if (targetPrice - currentPrice > 0) {
+      return "#df5068";
+    } else if (targetPrice - currentPrice < 0) {
+      return "#448aef";
     } else {
       return "#6b7684";
     }
@@ -257,26 +285,32 @@ const Chart = styled.div`
 `;
 
 const Loading = styled.div`
-  height: 330px;
+  height: 320px;
 `;
 
 const ToolTip = styled.div`
   width: 100px;
-  height: 40px;
+  height: 45px;
   z-index: 100;
   text-align: center;
   display: none;
   background-color: white;
   font-size: 12px;
-  color: gray;
-  font-weight: 500;
+  font-weight: 600;
 
   p {
-    margin-top: 2px;
+    margin-top: 1px;
     font-size: 16px;
     color: black;
     font-weight: 700;
     letter-spacing: -0px;
+    margin-bottom: 2px;
+  }
+
+  span {
+    font-size: 11px;
+    color: gray;
+    font-weight: 500;
   }
 `;
 

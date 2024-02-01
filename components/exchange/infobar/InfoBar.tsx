@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Info from "./Info";
 import f from "@/utils/common/formatting";
 import { TickerDataType } from "@/types/types";
-import React, { useState } from "react";
+import React from "react";
 
 interface PropsType {
   data: TickerDataType;
