@@ -5,6 +5,7 @@ import { useAtom } from "jotai";
 import { queryCodeAtom, selectTickerDataAtom } from "@/context/atoms";
 import dayjs from "dayjs";
 import { useMemo } from "react";
+import ChartInfo from "./ChartInfo";
 
 const ExchangeChart = () => {
   const [queryCode] = useAtom(queryCodeAtom);
@@ -28,19 +29,20 @@ const ExchangeChart = () => {
       <Chart>
         <LineChart latestData={latestData} />
       </Chart>
+      <ChartInfo latestData={latestData} />
       <ChartController />
     </Container>
   );
 };
 
 const Container = styled.div`
-  /* height: 380px; */
   margin-top: 0px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
   padding: 0px 20px;
+  margin-top: 20px;
 `;
 
 const Chart = styled.div`

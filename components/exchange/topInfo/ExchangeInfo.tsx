@@ -26,7 +26,7 @@ const ExchangeInfo = () => {
 
 const Container = styled.div`
   min-height: 100px;
-  padding: 10px 21px;
+  padding: 10px 21px 0px 21px;
 `;
 
 export default React.memo(ExchangeInfo);

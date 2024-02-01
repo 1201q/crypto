@@ -158,7 +158,7 @@ const LineChart: React.FC<ChartPropsType> = ({ latestData }) => {
 
     volumeSeries.priceScale().applyOptions({
       scaleMargins: {
-        top: 0.9,
+        top: 0.85,
         bottom: 0.0,
       },
     });
@@ -178,7 +178,12 @@ const LineChart: React.FC<ChartPropsType> = ({ latestData }) => {
 
   const toolTipControl = (param: MouseEventParams<Time>, series: any) => {
     if (toolTipRef.current && chartRef.current) {
-      if (param.point === undefined) {
+      if (
+        param.point === undefined ||
+        !param.time ||
+        param.point.x < 0 ||
+        param.point.y < 0
+      ) {
         // 마우스 커서가 차트 위에 없을때
         toolTipRef.current.style.display = "none";
       } else {
@@ -215,7 +220,7 @@ const LineChart: React.FC<ChartPropsType> = ({ latestData }) => {
           }">
           ${
             typeof price === "number" &&
-            f("change", (price - currentPrice) / currentPrice)
+            f("change", (price - currentPrice) / price)
           }%</div>
         </div>`;
 
@@ -282,6 +287,7 @@ const Chart = styled.div`
   width: calc(100vw - 40px);
   max-width: 100%;
   position: relative;
+  min-height: 320px;
 `;
 
 const Loading = styled.div`
