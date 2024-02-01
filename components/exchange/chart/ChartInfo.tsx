@@ -20,7 +20,7 @@ const ChartInfo: React.FC<PropsType> = ({ latestData }) => {
     [option, selectCode]
   );
 
-  let { data: chartData, isValidating } = useLineChart(URL);
+  let { data: chartData } = useLineChart(URL);
   const firstData = chartData && chartData[0];
   const startDate =
     firstData &&
