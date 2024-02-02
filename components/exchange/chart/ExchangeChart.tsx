@@ -1,35 +1,42 @@
 import styled from "styled-components";
 import ChartController from "./ChartController";
 import LineChart from "./LineChart";
-import { useAtom } from "jotai";
-import { queryCodeAtom, selectTickerDataAtom } from "@/context/atoms";
-import dayjs from "dayjs";
 import { useMemo } from "react";
 import ChartInfo from "./ChartInfo";
+import { useLatest } from "@/context/hooks";
+import React from "react";
+import { useLineChart } from "@/utils/hooks/useLineChart";
+import { useAtom } from "jotai";
+import getBongFetchURL from "@/utils/common/getBongFetchURL";
+import { queryCodeAtom, selectedLineChartOptionAtom } from "@/context/atoms";
 
 const ExchangeChart = () => {
-  const [queryCode] = useAtom(queryCodeAtom);
-  const [data] = useAtom(selectTickerDataAtom(queryCode));
+  const data = useLatest();
+  const [selectCode] = useAtom(queryCodeAtom);
+  const [option] = useAtom(selectedLineChartOptionAtom);
 
-  const getLatestData = useMemo(() => {
-    return {
-      value: data?.trade_price || 0,
-      time: dayjs(data?.trade_timestamp).add(-9, "hour").unix(),
-      open: data?.opening_price || 0,
-      close: data?.trade_price || 0,
-      high: data?.high_price || 0,
-      low: data?.low_price || 0,
-    };
-  }, [data?.trade_price]);
+  const URL = useMemo(
+    () => getBongFetchURL(option, selectCode),
+    [option, selectCode]
+  );
 
-  const latestData = getLatestData;
+  let { data: chartData, isValidating } = useLineChart(URL);
+  const firstData = chartData && chartData[0];
+
+  const latestData = useMemo(() => {
+    return data;
+  }, [data?.value]);
 
   return (
     <Container>
       <Chart>
-        <LineChart latestData={latestData} />
+        <LineChart
+          latestData={latestData}
+          chartData={chartData}
+          isValidating={isValidating}
+        />
       </Chart>
-      <ChartInfo latestData={latestData} />
+      <ChartInfo latestData={latestData} firstData={firstData} />
       <ChartController />
     </Container>
   );
@@ -52,4 +59,4 @@ const Chart = styled.div`
   background: none;
 `;
 
-export default ExchangeChart;
+export default React.memo(ExchangeChart);

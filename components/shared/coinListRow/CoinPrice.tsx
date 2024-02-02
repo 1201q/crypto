@@ -9,7 +9,7 @@ interface ComponentProps {
 }
 
 const CoinPrice: React.FC<ComponentProps> = ({ tickerData }) => {
-  const { isUpdated } = usePriceUpdate(tickerData);
+  const { isUpdated } = usePriceUpdate(tickerData.trade_price);
 
   const getUpdateDisplayBgColor = (change: string, isUpdated: boolean) => {
     if (change === "RISE") {

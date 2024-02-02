@@ -2,6 +2,7 @@ import { queryCodeAtom } from "@/context/atoms";
 import { motion } from "framer-motion";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
+import React from "react";
 import styled from "styled-components";
 
 const ExchangeMenu = () => {
@@ -78,4 +79,4 @@ const ExchangeBtn = styled(motion.div)`
   border-radius: 10px;
 `;
 
-export default ExchangeMenu;
+export default React.memo(ExchangeMenu);

@@ -1,37 +1,48 @@
-import { TickerDataType } from "@/types/types";
+import { useChange, useChangePercent, usePrice } from "@/context/hooks";
 import f from "@/utils/common/formatting";
 import usePriceUpdate from "@/utils/hooks/usePriceUpdate";
 
 import React from "react";
 import styled from "styled-components";
 
-interface PropsType {
-  data: TickerDataType;
-}
-
-const Price: React.FC<PropsType> = ({ data }) => {
-  const { isUpdated } = usePriceUpdate(data);
-
-  const getUpdateDisplayBgColor = (change: string, isUpdated: boolean) => {
+const Price: React.FC = () => {
+  const getUpdateDisplayBgColor = (
+    change: string | undefined,
+    isUpdated: boolean
+  ) => {
     if (change === "RISE") {
       return isUpdated ? "#85303E" : "#DF5068";
     } else if (change === "FALL") {
       return isUpdated ? "#28528F" : "#448AEF";
     } else if (change === "EVEN") {
       return "#B1B1B1";
+    } else {
+      return "#B1B1B1";
     }
   };
 
-  const price = data.trade_price;
-  const changePercent = data.signed_change_rate;
-  const change = data.change;
+  const PriceComponent = () => {
+    const price = usePrice() || 0;
+    return <PriceText>{f("price", price)}</PriceText>;
+  };
 
-  return (
-    <Container bottom={15}>
-      <PriceText>{f("price", price)}</PriceText>
+  const UpdateComponent = () => {
+    const price = usePrice() || 0;
+    const changePercent = useChangePercent();
+    const change = useChange();
+
+    const { isUpdated } = usePriceUpdate(price);
+    return (
       <Update bgcolor={getUpdateDisplayBgColor(change, isUpdated)}>
         <PercentText>{f("change", changePercent)}%</PercentText>
       </Update>
+    );
+  };
+
+  return (
+    <Container bottom={15}>
+      <PriceComponent />
+      <UpdateComponent />
     </Container>
   );
 };

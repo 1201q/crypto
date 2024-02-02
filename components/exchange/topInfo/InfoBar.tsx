@@ -1,20 +1,23 @@
 import styled from "styled-components";
-import Info from "./Info";
+import Info from "./InfoBarComponent";
 import f from "@/utils/common/formatting";
-import { TickerDataType } from "@/types/types";
+
 import React from "react";
 
-interface PropsType {
-  data: TickerDataType;
-}
+import {
+  useAccPriceSum,
+  useChange,
+  useChangePrice,
+  usePrice,
+} from "@/context/hooks";
 
-const InfoBar: React.FC<PropsType> = ({ data }) => {
-  const tradePrice = data.trade_price;
-  const changePrice = data.signed_change_price;
-  const change = data.change;
-  const accSum = data.acc_trade_price_24h;
+const InfoBar: React.FC = () => {
+  const price = usePrice();
+  const change = useChange();
+  const changePrice = useChangePrice();
+  const accSum = useAccPriceSum();
 
-  const getTextColor = (change: string) => {
+  const getTextColor = (change: string | undefined) => {
     if (change === "RISE") {
       return "#DF5068";
     } else if (change === "FALL") {
@@ -29,14 +32,10 @@ const InfoBar: React.FC<PropsType> = ({ data }) => {
     <Container>
       <Info
         header={"어제보다"}
-        text={`${f("plus", change)}${f(
-          "changePrice",
-          tradePrice,
-          changePrice
-        )}`}
+        text={`${f("plus", change)}${f("changePrice", price, changePrice)}`}
         color={getTextColor(change)}
       />
-      <Info header={"거래대금"} text={`${f("acc", accSum)}백만`} />{" "}
+      <Info header={"거래대금"} text={`${f("acc", accSum)}백만`} />
     </Container>
   );
 };

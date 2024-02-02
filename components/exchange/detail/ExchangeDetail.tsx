@@ -1,13 +1,10 @@
-import { queryCodeAtom, selectTickerDataAtom } from "@/context/atoms";
-import { useAtom } from "jotai";
+import { useChangePercent, useChangePrice } from "@/context/hooks";
+
+import React from "react";
 import styled from "styled-components";
 
 const ExchangeDetail = () => {
-  const [queryCode] = useAtom(queryCodeAtom);
-  const [data] = useAtom(selectTickerDataAtom(queryCode));
-
-  console.log(data);
-  return <Container></Container>;
+  return <Container>0</Container>;
 };
 
 const Container = styled.div`

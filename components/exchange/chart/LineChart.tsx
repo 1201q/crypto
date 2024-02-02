@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, MutableRefObject, useMemo } from "react";
+import React, { useEffect, useRef, MutableRefObject } from "react";
 import {
   ColorType,
   Coordinate,
@@ -9,10 +9,9 @@ import {
   Time,
 } from "lightweight-charts";
 import styled from "styled-components";
-import { useLineChart } from "@/utils/hooks/useLineChart";
-import getBongFetchURL from "@/utils/common/getBongFetchURL";
+
 import { useAtom } from "jotai";
-import { queryCodeAtom, selectedLineChartOptionAtom } from "@/context/atoms";
+import { selectedLineChartOptionAtom } from "@/context/atoms";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import f from "@/utils/common/formatting";
@@ -22,23 +21,21 @@ dayjs.extend(utc);
 
 interface ChartPropsType {
   latestData: LineChartPropsType;
+  chartData: LineChartPropsType[];
+  isValidating: boolean;
 }
 
-const LineChart: React.FC<ChartPropsType> = ({ latestData }) => {
+const LineChart: React.FC<ChartPropsType> = ({
+  latestData,
+  chartData,
+  isValidating,
+}) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<HTMLDivElement>(null);
   const chartSeriesRef = useRef<any>(null);
   const toolTipRef = useRef<HTMLDivElement | null>(null);
 
   const [option] = useAtom(selectedLineChartOptionAtom);
-  const [selectCode] = useAtom(queryCodeAtom);
-
-  const URL = useMemo(
-    () => getBongFetchURL(option, selectCode),
-    [option, selectCode]
-  );
-
-  let { data: chartData, isValidating } = useLineChart(URL);
 
   let latestDataTime = chartData && chartData[chartData.length - 1].time;
 
@@ -320,4 +317,4 @@ const ToolTip = styled.div`
   }
 `;
 
-export default LineChart;
+export default React.memo(LineChart);

@@ -1,23 +1,21 @@
-import { queryCodeAtom, selectTickerDataAtom } from "@/context/atoms";
-import { useAtom } from "jotai";
 import React from "react";
 import styled from "styled-components";
 
 import Price from "./Price";
 import Name from "./Name";
-import InfoBar from "../infobar/InfoBar";
+import InfoBar from "./InfoBar";
+import { usePrice } from "@/context/hooks";
 
 const ExchangeInfo = () => {
-  const [selectCode] = useAtom(queryCodeAtom);
-  const [data] = useAtom(selectTickerDataAtom(selectCode));
+  const price = usePrice();
 
   return (
     <Container>
-      {data && (
+      {price && (
         <>
           <Name />
-          <Price data={data} />
-          <InfoBar data={data} />
+          <Price />
+          <InfoBar />
         </>
       )}
     </Container>

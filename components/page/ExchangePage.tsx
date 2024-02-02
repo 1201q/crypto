@@ -8,8 +8,9 @@ import ExchangeMenu from "../exchange/others/ExchangeMenu";
 import Footer from "../shared/footer/Footer";
 import ExchangeDetail from "../exchange/detail/ExchangeDetail";
 import SectionLine from "../exchange/others/SectionLine";
+import React from "react";
 
-export default function ExchangePage() {
+const ExchangePage = () => {
   return (
     <Container initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <ExchangeHeader />
@@ -21,8 +22,10 @@ export default function ExchangePage() {
       <Footer />
     </Container>
   );
-}
+};
 
 const Container = styled(motion.div)`
   width: 100%;
 `;
+
+export default ExchangePage;

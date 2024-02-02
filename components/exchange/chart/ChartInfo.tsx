@@ -1,27 +1,20 @@
-import { queryCodeAtom, selectedLineChartOptionAtom } from "@/context/atoms";
+import { selectedLineChartOptionAtom } from "@/context/atoms";
 import { LineChartPropsType } from "@/types/types";
 import f from "@/utils/common/formatting";
-import getBongFetchURL from "@/utils/common/getBongFetchURL";
-import { useLineChart } from "@/utils/hooks/useLineChart";
 import dayjs from "dayjs";
 import { useAtom } from "jotai";
+import React from "react";
 import { useMemo } from "react";
 import styled from "styled-components";
 
 interface PropsType {
   latestData: LineChartPropsType;
+  firstData: LineChartPropsType;
 }
 
-const ChartInfo: React.FC<PropsType> = ({ latestData }) => {
-  const [selectCode] = useAtom(queryCodeAtom);
+const ChartInfo: React.FC<PropsType> = ({ latestData, firstData }) => {
   const [option] = useAtom(selectedLineChartOptionAtom);
-  const URL = useMemo(
-    () => getBongFetchURL(option, selectCode),
-    [option, selectCode]
-  );
 
-  let { data: chartData } = useLineChart(URL);
-  const firstData = chartData && chartData[0];
   const startDate =
     firstData &&
     dayjs.unix(firstData.time).add(9, "hours").format("YYYY년 M월 D일");
@@ -52,7 +45,7 @@ const ChartInfo: React.FC<PropsType> = ({ latestData }) => {
   return (
     <Container>
       <Line>
-        <YesterDay>{option.name}전보다</YesterDay>
+        <YesterDay>{option?.name}전보다</YesterDay>
         {renderData && (
           <Percent color={getTextColor(firstData.value, latestData.value)}>
             {renderData.percent}%
@@ -60,7 +53,7 @@ const ChartInfo: React.FC<PropsType> = ({ latestData }) => {
         )}
         {renderData && (
           <Price color={getTextColor(firstData.value, latestData.value)}>
-            ({renderData.price}원)
+            ({renderData.price})
           </Price>
         )}
       </Line>
@@ -112,4 +105,4 @@ const StartDate = styled.p`
   color: #6b7684;
 `;
 
-export default ChartInfo;
+export default React.memo(ChartInfo);

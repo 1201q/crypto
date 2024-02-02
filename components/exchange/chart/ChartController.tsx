@@ -1,6 +1,7 @@
 import { lineChartControllerOptionAtom } from "@/context/atoms";
 import { motion } from "framer-motion";
 import { useAtom } from "jotai";
+import React from "react";
 
 import styled from "styled-components";
 
@@ -51,4 +52,4 @@ const SortBtn = styled(motion.button)<{ $isselect: boolean }>`
   font-weight: ${(props) => (props.$isselect ? 700 : 500)};
 `;
 
-export default ChartController;
+export default React.memo(ChartController);
