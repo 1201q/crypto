@@ -7,7 +7,7 @@ import InfoBar from "./InfoBar";
 import { usePrice } from "@/context/hooks";
 
 const ExchangeInfo = () => {
-  const price = usePrice();
+  const price = usePrice("trade_price");
 
   return (
     <Container>

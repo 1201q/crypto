@@ -30,21 +30,21 @@ export default function f(
 
 function getPrice(price: number): string {
   if (price < 1) {
-    return price.toFixed(4);
+    return price?.toFixed(4);
   } else if (price < 100) {
-    return price.toFixed(2);
+    return price?.toFixed(2);
   } else {
-    return price.toLocaleString();
+    return price?.toLocaleString();
   }
 }
 
 function getChangePrice(price: number, changePrice: number): string {
   if (price < 1) {
-    return changePrice.toFixed(4);
+    return changePrice?.toFixed(4);
   } else if (price < 100) {
-    return changePrice.toFixed(2);
+    return changePrice?.toFixed(2);
   } else {
-    return changePrice.toLocaleString();
+    return changePrice?.toLocaleString();
   }
 }
 

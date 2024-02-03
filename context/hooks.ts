@@ -3,13 +3,18 @@ import { useCallback } from "react";
 import { selectTickerDataAtom } from "./atoms";
 import { selectAtom } from "jotai/utils";
 import dayjs from "dayjs";
+import { TickerDataType } from "@/types/types";
 
 const useSelectAtom = <T, R>(atom: Atom<T>, keyFn: (data: T) => R) => {
   return useAtomValue(selectAtom(atom, useCallback(keyFn, [])));
 };
 
-export const usePrice = () => {
-  return useSelectAtom(selectTickerDataAtom, (d) => d?.trade_price);
+export const usePrice = <K extends keyof TickerDataType>(
+  key: K
+): TickerDataType[K] | undefined => {
+  return useSelectAtom(selectTickerDataAtom, (d) => {
+    return d?.[key] || undefined;
+  });
 };
 
 export const useLatest = () => {
@@ -23,20 +28,4 @@ export const useLatest = () => {
       low: d?.low_price || 0,
     };
   });
-};
-
-export const useChange = () => {
-  return useSelectAtom(selectTickerDataAtom, (d) => d?.change);
-};
-
-export const useChangePrice = () => {
-  return useSelectAtom(selectTickerDataAtom, (d) => d?.signed_change_price);
-};
-
-export const useChangePercent = () => {
-  return useSelectAtom(selectTickerDataAtom, (d) => d?.signed_change_rate);
-};
-
-export const useAccPriceSum = () => {
-  return useSelectAtom(selectTickerDataAtom, (d) => d?.acc_trade_price_24h);
 };

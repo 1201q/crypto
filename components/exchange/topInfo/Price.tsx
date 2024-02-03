@@ -1,4 +1,4 @@
-import { useChange, useChangePercent, usePrice } from "@/context/hooks";
+import { usePrice } from "@/context/hooks";
 import f from "@/utils/common/formatting";
 import usePriceUpdate from "@/utils/hooks/usePriceUpdate";
 
@@ -22,14 +22,14 @@ const Price: React.FC = () => {
   };
 
   const PriceComponent = () => {
-    const price = usePrice() || 0;
+    const price = usePrice("trade_price") || 0;
     return <PriceText>{f("price", price)}</PriceText>;
   };
 
   const UpdateComponent = () => {
-    const price = usePrice() || 0;
-    const changePercent = useChangePercent();
-    const change = useChange();
+    const price = usePrice("trade_price") || 0;
+    const changePercent = usePrice("signed_change_rate");
+    const change = usePrice("change");
 
     const { isUpdated } = usePriceUpdate(price);
     return (

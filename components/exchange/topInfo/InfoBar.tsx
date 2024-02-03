@@ -4,18 +4,13 @@ import f from "@/utils/common/formatting";
 
 import React from "react";
 
-import {
-  useAccPriceSum,
-  useChange,
-  useChangePrice,
-  usePrice,
-} from "@/context/hooks";
+import { usePrice } from "@/context/hooks";
 
 const InfoBar: React.FC = () => {
-  const price = usePrice();
-  const change = useChange();
-  const changePrice = useChangePrice();
-  const accSum = useAccPriceSum();
+  const price = usePrice("trade_price");
+  const change = usePrice("change");
+  const changePrice = usePrice("signed_change_price");
+  const accSum = usePrice("acc_trade_price_24h");
 
   const getTextColor = (change: string | undefined) => {
     if (change === "RISE") {
