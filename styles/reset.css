@@ -86,7 +86,7 @@ video {
   font: inherit;
   vertical-align: baseline;
 }
-/* HTML5 display-role reset for older browsers */
+
 article,
 aside,
 details,
@@ -104,6 +104,7 @@ body {
   line-height: 1;
   font-family: "Pretendard Variable";
   font-feature-settings: "tnum";
+  font-display: swap;
 }
 ol,
 ul {
@@ -134,4 +135,11 @@ input::placeholder,
 button {
   font-family: "Pretendard Variable";
   font-feature-settings: "tnum";
+}
+
+@media screen and (max-width: 840px) {
+  ::-webkit-scrollbar {
+    display: none;
+    width: 0;
+  }
 }

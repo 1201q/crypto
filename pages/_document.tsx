@@ -7,7 +7,6 @@ import Document, {
   NextScript,
 } from "next/document";
 import { ServerStyleSheet } from "styled-components";
-import dayjs from "dayjs";
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -41,6 +40,12 @@ export default class MyDocument extends Document {
       <Html lang="ko">
         <Head>
           <title>ALL UP!</title>
+          <link
+            rel="stylesheet"
+            as="style"
+            crossOrigin="anonymous"
+            href="https://cdnjs.cloudflare.com/ajax/libs/pretendard/1.3.9/variable/pretendardvariable.min.css"
+          />
           <link rel="manifest" href="/manifest.json" />
           <link
             href="icons/favicon-16x16.png"
