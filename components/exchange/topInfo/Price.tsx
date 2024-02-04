@@ -56,14 +56,15 @@ const Container = styled.div<{ bottom: number }>`
 // price
 const PriceText = styled.p`
   font-size: 33px;
-  font-weight: 700;
-  letter-spacing: -0.8px;
+  font-weight: 600;
+  letter-spacing: -2px;
   margin-right: 15px;
+  text-align: left;
 `;
 
 const PercentText = styled.p`
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
   color: white;
 `;
 
@@ -78,7 +79,7 @@ const Update = styled.div<{
   background-color: ${(props) => props.bgcolor && props.bgcolor};
   border-radius: 5px;
   padding: 0px 8px;
-  transition-duration: 100ms;
+  margin-bottom: 2px;
 `;
 
 export default React.memo(Price);

@@ -300,13 +300,14 @@ const ToolTip = styled.div`
   background-color: white;
   font-size: 12px;
   font-weight: 600;
+  letter-spacing: -1px;
 
   p {
     margin-top: 1px;
     font-size: 16px;
     color: black;
-    font-weight: 700;
-    letter-spacing: -0px;
+    font-weight: 600;
+    letter-spacing: -1px;
     margin-bottom: 2px;
   }
 

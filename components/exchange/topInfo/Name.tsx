@@ -5,6 +5,7 @@ import f from "@/utils/common/formatting";
 import { useAtom } from "jotai";
 import { queryCodeAtom } from "@/context/atoms";
 import { useList } from "@/utils/hooks/useList";
+import { motion } from "framer-motion";
 
 const Name = () => {
   const { coinList } = useList();
@@ -24,11 +25,12 @@ const Container = styled.div<{ bottom: number }>`
 `;
 
 // name
-const NameText = styled.p`
+const NameText = styled(motion.p)`
   font-size: 21px;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -1px;
   margin-right: 10px;
+  margin-left: 1px;
 `;
 
 const Code = styled.p`

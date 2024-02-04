@@ -53,7 +53,7 @@ const ChartInfo: React.FC<PropsType> = ({ latestData, firstData }) => {
         )}
         {renderData && (
           <Price color={getTextColor(firstData.value, latestData.value)}>
-            ({renderData.price})
+            ({renderData.price}원)
           </Price>
         )}
       </Line>
@@ -93,6 +93,7 @@ const Price = styled.p<{ color: string }>`
   font-size: 15px;
   color: ${(props) => (props.color ? props.color : "black")};
   font-weight: 600;
+  letter-spacing: -1px;
 `;
 
 const Percent = styled(Price)`

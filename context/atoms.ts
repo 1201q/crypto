@@ -18,6 +18,7 @@ export const selectTickerDataAtom = atom((get) => {
 });
 
 export const tradeDataAtom = atom<TradeDataType[]>([]);
+
 export const orderbookDataAtom = atom<OrderBookDataType[]>([]);
 
 export const coinListAtom = atom<MarketListDataType[]>([]);
@@ -63,3 +64,7 @@ export const selectedLineChartOptionAtom = atom((get) => {
   const options = get(lineChartControllerOptionAtom);
   return options.find((option) => option.select) || options[1];
 });
+
+// exchange header
+export const isHeaderInfoVisibleAtom = atom(false);
+export const isHeaderBorderVisibleAtom = atom(false);

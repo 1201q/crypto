@@ -1,17 +1,19 @@
 import styled from "styled-components";
-import ExchangeHeader from "../exchange/header/ExchangeHeader";
 import { motion } from "framer-motion";
-import ExchangeMenu from "../exchange/others/ExchangeMenu";
+
+import TradeList from "../trade/TradeList";
+import TradeHeader from "../trade/TradeHeader";
 
 export default function TradePage() {
   return (
     <Container>
-      <ExchangeHeader />
-      <ExchangeMenu />
+      <TradeHeader />
+      <TradeList />
     </Container>
   );
 }
 
 const Container = styled(motion.div)`
   width: 100%;
+  position: relative;
 `;

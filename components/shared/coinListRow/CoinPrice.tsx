@@ -54,15 +54,14 @@ const UpdateContainer = styled.div<{
   background-color: ${(props) => props.bgcolor && props.bgcolor};
   border-radius: 4px;
   margin-bottom: 3px;
-  transition-duration: 100ms;
 `;
 
 const PercentText = styled.p`
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
   color: white;
   margin-right: 5px;
-  letter-spacing: -0.1px;
+  letter-spacing: -0.5px;
 `;
 
 const PriceText = styled.div`
@@ -71,6 +70,7 @@ const PriceText = styled.div`
   color: gray;
   margin-right: 1px;
   text-align: end;
+  letter-spacing: -0.5px;
 `;
 
 export default React.memo(CoinPrice);

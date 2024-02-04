@@ -26,6 +26,7 @@ export interface ServerSideProps {
 
 export interface RedirectProps {
   destination: string;
+  permanent: boolean;
 }
 
 export interface CoinListResponseType {

@@ -27,7 +27,7 @@ const InfoBar: React.FC = () => {
     <Container>
       <Info
         header={"어제보다"}
-        text={`${f("plus", change)}${f("changePrice", price, changePrice)}`}
+        text={`${f("plus", change)}${f("changePrice", price, changePrice)}원`}
         color={getTextColor(change)}
       />
       <Info header={"거래대금"} text={`${f("acc", accSum)}백만`} />

@@ -10,7 +10,7 @@ const ExchangeMenu = () => {
   const [queryCode] = useAtom(queryCodeAtom);
 
   return (
-    <Container layoutId="menu">
+    <Container>
       <MenuContainer>
         <ExchangeBtn
           whileTap={{ backgroundColor: "#D9DBDD" }}

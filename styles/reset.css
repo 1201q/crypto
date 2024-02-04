@@ -100,11 +100,13 @@ nav,
 section {
   display: block;
 }
-body {
+body,
+* {
   line-height: 1;
   font-family: "Pretendard Variable";
   font-feature-settings: "tnum";
   font-display: swap;
+  -webkit-tap-highlight-color: transparent;
 }
 ol,
 ul {
@@ -124,17 +126,6 @@ q:after {
 table {
   border-collapse: collapse;
   border-spacing: 0;
-}
-
-* {
-  -webkit-tap-highlight-color: transparent;
-}
-
-input,
-input::placeholder,
-button {
-  font-family: "Pretendard Variable";
-  font-feature-settings: "tnum";
 }
 
 @media screen and (max-width: 840px) {

@@ -66,7 +66,7 @@ const Text = styled.p<{ color: string }>`
   font-size: 14px;
   font-weight: 500;
   color: ${(props) => props.color};
-  letter-spacing: -0.5px;
+  letter-spacing: -1px;
 `;
 
 export default React.memo(Bar);

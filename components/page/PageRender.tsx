@@ -26,7 +26,6 @@ const PageRender: React.FC<PageRenderProps> = ({
 const Container = styled.div`
   width: 100%;
   min-height: 100dvh;
-  position: relative;
   background-color: #f2f4f6;
   display: flex;
   justify-content: center;
@@ -39,6 +38,7 @@ const Mobile = styled.div`
   background-color: white;
   border-right: 1px solid #d1d6db;
   border-left: 1px solid #d1d6db;
+  position: relative;
 
   @media screen and (max-width: 840px) {
     border: none;

@@ -1,5 +1,5 @@
 import { allTickerDataAtom } from "@/context/atoms";
-import { Provider, useAtom } from "jotai";
+import { useAtom } from "jotai";
 import styled from "styled-components";
 import { Virtuoso } from "react-virtuoso";
 import React, { useMemo } from "react";

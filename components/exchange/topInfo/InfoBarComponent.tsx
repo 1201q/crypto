@@ -39,8 +39,8 @@ const Text = styled.p<{ color: string | undefined }>`
   display: flex;
   font-size: 13px;
   align-items: center;
-  font-weight: 700;
-  letter-spacing: -0.1px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
   margin-left: 7px;
   color: ${(props) => (props.color ? props.color : "black")};
 `;

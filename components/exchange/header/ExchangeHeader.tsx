@@ -1,12 +1,80 @@
 import styled from "styled-components";
 import Back from "@/public/back.svg";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { throttle } from "lodash";
+import { useAtom } from "jotai";
+import {
+  isHeaderInfoVisibleAtom,
+  isHeaderBorderVisibleAtom,
+  queryCodeAtom,
+} from "@/context/atoms";
+import getKR from "@/utils/common/getKR";
+import { useList } from "@/utils/hooks/useList";
+import { usePrice } from "@/context/hooks";
+import { motion } from "framer-motion";
+import f from "@/utils/common/formatting";
 
-const ExchangeHeader = () => {
+interface HeaderProps {
+  borderVisible?: boolean;
+  infoVisible?: boolean;
+}
+
+const ExchangeHeader: React.FC<HeaderProps> = ({
+  borderVisible,
+  infoVisible,
+}) => {
   const router = useRouter();
+  const [queryCode] = useAtom(queryCodeAtom);
+  const { coinList } = useList();
+  const price = usePrice("trade_price");
+  const changePercent = usePrice("signed_change_rate");
+  const change = usePrice("change");
+
+  const [isInfoVisible, setIsInfoVisible] = useState(infoVisible || false);
+  const [headerBorderVisible, setHeaderBorderVisible] = useState(
+    borderVisible || false
+  );
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      setHeaderBorderVisible(false);
+      setIsInfoVisible(false);
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const handleScroll = throttle(() => {
+    const scrollY = window.scrollY;
+    const borderFixed = borderVisible !== undefined;
+
+    if (borderFixed || infoVisible) {
+      borderVisible && setHeaderBorderVisible(borderVisible);
+      infoVisible && setIsInfoVisible(infoVisible);
+    } else {
+      if (scrollY > 100) {
+        setIsInfoVisible(true);
+        setHeaderBorderVisible(true);
+      } else {
+        setIsInfoVisible(false);
+        setHeaderBorderVisible(false);
+      }
+    }
+  }, 100);
+
+  const getTextColor = (change: string | undefined) => {
+    if (change === "RISE") {
+      return "#df5068";
+    } else if (change === "FALL") {
+      return "#448aef";
+    }
+    return "#6b7684";
+  };
 
   return (
-    <Container>
+    <Container border={headerBorderVisible}>
       <Back
         width={26}
         height={26}
@@ -18,14 +86,23 @@ const ExchangeHeader = () => {
           marginTop: "2px",
         }}
         onClick={() => {
-          router.replace("/market");
+          router.back();
         }}
       />
+      {isInfoVisible && (
+        <InfoContainer animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
+          <Name>{getKR(coinList.data, queryCode)}</Name>
+          <Info color={getTextColor(change)}>
+            <Price>{f("price", price)}원</Price>
+            <Price>{f("change", changePercent)}%</Price>
+          </Info>
+        </InfoContainer>
+      )}
     </Container>
   );
 };
 
-const Container = styled.header`
+const Container = styled.header<{ border: boolean }>`
   position: sticky;
   top: 0;
   display: flex;
@@ -34,8 +111,30 @@ const Container = styled.header`
   height: 50px;
   background-color: white;
   padding: 0px 20px;
+  z-index: 200;
+  border-bottom: ${(props) =>
+    props.border ? `1px solid #f1f2f2` : "1px solid white"};
+`;
 
-  z-index: 100;
+const InfoContainer = styled(motion.div)`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Name = styled(motion.p)`
+  font-size: 13px;
+  font-weight: 600;
+`;
+const Price = styled.p`
+  font-size: 13px;
+  margin-right: 5px;
+  letter-spacing: -0.4px;
+`;
+
+const Info = styled.div<{ color: string }>`
+  display: flex;
+  margin-top: 3px;
+  color: ${(props) => props.color};
 `;
 
 export default ExchangeHeader;
