@@ -107,5 +107,5 @@ const handleTradeUpdateEvent = (
   data: TradeDataType,
   setData: SetAtomType<TradeDataType[]>
 ) => {
-  setData((prev) => [...prev, data]);
+  setData((prev) => [data, ...prev]);
 };

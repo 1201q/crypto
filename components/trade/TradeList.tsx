@@ -22,6 +22,7 @@ const TradeList = () => {
             volume={data.trade_volume}
             change={data.change}
             askOrBid={data.ask_bid}
+            key={data.sequential_id}
           />
         )}
         totalCount={data.length}

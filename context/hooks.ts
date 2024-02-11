@@ -13,7 +13,7 @@ export const usePrice = <K extends keyof TickerDataType>(
   key: K
 ): TickerDataType[K] | undefined => {
   return useSelectAtom(selectTickerDataAtom, (d) => {
-    return d?.[key] || undefined;
+    return d?.[key];
   });
 };
 

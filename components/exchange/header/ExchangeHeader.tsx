@@ -124,6 +124,7 @@ const InfoContainer = styled(motion.div)`
 const Name = styled(motion.p)`
   font-size: 13px;
   font-weight: 600;
+  margin-left: 0.5px;
 `;
 const Price = styled.p`
   font-size: 13px;
