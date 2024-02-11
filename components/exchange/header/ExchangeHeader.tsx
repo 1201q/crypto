@@ -14,6 +14,7 @@ import { useList } from "@/utils/hooks/useList";
 import { usePrice } from "@/context/hooks";
 import { motion } from "framer-motion";
 import f from "@/utils/common/formatting";
+import React from "react";
 
 interface HeaderProps {
   borderVisible?: boolean;
@@ -138,4 +139,4 @@ const Info = styled.div<{ color: string }>`
   color: ${(props) => props.color};
 `;
 
-export default ExchangeHeader;
+export default React.memo(ExchangeHeader);

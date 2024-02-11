@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import ExchangeHeader from "../exchange/header/ExchangeHeader";
 import { motion } from "framer-motion";
-import ExchangeMenu from "../exchange/others/ExchangeMenu";
+import OrderbookList from "../orderbook/OrderbookList";
 
 export default function OrderbookPage() {
   return (
     <Container>
       <ExchangeHeader />
-      <ExchangeMenu />
+      <OrderbookList />
     </Container>
   );
 }

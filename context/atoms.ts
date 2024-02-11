@@ -19,7 +19,25 @@ export const selectTickerDataAtom = atom((get) => {
 
 export const tradeDataAtom = atom<TradeDataType[]>([]);
 
-export const orderbookDataAtom = atom<OrderBookDataType[]>([]);
+export const orderbookDataAtom = atom<OrderBookDataType | null>(null);
+
+export const orderbookUnitsAtom = atom<any[]>((get) => {
+  const units = get(orderbookDataAtom)?.orderbook_units;
+
+  const ask =
+    units?.reverse().map((d, i) => {
+      return { price: d.ask_price, size: d.ask_size };
+    }) || [];
+
+  const bid =
+    units
+      ?.map((d, i) => {
+        return { price: d.bid_price, size: d.bid_size };
+      })
+      .reverse() || [];
+
+  return ask?.concat(bid);
+});
 
 export const coinListAtom = atom<MarketListDataType[]>([]);
 
