@@ -98,9 +98,9 @@ const handleTickerUpdateEvent = (
 
 const handleOrderbookUpdateEvent = (
   data: OrderBookDataType,
-  setData: SetAtomType<OrderBookDataType>
+  setData: SetAtomType<OrderBookDataType[]>
 ) => {
-  setData(data);
+  setData([data]);
 };
 
 const handleTradeUpdateEvent = (

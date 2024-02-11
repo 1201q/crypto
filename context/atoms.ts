@@ -19,10 +19,10 @@ export const selectTickerDataAtom = atom((get) => {
 
 export const tradeDataAtom = atom<TradeDataType[]>([]);
 
-export const orderbookDataAtom = atom<OrderBookDataType | null>(null);
+export const orderbookDataAtom = atom<OrderBookDataType[]>([]);
 
 export const orderbookUnitsAtom = atom<any[]>((get) => {
-  const units = get(orderbookDataAtom)?.orderbook_units;
+  const units = get(orderbookDataAtom)[0]?.orderbook_units;
 
   const ask =
     units?.reverse().map((d, i) => {
