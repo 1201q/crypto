@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Center from "./Center";
-import BlankBox from "./blankBox";
+import BlankBox from "./Blank";
 import Box from "./Box";
 
 interface PropsType {
