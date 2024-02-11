@@ -39,6 +39,16 @@ export const orderbookUnitsAtom = atom<any[]>((get) => {
   return ask?.concat(bid);
 });
 
+export const orderbookSizeAtom = atom<any>((get) => {
+  const units = get(orderbookDataAtom)[0];
+
+  return {
+    ask: units.total_ask_size,
+    bid: units.total_bid_size,
+    sum: units.total_ask_size + units.total_bid_size,
+  };
+});
+
 export const coinListAtom = atom<MarketListDataType[]>([]);
 
 export const queryCodeAtom = atom<string | undefined>("");

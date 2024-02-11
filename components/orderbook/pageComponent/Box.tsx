@@ -1,6 +1,7 @@
 import f from "@/utils/common/formatting";
 import React from "react";
 import styled from "styled-components";
+import Bar from "./Bar";
 
 interface BoxPropsType {
   type: "ask" | "bid";
@@ -19,7 +20,10 @@ const Box: React.FC<BoxPropsType> = ({ type, size, price }) => {
 
   return (
     <Container type={type}>
-      <Size $color={getTextColor(type)}>{f("orderbookSize", price, size)}</Size>
+      <Size type={type} $color={getTextColor(type)}>
+        {f("orderbookSize", price, size)}
+      </Size>
+      <Bar type={type} size={size} />
     </Container>
   );
 };
@@ -29,18 +33,20 @@ const Container = styled.div<{ type: string }>`
   flex-direction: column;
   justify-content: center;
   align-items: ${(props) => (props.type === "ask" ? "flex-end" : "flex-start")};
-
   border-radius: 7px;
   cursor: pointer;
   overflow: hidden;
+  position: relative;
 `;
 
-const Size = styled.p<{ $color: string }>`
+const Size = styled.p<{ $color: string; type: string }>`
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: -0.5px;
   color: ${(props) => props.$color};
   text-overflow: ellipsis;
+  z-index: 20;
+  padding: ${(props) => (props.type === "ask" ? "0 7px 0 0" : "0 0 0 7px")};
 `;
 
 export default React.memo(Box);

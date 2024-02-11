@@ -15,6 +15,7 @@ const OrderbookList = () => {
           length={units.length}
           size={d.size}
           price={d.price}
+          key={index}
         />
       ))}
     </Container>
@@ -23,6 +24,7 @@ const OrderbookList = () => {
 
 const Container = styled.div`
   height: 100%;
+  padding: 0px 20px;
 `;
 
 export default React.memo(OrderbookList);
