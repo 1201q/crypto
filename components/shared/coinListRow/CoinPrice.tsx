@@ -8,6 +8,10 @@ interface ComponentProps {
   tickerData: TickerDataType;
 }
 
+interface UpdateProps {
+  bgcolor: string | undefined;
+}
+
 const CoinPrice: React.FC<ComponentProps> = ({ tickerData }) => {
   const { isUpdated } = usePriceUpdate(tickerData.trade_price);
 
@@ -43,17 +47,19 @@ const Container = styled.div`
   margin-bottom: 2px;
 `;
 
-const UpdateContainer = styled.div<{
-  bgcolor: string | undefined;
-}>`
+const UpdateContainer = styled.div.attrs<UpdateProps>((props) => ({
+  style: {
+    backgroundColor: props.bgcolor && props.bgcolor,
+  },
+}))<UpdateProps>`
   display: flex;
   align-items: center;
   justify-content: flex-end;
   width: 100%;
   height: 22px;
-  background-color: ${(props) => props.bgcolor && props.bgcolor};
   border-radius: 4px;
   margin-bottom: 3px;
+  transition: all 0.1s ease-out;
 `;
 
 const PercentText = styled.p`

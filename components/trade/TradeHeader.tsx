@@ -16,9 +16,13 @@ const TradeHeader = () => {
       <Container height={height}>
         <Header sort={"flex-start"}>체결시간</Header>
         <Header sort={"flex-end"}>체결가</Header>
-        <Header sort={"flex-end"}>
+        <Header
+          sort={"flex-end"}
+          onClick={() => setDisplayMode((prev) => !prev)}
+          style={{ cursor: "pointer" }}
+        >
           {displayMode ? "체결량" : "체결액"}
-          <SvgBtn onClick={() => setDisplayMode((prev) => !prev)}>
+          <SvgBtn>
             <Exchange width={13} height={13} fill={"#6b7684"} />
           </SvgBtn>
         </Header>

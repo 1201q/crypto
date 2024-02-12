@@ -8,6 +8,10 @@ interface BarPropsType {
   high?: number;
 }
 
+interface LeftProps {
+  left: number;
+}
+
 const Bar: React.FC<BarPropsType> = ({ low, high }) => {
   const price = usePrice("trade_price");
   const left = useMemo(() => {
@@ -53,13 +57,18 @@ const BarInfoContainer = styled.div`
   margin-bottom: 30px;
 `;
 
-const CurrentPrice = styled.div<{ left: number }>`
+const CurrentPrice = styled.div.attrs<LeftProps>((props) => ({
+  style: {
+    left: props.left && `${props.left}%`,
+  },
+}))<LeftProps>`
   height: 100%;
   width: 4px;
   background-color: gray;
   border-radius: 80px;
   position: absolute;
-  left: ${(props) => props.left && `${props.left}%`};
+
+  transition: left 0.1s ease-out;
 `;
 
 const Text = styled.p<{ color: string }>`

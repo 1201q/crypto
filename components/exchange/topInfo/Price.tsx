@@ -5,6 +5,10 @@ import usePriceUpdate from "@/utils/hooks/usePriceUpdate";
 import React from "react";
 import styled from "styled-components";
 
+interface UpdateProps {
+  bgcolor: string | undefined;
+}
+
 const Price: React.FC = () => {
   const getUpdateDisplayBgColor = (
     change: string | undefined,
@@ -68,18 +72,20 @@ const PercentText = styled.p`
   color: white;
 `;
 
-const Update = styled.div<{
-  bgcolor: string | undefined;
-}>`
+const Update = styled.div.attrs<UpdateProps>((props) => ({
+  style: {
+    backgroundColor: props.bgcolor && props.bgcolor,
+  },
+}))<UpdateProps>`
   display: flex;
   align-items: center;
   justify-content: center;
   width: fit-content;
   height: 22px;
-  background-color: ${(props) => props.bgcolor && props.bgcolor};
   border-radius: 5px;
   padding: 0px 8px;
   margin-bottom: 2px;
+  transition: all 0.1s ease-out;
 `;
 
 export default React.memo(Price);
