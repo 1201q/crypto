@@ -80,6 +80,7 @@ const options = [
   { name: "하락", en: "down", select: false },
 ];
 export const sortOptionAtom = atom(options);
+export const currentIndexAtom = atom(0);
 
 // bottom tab
 const menu = [

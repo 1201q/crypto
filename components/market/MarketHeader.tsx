@@ -43,7 +43,7 @@ const MarketHeader = () => {
 
   const handleScroll = throttle(() => {
     const scrollY = window.scrollY;
-    const mobileScrollThreshold = 10;
+    const mobileScrollThreshold = 15;
 
     const diff = Math.abs(scrollY - beforeScrollY.current);
 

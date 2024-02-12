@@ -3,7 +3,7 @@ import { useAtom } from "jotai";
 import styled from "styled-components";
 import { Virtuoso } from "react-virtuoso";
 import React, { useMemo } from "react";
-import { sortOptionAtom } from "@/context/atoms";
+import { sortOptionAtom, currentIndexAtom } from "@/context/atoms";
 import { TickerDataType } from "@/types/types";
 import { coinListHeightAtom } from "@/context/styles";
 
@@ -40,6 +40,7 @@ const MarketList = () => {
             <CoinRow key={data.code} code={data.code} tickerData={data} />
           )}
           totalCount={coinList?.code.length}
+          fixedItemHeight={55}
         />
       ) : (
         <div></div>
@@ -49,7 +50,7 @@ const MarketList = () => {
 };
 
 const Container = styled.main<{ height: string }>`
-  min-height: 100dvh;
+  min-height: calc(100dvh - 150px);
   height: ${(props) => props.height};
 
   background-color: white;
