@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import ExchangeChart from "../exchange/chart/ExchangeChart";
-import ExchangeHeader from "../exchange/header/ExchangeHeader";
+import ExchangeHeader from "../shared/header/ExchangeHeader";
 import ExchangeInfo from "../exchange/topInfo/ExchangeInfo";
 import { motion } from "framer-motion";
 import ExchangeMenu from "../exchange/others/ExchangeMenu";

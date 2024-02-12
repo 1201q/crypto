@@ -36,7 +36,6 @@ const MarketList = () => {
         <Virtuoso
           data={sortedData}
           useWindowScroll
-          style={{ height: "100%" }}
           itemContent={(index, data) => (
             <CoinRow key={data.code} code={data.code} tickerData={data} />
           )}
@@ -52,6 +51,7 @@ const MarketList = () => {
 const Container = styled.main<{ height: string }>`
   min-height: 100dvh;
   height: ${(props) => props.height};
+
   background-color: white;
 `;
 

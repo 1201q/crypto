@@ -1,7 +1,7 @@
 import { tradeListHeaderHeightAtom } from "@/context/styles";
 import { useAtom } from "jotai";
 import styled from "styled-components";
-import ExchangeHeader from "../exchange/header/ExchangeHeader";
+import ExchangeHeader from "../shared/header/ExchangeHeader";
 import Exchange from "@/public/exchange.svg";
 
 import { tradeListVolumeDisplayModeAtom } from "@/context/atoms";

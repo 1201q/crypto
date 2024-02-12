@@ -43,17 +43,22 @@ const MarketHeader = () => {
 
   const handleScroll = throttle(() => {
     const scrollY = window.scrollY;
+    const mobileScrollThreshold = 10;
 
-    if (scrollY > beforeScrollY.current) {
-      setIsVisible(false);
-      setHeaderHeight(0);
-    } else {
-      setIsVisible(true);
-      setHeaderHeight(50);
+    const diff = Math.abs(scrollY - beforeScrollY.current);
+
+    if (diff > mobileScrollThreshold) {
+      if (scrollY > beforeScrollY.current) {
+        setIsVisible(false);
+        setHeaderHeight(0);
+      } else {
+        setIsVisible(true);
+        setHeaderHeight(50);
+      }
+
+      beforeScrollY.current = scrollY;
     }
-
-    beforeScrollY.current = scrollY;
-  }, 150);
+  }, 50);
 
   return (
     <Container>

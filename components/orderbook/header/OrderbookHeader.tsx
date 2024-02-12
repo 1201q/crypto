@@ -1,5 +1,5 @@
 import React from "react";
-import ExchangeHeader from "../../exchange/header/ExchangeHeader";
+import ExchangeHeader from "../../shared/header/ExchangeHeader";
 import TopBarHeader from "./TopBarHeader";
 
 const OrderbookHeader = () => {
