@@ -49,6 +49,26 @@ export const orderbookSizeAtom = atom<any>((get) => {
   };
 });
 
+export const orderbookPriceModeAtom = atom<any>((get) => {
+  const units = get(orderbookUnitsAtom);
+  const length = units?.length / 2;
+  const array =
+    units?.map((d) => {
+      return d?.price * d?.size;
+    }) || [];
+
+  const ask =
+    array.slice(0, length).reduce((acc, unit) => {
+      return acc + unit;
+    }, 0) || undefined;
+  const bid =
+    array.slice(length).reduce((acc, unit) => {
+      return acc + unit;
+    }, 0) || undefined;
+
+  return { ask, bid };
+});
+
 export const coinListAtom = atom<MarketListDataType[]>([]);
 
 export const queryCodeAtom = atom<string | undefined>("");

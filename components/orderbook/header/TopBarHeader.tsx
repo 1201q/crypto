@@ -1,6 +1,6 @@
 import {
   orderbookSizeAtom,
-  orderbookUnitsAtom,
+  orderbookPriceModeAtom,
   orderbookVolumeDisplayModeAtom,
 } from "@/context/atoms";
 import { usePrice } from "@/context/hooks";
@@ -19,7 +19,7 @@ const TopBarHeader = () => {
   const [height] = useAtom(orderbookTopHeaderHeightAtom);
   const [sizeData] = useAtom(orderbookSizeAtom);
   const [displayMode, setDisplayMode] = useAtom(orderbookVolumeDisplayModeAtom);
-  const [data] = useAtom(orderbookUnitsAtom);
+  const [priceSum] = useAtom(orderbookPriceModeAtom);
 
   const getBlueWidth = useCallback(() => {
     return ((sizeData?.ask / sizeData?.sum) * 100).toFixed(2);
@@ -33,7 +33,7 @@ const TopBarHeader = () => {
           <Value color={"#448aef"}>
             {displayMode
               ? f("orderbookSize", price, sizeData?.ask)
-              : f("fixedPrice", sizeData?.ask * price)}
+              : f("fixedPrice", priceSum?.ask)}
           </Value>
         </ValueBox>
         <Button
@@ -48,7 +48,7 @@ const TopBarHeader = () => {
           <Value color={"#df5068"}>
             {displayMode
               ? f("orderbookSize", price, sizeData?.bid)
-              : f("fixedPrice", sizeData?.bid * price)}
+              : f("fixedPrice", priceSum?.bid)}
           </Value>
         </ValueBox>
       </ValueContainer>
@@ -72,19 +72,21 @@ const Container = styled.header<{ height: number }>`
 `;
 
 const BarContainer = styled.div`
-  width: 100%;
   height: 7px;
   background-color: #df5068;
   border-radius: 7px;
+  margin: 0px 21px;
+  border-top: 1px solid white;
 `;
 
 const ValueContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 20px;
+  height: 28px;
   margin-top: 6px;
   position: relative;
+  padding: 0px 20px;
 `;
 
 const ValueBox = styled.div<{ align: string }>`
@@ -105,16 +107,16 @@ const Value = styled.p<{ color: string }>`
 
 const Button = styled.button`
   position: absolute;
-  width: 76px;
+  width: 65px;
   left: 50%;
   transform: translateX(-50%);
   background-color: #f2f4f6;
   border-radius: 7px;
   border: none;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   color: #808080;
-  padding: 6px 0px;
+  padding: 7px 0px;
   cursor: pointer;
 `;
 
