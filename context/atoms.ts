@@ -43,9 +43,9 @@ export const orderbookSizeAtom = atom<any>((get) => {
   const units = get(orderbookDataAtom)[0];
 
   return {
-    ask: units.total_ask_size,
-    bid: units.total_bid_size,
-    sum: units.total_ask_size + units.total_bid_size,
+    ask: units?.total_ask_size,
+    bid: units?.total_bid_size,
+    sum: units?.total_ask_size + units?.total_bid_size,
   };
 });
 
@@ -96,3 +96,9 @@ export const selectedLineChartOptionAtom = atom((get) => {
 // exchange header
 export const isHeaderInfoVisibleAtom = atom(false);
 export const isHeaderBorderVisibleAtom = atom(false);
+
+// trade
+export const tradeListVolumeDisplayModeAtom = atom(true);
+
+// orderbook
+export const orderbookVolumeDisplayModeAtom = atom(true);

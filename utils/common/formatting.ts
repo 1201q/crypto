@@ -1,4 +1,4 @@
-type Funtciontype =
+type Functiontype =
   | "price"
   | "change"
   | "acc"
@@ -6,10 +6,11 @@ type Funtciontype =
   | "code"
   | "changePrice"
   | "plus"
-  | "orderbookSize";
+  | "orderbookSize"
+  | "fixedPrice";
 
 export default function f(
-  type: Funtciontype,
+  type: Functiontype,
   value: number | string | undefined,
   value2?: number | undefined
 ) {
@@ -27,6 +28,8 @@ export default function f(
     return getPlus(value as string);
   } else if (type === "orderbookSize") {
     return getOrderbookSize(value as number, value2 as number);
+  } else if (type === "fixedPrice") {
+    return getFixedPrice(value as number);
   }
   return "Invalid type";
 }
@@ -46,9 +49,21 @@ function getPrice(price: number): string {
     return price?.toFixed(3);
   } else if (price < 100) {
     return price?.toFixed(2);
+  } else if (price < 1000) {
+    return price?.toLocaleString(undefined, {
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1,
+    });
   } else {
     return price?.toLocaleString();
   }
+}
+
+function getFixedPrice(price: number): string {
+  return price?.toLocaleString(undefined, {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });
 }
 
 function getOrderbookSize(price: number, size: number): string {
@@ -77,6 +92,11 @@ function getChangePrice(price: number, changePrice: number): string {
     return changePrice?.toFixed(3);
   } else if (price < 100) {
     return changePrice?.toFixed(2);
+  } else if (price < 1000) {
+    return changePrice?.toLocaleString(undefined, {
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1,
+    });
   } else {
     return changePrice?.toLocaleString();
   }

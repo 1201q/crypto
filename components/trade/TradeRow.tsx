@@ -1,6 +1,8 @@
+import { tradeListVolumeDisplayModeAtom } from "@/context/atoms";
 import f from "@/utils/common/formatting";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
+import { useAtom } from "jotai";
 
 import styled from "styled-components";
 
@@ -19,6 +21,7 @@ const TradeRow: React.FC<RowPropsType> = ({
   change,
   askOrBid,
 }) => {
+  const [volumeDisplayMode] = useAtom(tradeListVolumeDisplayModeAtom);
   const handleColor = (color: string) => {
     if (color === "blue") {
       return "#448aef";
@@ -54,7 +57,9 @@ const TradeRow: React.FC<RowPropsType> = ({
         {f("price", price)}
       </Data>
       <Data color={getColor(undefined, askOrBid)} sort={"flex-end"}>
-        {volume.toFixed(5)}
+        {volumeDisplayMode
+          ? volume.toFixed(5)
+          : f("fixedPrice", price * volume)}
       </Data>
     </Container>
   );

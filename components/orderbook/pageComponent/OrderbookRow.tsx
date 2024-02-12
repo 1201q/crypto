@@ -32,7 +32,7 @@ const OrderbookRow: React.FC<PropsType> = ({ index, length, size, price }) => {
 
 const Row = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1.2fr 1fr 1.2fr;
   height: 42px;
   gap: 10px;
 `;

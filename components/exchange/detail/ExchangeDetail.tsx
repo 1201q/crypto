@@ -27,7 +27,7 @@ const ExchangeDetail = () => {
       <InfoTable>
         <div>
           <InfoName>24시간 거래대금</InfoName>
-          <InfoPrice>{f("price", accPrice)}원</InfoPrice>
+          <InfoPrice>{f("fixedPrice", accPrice)}원</InfoPrice>
         </div>
         <div>
           <InfoName>24시간 거래량</InfoName>

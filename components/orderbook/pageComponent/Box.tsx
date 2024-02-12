@@ -2,6 +2,8 @@ import f from "@/utils/common/formatting";
 import React from "react";
 import styled from "styled-components";
 import Bar from "./Bar";
+import { useAtom } from "jotai";
+import { orderbookVolumeDisplayModeAtom } from "@/context/atoms";
 
 interface BoxPropsType {
   type: "ask" | "bid";
@@ -10,6 +12,7 @@ interface BoxPropsType {
 }
 
 const Box: React.FC<BoxPropsType> = ({ type, size, price }) => {
+  const [displayMode] = useAtom(orderbookVolumeDisplayModeAtom);
   const getTextColor = (type: string) => {
     if (type === "bid") {
       return "#df5068";
@@ -21,7 +24,9 @@ const Box: React.FC<BoxPropsType> = ({ type, size, price }) => {
   return (
     <Container type={type}>
       <Size type={type} $color={getTextColor(type)}>
-        {f("orderbookSize", price, size)}
+        {displayMode
+          ? f("orderbookSize", price, size)
+          : f("fixedPrice", price * size)}
       </Size>
       <Bar type={type} size={size} />
     </Container>

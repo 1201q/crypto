@@ -2,16 +2,26 @@ import { tradeListHeaderHeightAtom } from "@/context/styles";
 import { useAtom } from "jotai";
 import styled from "styled-components";
 import ExchangeHeader from "../exchange/header/ExchangeHeader";
+import Exchange from "@/public/exchange.svg";
+
+import { tradeListVolumeDisplayModeAtom } from "@/context/atoms";
 
 const TradeHeader = () => {
   const [height] = useAtom(tradeListHeaderHeightAtom);
+  const [displayMode, setDisplayMode] = useAtom(tradeListVolumeDisplayModeAtom);
+
   return (
     <>
       <ExchangeHeader borderVisible={false} infoVisible={true} />
       <Container height={height}>
         <Header sort={"flex-start"}>체결시간</Header>
         <Header sort={"flex-end"}>체결가</Header>
-        <Header sort={"flex-end"}>체결량</Header>
+        <Header sort={"flex-end"}>
+          {displayMode ? "체결량" : "체결액"}
+          <SvgBtn onClick={() => setDisplayMode((prev) => !prev)}>
+            <Exchange width={13} height={13} fill={"#6b7684"} />
+          </SvgBtn>
+        </Header>
       </Container>
     </>
   );
@@ -36,6 +46,16 @@ const Header = styled.div<{ sort: string }>`
   font-size: 15px;
   font-weight: 500;
   color: #6b7684;
+`;
+
+const SvgBtn = styled.button`
+  cursor: pointer;
+  border-radius: 7px;
+  padding: 0;
+  border: none;
+  background: none;
+  margin-left: 5px;
+  margin-top: 2px;
 `;
 
 export default TradeHeader;
