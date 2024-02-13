@@ -1,4 +1,4 @@
-import styled, { keyframes, css } from "styled-components";
+import styled from "styled-components";
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useAtom } from "jotai";
@@ -17,7 +17,7 @@ const MarketHeader = () => {
   const router = useRouter();
   const beforeScrollY = useRef(0);
 
-  const [headerHeight, setHeaderHeight] = useAtom(headerHeightAtom);
+  const [headerHeight] = useAtom(headerHeightAtom);
   const [sortOptions, setSortOptions] = useAtom(sortOptionAtom);
   const [listHeight] = useAtom(coinListControllerHeightAtom);
   const [isVisible, setIsVisible] = useState(true);
@@ -26,7 +26,6 @@ const MarketHeader = () => {
     window.addEventListener("scroll", handleScroll);
 
     return () => {
-      setHeaderHeight(50);
       setIsVisible(true);
       window.removeEventListener("scroll", handleScroll);
     };
@@ -50,10 +49,8 @@ const MarketHeader = () => {
     if (diff > mobileScrollThreshold) {
       if (scrollY > beforeScrollY.current) {
         setIsVisible(false);
-        setHeaderHeight(0);
       } else {
         setIsVisible(true);
-        setHeaderHeight(50);
       }
 
       beforeScrollY.current = scrollY;
@@ -61,8 +58,8 @@ const MarketHeader = () => {
   }, 50);
 
   return (
-    <Container>
-      <HeaderContainer isvisible={isVisible} height={headerHeight}>
+    <Container isVisible={isVisible}>
+      <HeaderContainer height={headerHeight}>
         <Title onClick={scrollToTop}>
           <Image
             src={require("@/public/logo.png")}
@@ -106,15 +103,14 @@ const MarketHeader = () => {
   );
 };
 
-const Container = styled.header`
+const Container = styled.header<{ isVisible: boolean }>`
   position: sticky;
-  top: 0;
+  top: ${(props) => (props.isVisible ? "0px" : "-50px")};
   z-index: 100;
 `;
 
 const HeaderContainer = styled.div<{
   height: number;
-  isvisible: boolean;
 }>`
   display: flex;
   align-items: center;
@@ -122,7 +118,6 @@ const HeaderContainer = styled.div<{
   height: ${(props) => `${props.height}px`};
   background-color: white;
   padding: 0px 20px;
-  display: ${(props) => (props.isvisible ? "" : "none")};
 `;
 
 const Title = styled.div`

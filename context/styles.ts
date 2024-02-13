@@ -15,6 +15,9 @@ export const coinListHeightAtom = atom((get) => {
 
   return `calc(100% - ${otherComponentHeight}px)`;
 });
+export const marketHeaderHeightAtom = atom((get) => {
+  return get(headerHeightAtom) + get(coinListControllerHeightAtom);
+});
 
 export const tradeListHeightAtom = atom((get) => {
   const otherComponentHeight =

@@ -3,9 +3,8 @@ import { useAtom } from "jotai";
 import styled from "styled-components";
 import { Virtuoso } from "react-virtuoso";
 import React, { useMemo } from "react";
-import { sortOptionAtom, currentIndexAtom } from "@/context/atoms";
+import { sortOptionAtom } from "@/context/atoms";
 import { TickerDataType } from "@/types/types";
-import { coinListHeightAtom } from "@/context/styles";
 
 import { useList } from "@/utils/hooks/useList";
 import CoinRow from "../shared/coinListRow/CoinRow";
@@ -14,7 +13,6 @@ const MarketList = () => {
   const { coinList } = useList();
   const [renderData] = useAtom(allTickerDataAtom);
   const [sort] = useAtom(sortOptionAtom);
-  const [height] = useAtom(coinListHeightAtom);
 
   const sortedData: TickerDataType[] = useMemo(() => {
     return [...renderData]?.sort((a, b) => {
@@ -31,7 +29,7 @@ const MarketList = () => {
   }, [renderData, sort]);
 
   return (
-    <Container height={height}>
+    <Container>
       {coinList?.code.length === renderData.length ? (
         <Virtuoso
           data={sortedData}
@@ -49,10 +47,8 @@ const MarketList = () => {
   );
 };
 
-const Container = styled.main<{ height: string }>`
+const Container = styled.main`
   min-height: calc(100dvh - 150px);
-  height: ${(props) => props.height};
-
   background-color: white;
 `;
 
