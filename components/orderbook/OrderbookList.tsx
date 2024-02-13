@@ -4,7 +4,6 @@ import React from "react";
 import styled from "styled-components";
 import OrderbookRow from "./pageComponent/OrderbookRow";
 import { orderbookListHeightAtom } from "@/context/styles";
-import { Virtuoso } from "react-virtuoso";
 
 const OrderbookList = () => {
   const [units] = useAtom(orderbookUnitsAtom);
@@ -12,21 +11,15 @@ const OrderbookList = () => {
 
   return (
     <Container height={height}>
-      <Virtuoso
-        data={units}
-        useWindowScroll
-        style={{ height: "100%" }}
-        itemContent={(index, data) => (
-          <OrderbookRow
-            index={index}
-            length={units.length}
-            size={data.size}
-            price={data.price}
-            key={index}
-          />
-        )}
-        totalCount={units.length}
-      />
+      {units.map((data, index) => (
+        <OrderbookRow
+          index={index}
+          length={units.length}
+          size={data.size}
+          price={data.price}
+          key={index}
+        />
+      ))}
     </Container>
   );
 };

@@ -69,7 +69,7 @@ const Container = styled.header<{ height: number }>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-top: 1px solid white;
+  border-top: 2px solid white;
 `;
 
 const BarContainer = styled.div`

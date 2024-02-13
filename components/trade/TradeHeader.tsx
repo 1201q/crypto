@@ -34,7 +34,7 @@ const TradeHeader = () => {
 const Container = styled.header<{ height: number }>`
   height: ${(props) => `${props.height}px`};
   background-color: white;
-  border-top: 1px solid white;
+  border-top: 2px solid white;
   border-bottom: 1px solid #f1f2f2;
   padding: 0px 21px;
   display: grid;

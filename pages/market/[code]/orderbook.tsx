@@ -72,7 +72,10 @@ export const getServerSideProps: GetServerSideProps = async (
 
   if (!access) {
     return {
-      redirect: { destination: `/market/${queryCode}`, permanent: false },
+      redirect: {
+        destination: `/market/${queryCode}`,
+        permanent: false,
+      },
     };
   }
 
