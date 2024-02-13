@@ -5,6 +5,7 @@ import {
   TradeDataType,
   MarketListDataType,
 } from "../types/types";
+import { atomFamily } from "jotai/utils";
 
 // https://velog.io/@bnb8419/Jotai-%EC%82%AC%EC%9A%A9%EB%B2%95#%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8-%EB%82%B4%EC%97%90%EC%84%9C-atom%EC%83%9D%EC%84%B1
 
@@ -67,6 +68,30 @@ export const orderbookPriceModeAtom = atom<any>((get) => {
     }, 0) || undefined;
 
   return { ask, bid };
+});
+
+export const orderbookBarWidthAtom = atom<any>((get) => {
+  const units = get(orderbookUnitsAtom);
+  const size = get(orderbookSizeAtom);
+  let over100Array: number[] = [];
+
+  const array = units.map((u) => {
+    const width = (u?.size / size?.sum) * 700;
+
+    if (width > 100) {
+      over100Array.push(width);
+    }
+    return width;
+  });
+
+  const calculateValue =
+    over100Array.length === 0 ? 1 : 100 / Math.max(...over100Array);
+
+  const result = array.map((u) => {
+    return u * calculateValue;
+  });
+
+  return result;
 });
 
 export const coinListAtom = atom<MarketListDataType[]>([]);

@@ -16,13 +16,13 @@ const OrderbookRow: React.FC<PropsType> = ({ index, length, size, price }) => {
   return (
     <Row>
       {index <= renderType ? (
-        <Box type={"ask"} size={size} price={price} />
+        <Box type={"ask"} size={size} price={price} index={index} />
       ) : (
         <BlankBox />
       )}
       <Center price={price} />
       {index > renderType ? (
-        <Box type={"bid"} size={size} price={price} />
+        <Box type={"bid"} size={size} price={price} index={index} />
       ) : (
         <BlankBox />
       )}

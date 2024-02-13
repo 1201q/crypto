@@ -9,9 +9,10 @@ interface BoxPropsType {
   type: "ask" | "bid";
   size: number;
   price: number;
+  index: number;
 }
 
-const Box: React.FC<BoxPropsType> = ({ type, size, price }) => {
+const Box: React.FC<BoxPropsType> = ({ type, size, price, index }) => {
   const [displayMode] = useAtom(orderbookVolumeDisplayModeAtom);
   const getTextColor = (type: string) => {
     if (type === "bid") {
@@ -28,7 +29,7 @@ const Box: React.FC<BoxPropsType> = ({ type, size, price }) => {
           ? f("orderbookSize", price, size)
           : f("fixedPrice", price * size)}
       </Size>
-      <Bar type={type} size={size} />
+      <Bar type={type} index={index} />
     </Container>
   );
 };

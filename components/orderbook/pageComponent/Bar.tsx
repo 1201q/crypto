@@ -1,11 +1,11 @@
-import { orderbookSizeAtom } from "@/context/atoms";
+import { orderbookBarWidthAtom } from "@/context/atoms";
 import { useAtom } from "jotai";
-import React, { useCallback } from "react";
-import styled, { css } from "styled-components";
+import React from "react";
+import styled from "styled-components";
 
 interface PropsType {
   type: "ask" | "bid";
-  size: number;
+  index: number;
 }
 
 interface BarPropsType {
@@ -13,23 +13,10 @@ interface BarPropsType {
   width: string | number;
 }
 
-const Bar: React.FC<PropsType> = ({ type, size }) => {
-  const [data] = useAtom(orderbookSizeAtom);
+const Bar: React.FC<PropsType> = ({ type, index }) => {
+  const [width] = useAtom(orderbookBarWidthAtom);
 
-  const getWidth = useCallback(
-    (type: string) => {
-      if (type === "ask") {
-        const width = (size / data.sum) * 700;
-        return width >= 100 ? 100 : width.toFixed(3);
-      } else {
-        const width = (size / data.sum) * 700;
-        return width >= 100 ? 100 : width.toFixed(3);
-      }
-    },
-    [data, size]
-  );
-
-  return <Container width={getWidth(type)} type={type}></Container>;
+  return <Container width={width[index]} type={type} />;
 };
 
 const Container = styled.div.attrs<BarPropsType>((props) => ({
