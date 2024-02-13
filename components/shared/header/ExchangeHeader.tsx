@@ -113,8 +113,7 @@ const Container = styled.header<{ border: boolean }>`
   background-color: white;
   padding: 0px 20px;
   z-index: 200;
-  border-bottom: ${(props) =>
-    props.border ? `1px solid #f1f2f2` : "1px solid white"};
+  border-bottom: ${(props) => (props.border ? `1px solid #f1f2f2` : "none")};
 `;
 
 const InfoContainer = styled(motion.div)`

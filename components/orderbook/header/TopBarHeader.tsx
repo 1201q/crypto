@@ -65,11 +65,10 @@ const Container = styled.header<{ height: number }>`
   border: none;
   z-index: 101;
   position: sticky;
-  top: 51px;
+  top: 50px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-top: 2px solid white;
 `;
 
 const BarContainer = styled.div`

@@ -34,14 +34,14 @@ const TradeHeader = () => {
 const Container = styled.header<{ height: number }>`
   height: ${(props) => `${props.height}px`};
   background-color: white;
-  border-top: 2px solid white;
+
   border-bottom: 1px solid #f1f2f2;
   padding: 0px 21px;
   display: grid;
   grid-template-columns: 1fr 2fr 2fr;
   z-index: 100;
   position: sticky;
-  top: 51px;
+  top: 50px;
 `;
 
 const Header = styled.div<{ sort: string }>`
