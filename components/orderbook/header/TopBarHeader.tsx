@@ -63,12 +63,13 @@ const Container = styled.header<{ height: number }>`
   height: ${(props) => `${props.height}px`};
   background-color: white;
   border: none;
-  z-index: 100;
+  z-index: 101;
   position: sticky;
   top: 51px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  border-top: 1px solid white;
 `;
 
 const BarContainer = styled.div`
@@ -76,7 +77,6 @@ const BarContainer = styled.div`
   background-color: #df5068;
   border-radius: 7px;
   margin: 0px 21px;
-  border-top: 1px solid white;
 `;
 
 const ValueContainer = styled.div`

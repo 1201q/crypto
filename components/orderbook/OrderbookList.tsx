@@ -35,6 +35,7 @@ const Container = styled.div<{ height: string }>`
   height: ${(props) => props.height};
   padding-top: 15px;
   padding-bottom: 20px;
+  padding: 15px 20px 20px 20px;
 `;
 
 export default React.memo(OrderbookList);

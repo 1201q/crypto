@@ -19,17 +19,17 @@ const Bar: React.FC<PropsType> = ({ type, size }) => {
   const getWidth = useCallback(
     (type: string) => {
       if (type === "ask") {
-        const width = (size / data.sum) * 100;
+        const width = (size / data.sum) * 700;
         return width >= 100 ? 100 : width.toFixed(3);
       } else {
-        const width = (size / data.sum) * 100;
+        const width = (size / data.sum) * 700;
         return width >= 100 ? 100 : width.toFixed(3);
       }
     },
     [data, size]
   );
 
-  return <Container width={getWidth(type)} type={type} />;
+  return <Container width={getWidth(type)} type={type}></Container>;
 };
 
 const Container = styled.div.attrs<BarPropsType>((props) => ({
@@ -43,7 +43,6 @@ const Container = styled.div.attrs<BarPropsType>((props) => ({
   height: 32px;
   opacity: 0.5;
   border-radius: 5px;
-  transition: width 0.2s ease-out;
 `;
 
 export default React.memo(Bar);
