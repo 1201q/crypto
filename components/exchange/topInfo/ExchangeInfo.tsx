@@ -5,18 +5,21 @@ import Price from "./Price";
 import Name from "./Name";
 import InfoBar from "./InfoBar";
 import { usePrice } from "@/context/hooks";
+import LoadingExchangeInfo from "@/components/skeleton/LoadingExchangeInfo";
 
 const ExchangeInfo = () => {
   const price = usePrice("trade_price");
 
   return (
     <Container>
-      {price && (
+      {price ? (
         <>
           <Name />
           <Price />
           <InfoBar />
         </>
+      ) : (
+        <LoadingExchangeInfo />
       )}
     </Container>
   );

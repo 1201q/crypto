@@ -8,6 +8,7 @@ import { TickerDataType } from "@/types/types";
 
 import { useList } from "@/utils/hooks/useList";
 import CoinRow from "../shared/coinListRow/CoinRow";
+import SkeletonRow from "../skeleton/LoadingRow";
 
 const MarketList = () => {
   const { coinList } = useList();
@@ -41,7 +42,13 @@ const MarketList = () => {
           fixedItemHeight={55}
         />
       ) : (
-        <div></div>
+        <Virtuoso
+          data={coinList?.code}
+          useWindowScroll
+          itemContent={(index) => <SkeletonRow key={index} />}
+          totalCount={coinList?.code.length}
+          fixedItemHeight={55}
+        />
       )}
     </Container>
   );

@@ -274,7 +274,7 @@ const LineChart: React.FC<ChartPropsType> = ({
           <ToolTip ref={toolTipRef} />
         </Chart>
       ) : (
-        <Loading>로딩</Loading>
+        <Loading></Loading>
       )}
     </>
   );
