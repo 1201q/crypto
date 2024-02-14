@@ -47,8 +47,9 @@ const ExchangeMenu = () => {
 };
 
 const Container = styled(motion.div)`
-  border-radius: 6px;
   padding: 0px 20px;
+  background-color: white;
+  padding-bottom: 40px;
 `;
 
 const MenuContainer = styled.div`

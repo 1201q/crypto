@@ -6,6 +6,7 @@ import {
 import { usePrice } from "@/context/hooks";
 import { orderbookTopHeaderHeightAtom } from "@/context/styles";
 import f from "@/utils/common/formatting";
+import { motion } from "framer-motion";
 import { useAtom } from "jotai";
 import React, { useCallback } from "react";
 import styled from "styled-components";
@@ -40,6 +41,8 @@ const TopBarHeader = () => {
           onClick={() => {
             setDisplayMode((prev) => !prev);
           }}
+          initial={{ scale: 1, translateX: "-50%" }}
+          whileTap={{ scale: 0.95 }}
         >
           {displayMode ? "수량" : "총액(원)"}
         </Button>
@@ -104,11 +107,10 @@ const Value = styled.p<{ color: string }>`
   color: ${(props) => props.color};
 `;
 
-const Button = styled.button`
+const Button = styled(motion.button)`
   position: absolute;
   width: 65px;
   left: 50%;
-  transform: translateX(-50%);
   background-color: #f2f4f6;
   border-radius: 7px;
   border: none;

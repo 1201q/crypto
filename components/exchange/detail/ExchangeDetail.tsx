@@ -41,12 +41,11 @@ const ExchangeDetail = () => {
 const Container = styled.div`
   background-color: white;
   height: fit-content;
-  padding: 0px 20px 25px 20px;
+  padding: 30px 20px 25px 20px;
   position: relative;
 `;
 
 const Header = styled.p`
-  margin-top: 30px;
   margin-bottom: 30px;
   font-size: 20px;
   font-weight: 600;

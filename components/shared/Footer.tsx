@@ -6,7 +6,7 @@ const Footer = () => {
 
 const Container = styled.div`
   background-color: #f2f4f6;
-  height: 200px;
+  min-height: 150px;
 `;
 
 export default Footer;

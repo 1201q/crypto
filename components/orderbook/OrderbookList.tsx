@@ -26,6 +26,7 @@ const OrderbookList = () => {
 
 const Container = styled.div<{ height: string }>`
   height: ${(props) => props.height};
+  min-height: calc(100dvh - 100px);
   padding-top: 15px;
   padding-bottom: 20px;
   padding: 15px 20px 20px 20px;

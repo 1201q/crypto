@@ -43,13 +43,13 @@ const ExchangeChart = () => {
 };
 
 const Container = styled.div`
-  margin-top: 0px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
   padding: 0px 20px;
-  margin-top: 20px;
+  padding-top: 20px;
+  background-color: white;
 `;
 
 const Chart = styled.div`

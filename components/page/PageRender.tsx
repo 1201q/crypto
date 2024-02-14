@@ -6,17 +6,19 @@ interface PageRenderProps {
   Render: React.FC;
   title?: string | undefined;
   description?: string | undefined;
+  bgColor?: string;
 }
 
 const PageRender: React.FC<PageRenderProps> = ({
   Render,
   title,
   description,
+  bgColor,
 }) => {
   return (
     <Container>
       <HeadMeta title={title} description={description} />
-      <Mobile>
+      <Mobile bgColor={bgColor || "white"}>
         <Render />
       </Mobile>
     </Container>
@@ -31,11 +33,11 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-const Mobile = styled.div`
+const Mobile = styled.div<{ bgColor: string }>`
   width: 840px;
   height: 100%;
   min-height: 100dvh;
-  background-color: white;
+  background-color: ${(props) => props.bgColor};
   border-right: 1px solid #d1d6db;
   border-left: 1px solid #d1d6db;
   position: relative;
