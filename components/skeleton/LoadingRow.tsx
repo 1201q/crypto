@@ -19,7 +19,7 @@ const SkeletonRow = () => {
         <CodeIcon />
         <NameContainer>
           <Name />
-          <Name />
+          <EnName />
         </NameContainer>
       </Flex>
       <Flex style={{ display: "flex", flexDirection: "column" }}>
@@ -63,12 +63,17 @@ const NameContainer = styled.div`
 `;
 
 const Name = styled(Loading)`
-  width: 100px;
+  width: 80px;
   height: 14px;
 
   @media screen and (max-width: 320px) {
-    width: 95px;
+    width: 65px;
   }
+`;
+
+const EnName = styled(Loading)`
+  width: 40px;
+  height: 14px;
 `;
 
 const PriceBox = styled(Loading)`

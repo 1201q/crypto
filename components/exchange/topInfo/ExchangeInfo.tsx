@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-
 import Price from "./Price";
 import Name from "./Name";
 import InfoBar from "./InfoBar";

@@ -17,7 +17,7 @@ const OrderbookList = () => {
           length={units.length}
           size={data.size}
           price={data.price}
-          key={index}
+          key={data.price}
         />
       ))}
     </Container>

@@ -15,8 +15,9 @@ interface BarPropsType {
 
 const Bar: React.FC<PropsType> = ({ type, index }) => {
   const [width] = useAtom(orderbookBarWidthAtom);
+  const FixedWidth = width[index]?.toFixed(2) || 0;
 
-  return <Container width={width[index]} type={type} />;
+  return <Container width={FixedWidth} type={type} />;
 };
 
 const Container = styled.div.attrs<BarPropsType>((props) => ({
