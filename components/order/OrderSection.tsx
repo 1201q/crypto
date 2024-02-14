@@ -16,7 +16,7 @@ const OrderSection = () => {
       <OrderTypeSelector />
       <OrderableContainer>
         <Header>주문가능</Header>
-        <OrderablePrice>{f("fixedPrice", 1002312312300)}원</OrderablePrice>
+        <OrderablePrice>{f("fixedPrice", 100231230)}원</OrderablePrice>
       </OrderableContainer>
       <QuantityInput placeholder="개수" />
       <AmountSelector />
@@ -35,7 +35,7 @@ const OrderSection = () => {
 };
 
 const Container = styled.div`
-  padding: 0px 20px;
+  padding: 0px 15px;
   position: relative;
 `;
 
@@ -62,7 +62,7 @@ const OrderBtn = styled(motion.button)<{ bgcolor: string }>`
   position: absolute;
   bottom: 40px;
   background-color: ${(props) => props.bgcolor};
-  width: calc(100% - 40px);
+  width: calc(100% - 30px);
   height: 45px;
   border-radius: 12px;
   border: none;

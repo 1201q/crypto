@@ -56,7 +56,7 @@ const Container = styled.div`
   height: 40px;
   margin-bottom: 30px;
   border-radius: 7px;
-  gap: 12px;
+  gap: 7px;
 `;
 
 const Option = styled.div<{ select: boolean; active: boolean }>`

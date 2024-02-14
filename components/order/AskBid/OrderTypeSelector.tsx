@@ -30,9 +30,9 @@ const OrderTypeSelector = () => {
 };
 
 const Container = styled.div`
-  height: 40px;
+  height: 35px;
   background-color: #f2f4f6;
-  margin-top: 20px;
+  margin-top: 15px;
   margin-bottom: 20px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
