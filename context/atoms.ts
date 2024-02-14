@@ -147,3 +147,12 @@ export const tradeListVolumeDisplayModeAtom = atom(true);
 
 // orderbook
 export const orderbookVolumeDisplayModeAtom = atom(true);
+
+// 주문
+export const orderTypeAtom = atom<"ask" | "bid">("bid");
+export const orderAmountOptionsAtom = atom([
+  { name: "25%", select: false, value: 25 },
+  { name: "50%", select: false, value: 50 },
+  { name: "75%", select: false, value: 75 },
+  { name: "100%", select: false, value: 100 },
+]);

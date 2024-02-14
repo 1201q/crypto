@@ -32,3 +32,9 @@ export const orderbookListHeightAtom = atom((get) => {
 
   return `calc(100% - ${otherComponentHeight}px)`;
 });
+
+export const orderContentsHeightAtom = atom((get) => {
+  const header = get(headerHeightAtom);
+
+  return `calc(100dvh - ${header + 1}px)`;
+});

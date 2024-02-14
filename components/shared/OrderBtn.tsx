@@ -20,7 +20,8 @@ const OrderBtn = () => {
               `/market/${queryCode}/order`
             );
           }}
-          whileTap={{ backgroundColor: "#28528F" }}
+          whileTap={{ backgroundColor: "#28528F", scale: 0.99 }}
+          initial={{ scale: 1 }}
           transition={{ duration: 0.1 }}
         >
           거래하기
