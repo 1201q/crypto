@@ -30,7 +30,7 @@ const OrderTypeSelector = () => {
 };
 
 const Container = styled.div`
-  height: 35px;
+  height: 32px;
   background-color: #f2f4f6;
   margin-top: 15px;
   margin-bottom: 20px;

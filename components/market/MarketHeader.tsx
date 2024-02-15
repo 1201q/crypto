@@ -109,7 +109,6 @@ const Container = styled.header<{ isVisible: boolean }>`
   z-index: 100;
   transform: ${(props) =>
     props.isVisible ? `translateY(0px)` : `translateY(-50px)`};
-  transition-duration: 150ms;
 `;
 
 const HeaderContainer = styled.div<{

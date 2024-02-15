@@ -34,7 +34,6 @@ const Container = styled.div.attrs<BarPropsType>((props) => ({
   position: absolute;
   height: 100%;
   border-radius: 5px;
-  transition: transform 0.2s ease-out;
 `;
 
 export default React.memo(Bar);
