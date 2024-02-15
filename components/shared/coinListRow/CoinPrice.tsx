@@ -59,7 +59,8 @@ const UpdateContainer = styled.div.attrs<UpdateProps>((props) => ({
   height: 22px;
   border-radius: 4px;
   margin-bottom: 3px;
-  transition: all 0.1s ease-out;
+  transition: background-color 0.1s ease-out;
+  will-change: background-color;
 `;
 
 const PercentText = styled.p`

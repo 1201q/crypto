@@ -12,7 +12,7 @@ import React, { useCallback } from "react";
 import styled from "styled-components";
 
 interface BarPropsType {
-  width: string | number;
+  width: number;
 }
 
 const TopBarHeader = () => {
@@ -22,8 +22,8 @@ const TopBarHeader = () => {
   const [displayMode, setDisplayMode] = useAtom(orderbookVolumeDisplayModeAtom);
   const [priceSum] = useAtom(orderbookPriceModeAtom);
 
-  const getBlueWidth = useCallback(() => {
-    return ((sizeData?.ask / sizeData?.sum) * 100).toFixed(2);
+  const getRedWidth = useCallback(() => {
+    return Number(((sizeData?.bid / sizeData?.sum) * 100).toFixed(2));
   }, [sizeData]);
 
   return (
@@ -56,7 +56,7 @@ const TopBarHeader = () => {
         </ValueBox>
       </ValueContainer>
       <BarContainer>
-        <Bar width={getBlueWidth()} />
+        <Bar width={getRedWidth()} />
       </BarContainer>
     </Container>
   );
@@ -79,6 +79,7 @@ const BarContainer = styled.div`
   background-color: #df5068;
   border-radius: 7px;
   margin: 0px 21px;
+  overflow: hidden;
 `;
 
 const ValueContainer = styled.div`
@@ -123,7 +124,7 @@ const Button = styled(motion.button)`
 
 const Bar = styled.div.attrs<BarPropsType>((props) => ({
   style: {
-    width: `${props.width}%`,
+    transform: `translateX(-${props.width}%)`,
   },
 }))<BarPropsType>`
   height: 100%;
@@ -131,7 +132,8 @@ const Bar = styled.div.attrs<BarPropsType>((props) => ({
   border-radius: 7px;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-  transition: width 0.2s ease-out;
+  transform-origin: left center;
+  transition: transform 0.2s ease-out;
 `;
 
 export default React.memo(TopBarHeader);

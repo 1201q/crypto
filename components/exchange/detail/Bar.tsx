@@ -17,8 +17,8 @@ const Bar: React.FC<BarPropsType> = ({ low, high }) => {
   const left = useMemo(() => {
     if (low && high && price) {
       const range = high - low;
-      const result = Math.floor(((price - low) / range) * 100);
-      return result > 99 ? 99 : result;
+      const result = Number((((price - low) / range) * 100).toFixed(2));
+      return result >= 99 ? 99 : result <= 1 ? 1 : result;
     }
     return 0;
   }, [price]);
@@ -26,8 +26,8 @@ const Bar: React.FC<BarPropsType> = ({ low, high }) => {
   return (
     <>
       <Container>
-        <BarContainer>
-          <CurrentPrice left={left} />
+        <BarContainer left={left}>
+          <CurrentPricePoint left={left} />
         </BarContainer>
       </Container>
       <BarInfoContainer>
@@ -39,16 +39,24 @@ const Bar: React.FC<BarPropsType> = ({ low, high }) => {
 };
 
 const Container = styled.div`
-  height: 18px;
-  position: relative;
-`;
-
-const BarContainer = styled.div`
   width: 100%;
   height: 9px;
+  position: relative;
+  margin-bottom: 9px;
   background-color: #f2f4f6;
   border-radius: 10px;
-  position: absolute;
+  overflow-x: hidden;
+`;
+
+const BarContainer = styled.div.attrs<LeftProps>((props) => ({
+  style: {
+    transform: `translateX(${props.left}%)`,
+  },
+}))<LeftProps>`
+  width: calc(100% - 4px);
+  height: 9px;
+  background: none;
+  transition: transform 0.2s ease-out;
 `;
 
 const BarInfoContainer = styled.div`
@@ -57,18 +65,11 @@ const BarInfoContainer = styled.div`
   margin-bottom: 30px;
 `;
 
-const CurrentPrice = styled.div.attrs<LeftProps>((props) => ({
-  style: {
-    left: props.left && `${props.left}%`,
-  },
-}))<LeftProps>`
+const CurrentPricePoint = styled.div<{ left: number }>`
   height: 100%;
   width: 4px;
+  border-radius: 20px;
   background-color: gray;
-  border-radius: 80px;
-  position: absolute;
-
-  transition: left 0.1s ease-out;
 `;
 
 const Text = styled.p<{ color: string }>`

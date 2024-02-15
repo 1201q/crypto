@@ -19,8 +19,11 @@ export const selectTickerDataAtom = atom((get) => {
 
 export const tradeDataAtom = atom<TradeDataType[]>([]);
 
+// orderbook
 export const orderbookDataAtom = atom<OrderBookDataType[]>([]);
 
+// 오더북 렌더 atom입니다.
+// 값으로 price와 size를 가짐.
 export const orderbookUnitsAtom = atom<any[]>((get) => {
   const units = get(orderbookDataAtom)[0]?.orderbook_units;
 
@@ -39,6 +42,7 @@ export const orderbookUnitsAtom = atom<any[]>((get) => {
   return ask?.concat(bid);
 });
 
+// 오더북의 ask, bid, ask+bid 사이즈를 반환
 export const orderbookSizeAtom = atom<any>((get) => {
   const units = get(orderbookDataAtom)[0];
 
@@ -49,6 +53,8 @@ export const orderbookSizeAtom = atom<any>((get) => {
   };
 });
 
+// 오더북 헤더가 가격모드일때 표시되는 가격
+// 판매측 총액, 구매측 총액
 export const orderbookPriceModeAtom = atom<any>((get) => {
   const units = get(orderbookUnitsAtom);
   const length = units?.length / 2;
@@ -69,6 +75,7 @@ export const orderbookPriceModeAtom = atom<any>((get) => {
   return { ask, bid };
 });
 
+// 오더북 bar의 width를 반환
 export const orderbookBarWidthAtom = atom<any>((get) => {
   const units = get(orderbookUnitsAtom);
   const size = get(orderbookSizeAtom);

@@ -105,8 +105,11 @@ const MarketHeader = () => {
 
 const Container = styled.header<{ isVisible: boolean }>`
   position: sticky;
-  top: ${(props) => (props.isVisible ? "0px" : "-50px")};
+  top: 0;
   z-index: 100;
+  transform: ${(props) =>
+    props.isVisible ? `translateY(0px)` : `translateY(-50px)`};
+  transition-duration: 150ms;
 `;
 
 const HeaderContainer = styled.div<{

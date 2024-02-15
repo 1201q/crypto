@@ -8,16 +8,17 @@ import { orderbookListHeightAtom } from "@/context/styles";
 const OrderbookList = () => {
   const [units] = useAtom(orderbookUnitsAtom);
   const [height] = useAtom(orderbookListHeightAtom);
+  const renderTypeDivide = units.length / 2 - 1;
 
   return (
     <Container height={height}>
       {units.map((data, index) => (
         <OrderbookRow
+          key={data.price}
           index={index}
-          length={units.length}
           size={data.size}
           price={data.price}
-          key={data.price}
+          type={index <= renderTypeDivide ? "ask" : "bid"}
         />
       ))}
     </Container>
@@ -29,7 +30,7 @@ const Container = styled.div<{ height: string }>`
   min-height: calc(100dvh - 100px);
   padding-top: 15px;
   padding-bottom: 20px;
-  padding: 15px 20px 20px 20px;
+  padding: 15px 21px 20px 21px;
 `;
 
 export default React.memo(OrderbookList);

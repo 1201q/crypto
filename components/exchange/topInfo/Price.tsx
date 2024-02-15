@@ -85,7 +85,8 @@ const Update = styled.div.attrs<UpdateProps>((props) => ({
   border-radius: 5px;
   padding: 0px 8px;
   margin-bottom: 2px;
-  transition: all 0.1s ease-out;
+  transition: background-color 0.1s ease-out;
+  will-change: background-color;
 `;
 
 export default React.memo(Price);

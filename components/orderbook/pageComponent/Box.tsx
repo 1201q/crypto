@@ -39,10 +39,11 @@ const Container = styled.div<{ type: string }>`
   flex-direction: column;
   justify-content: center;
   align-items: ${(props) => (props.type === "ask" ? "flex-end" : "flex-start")};
-  border-radius: 7px;
+  border-radius: 5px;
   cursor: pointer;
   overflow: hidden;
   position: relative;
+  height: 32px;
 `;
 
 const Size = styled.p<{ $color: string; type: string }>`

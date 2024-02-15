@@ -15,22 +15,26 @@ interface BarPropsType {
 
 const Bar: React.FC<PropsType> = ({ type, index }) => {
   const [width] = useAtom(orderbookBarWidthAtom);
-  const FixedWidth = width[index]?.toFixed(2) || 0;
+  const FixedWidth = Number((100 - width[index]).toFixed(2)) || 0;
 
   return <Container width={FixedWidth} type={type} />;
 };
 
 const Container = styled.div.attrs<BarPropsType>((props) => ({
   style: {
-    width: `${props.width}%`,
+    transform:
+      props.type === "bid"
+        ? `translateX(-${props.width}%)`
+        : `translateX(${props.width}%)`,
   },
 }))<BarPropsType>`
+  width: 100%;
   background-color: ${(props) =>
-    props.type === "ask" ? "#d8e7fc" : "#ffe7e8"};
+    props.type === "ask" ? "#ebf3fd" : "#fff3f3"};
   position: absolute;
-  height: 32px;
-  opacity: 0.5;
+  height: 100%;
   border-radius: 5px;
+  transition: transform 0.2s ease-out;
 `;
 
 export default React.memo(Bar);

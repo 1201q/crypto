@@ -7,21 +7,21 @@ import Box from "./Box";
 interface PropsType {
   size: number;
   price: number;
-  length: number;
+
   index: number;
+  type: "ask" | "bid";
 }
 
-const OrderbookRow: React.FC<PropsType> = ({ index, length, size, price }) => {
-  const renderType = length / 2 - 1;
+const OrderbookRow: React.FC<PropsType> = ({ index, type, size, price }) => {
   return (
     <Row>
-      {index <= renderType ? (
+      {type === "ask" ? (
         <Box type={"ask"} size={size} price={price} index={index} />
       ) : (
         <BlankBox />
       )}
       <Center price={price} />
-      {index > renderType ? (
+      {type === "bid" ? (
         <Box type={"bid"} size={size} price={price} index={index} />
       ) : (
         <BlankBox />
