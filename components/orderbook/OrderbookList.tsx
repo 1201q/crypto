@@ -22,7 +22,7 @@ const OrderbookList = () => {
       <SideSection type={"sell"} data={sellData} />
       <CenterSection data={priceList} />
       <RightContainer>
-        <SideSection type={"buy"} data={buyData} />
+        <SideSection type={"buy"} data={buyData} top={630} />
       </RightContainer>
     </ListContainer>
   );
@@ -42,9 +42,11 @@ const ListContainer = styled.div<{ height: string }>`
 
 const RightContainer = styled.div`
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  margin-top: 630px;
+  justify-content: flex-end;
+  position: relative;
 `;
 
 export default React.memo(OrderbookList);

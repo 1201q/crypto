@@ -5,12 +5,14 @@ import { Virtuoso } from "react-virtuoso";
 interface SectionType {
   type: "sell" | "buy";
   data: any[];
+  top?: number;
 }
 
-const SideSection: React.FC<SectionType> = ({ type, data }) => {
+const SideSection: React.FC<SectionType> = ({ type, data, top }) => {
   return (
     <Virtuoso
       data={data}
+      style={{ height: "100%", width: "100%" }}
       useWindowScroll
       itemContent={(index, data) => (
         <OrderbookBox
@@ -22,6 +24,7 @@ const SideSection: React.FC<SectionType> = ({ type, data }) => {
       )}
       totalCount={data?.length}
       fixedItemHeight={42}
+      increaseViewportBy={{ top: top || 0, bottom: 0 }}
     />
   );
 };

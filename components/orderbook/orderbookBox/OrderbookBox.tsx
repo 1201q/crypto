@@ -41,6 +41,7 @@ const Container = styled.div<{ type: string }>`
   justify-content: center;
   align-items: ${(props) =>
     props.type === "sell" ? "flex-end" : "flex-start"};
+
   overflow: hidden;
   position: relative;
   height: 32px;
