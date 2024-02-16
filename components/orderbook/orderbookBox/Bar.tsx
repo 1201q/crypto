@@ -4,18 +4,19 @@ import React from "react";
 import styled from "styled-components";
 
 interface PropsType {
-  type: "ask" | "bid";
+  type: "sell" | "buy";
   index: number;
 }
 
 interface BarPropsType {
-  type: "ask" | "bid";
+  type: "sell" | "buy";
   width: string | number;
 }
 
 const Bar: React.FC<PropsType> = ({ type, index }) => {
   const [width] = useAtom(orderbookBarWidthAtom);
-  const FixedWidth = Number((100 - width[index]).toFixed(2)) || 0;
+  const dataIndex = type === "buy" ? index + 15 : index;
+  const FixedWidth = Number((100 - width[dataIndex]).toFixed(2)) || 0;
 
   return <Container width={FixedWidth} type={type} />;
 };
@@ -23,16 +24,15 @@ const Bar: React.FC<PropsType> = ({ type, index }) => {
 const Container = styled.div.attrs<BarPropsType>((props) => ({
   style: {
     transform:
-      props.type === "bid"
+      props.type === "buy"
         ? `translateX(-${props.width}%)`
         : `translateX(${props.width}%)`,
   },
 }))<BarPropsType>`
   width: 100%;
   background-color: ${(props) =>
-    props.type === "ask" ? "#ebf3fd" : "#fff3f3"};
-  position: absolute;
-  height: 100%;
+    props.type === "sell" ? "#ebf3fd" : "#fff3f3"};
+  height: 32px;
   border-radius: 5px;
 `;
 

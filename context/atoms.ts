@@ -42,6 +42,34 @@ export const orderbookUnitsAtom = atom<any[]>((get) => {
   return ask?.concat(bid);
 });
 
+export const orderbookSellUnitsAtom = atom<any[]>((get) => {
+  const data = get(orderbookUnitsAtom);
+  return data.slice(0, data?.length / 2);
+});
+
+export const orderbookBuyUnitsAtom = atom<any[]>((get) => {
+  const data = get(orderbookUnitsAtom);
+  return data.slice(data?.length / 2);
+});
+
+// 렌더용 atom입니다.
+// price만 가짐.
+export const orderbookPriceArrayAtom = atom<any[]>((get) => {
+  const units = get(orderbookUnitsAtom);
+  return units.map((data) => {
+    return data.price;
+  });
+});
+
+// 렌더용 atom입니다.
+// size만 가짐.
+export const orderbookSizeArrayAtom = atom<any[]>((get) => {
+  const units = get(orderbookUnitsAtom);
+  return units.map((data) => {
+    return data.size;
+  });
+});
+
 // 오더북의 ask, bid, ask+bid 사이즈를 반환
 export const orderbookSizeAtom = atom<any>((get) => {
   const units = get(orderbookDataAtom)[0];

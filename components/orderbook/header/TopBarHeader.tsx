@@ -23,7 +23,7 @@ const TopBarHeader = () => {
   const [priceSum] = useAtom(orderbookPriceModeAtom);
 
   const getRedWidth = useCallback(() => {
-    return Number(((sizeData?.bid / sizeData?.sum) * 100).toFixed(2));
+    return Number(((sizeData?.bid / sizeData?.sum) * 100).toFixed(2)) || 0;
   }, [sizeData]);
 
   return (
@@ -102,6 +102,7 @@ const Header = styled.p`
   color: #808080;
 `;
 const Value = styled.p<{ color: string }>`
+  min-height: 14px;
   font-size: 14px;
   font-weight: 500;
   letter-spacing: -0.3px;
@@ -127,6 +128,7 @@ const Bar = styled.div.attrs<BarPropsType>((props) => ({
     transform: `translateX(-${props.width}%)`,
   },
 }))<BarPropsType>`
+  width: 100%;
   height: 100%;
   background-color: #448aef;
   border-radius: 7px;

@@ -7,7 +7,7 @@ interface PropsType {
   price: number;
 }
 
-const Center: React.FC<PropsType> = ({ price }) => {
+const CenterBox: React.FC<PropsType> = ({ price }) => {
   const openingPrice = usePrice("prev_closing_price") || 0;
   const tradePrice = usePrice("trade_price") || 0;
   const percent = (price - openingPrice) / openingPrice;
@@ -35,9 +35,9 @@ const Box = styled.div<{ currentPrice: boolean }>`
   justify-content: center;
   align-items: center;
   border-radius: 7px;
-
   cursor: pointer;
   background-color: ${(props) => (props.currentPrice ? "#f2f4f6" : "white")};
+  height: 42px;
 `;
 
 const Price = styled.p<{ color: string }>`
@@ -53,4 +53,4 @@ const Percent = styled.p`
   color: gray;
 `;
 
-export default React.memo(Center);
+export default React.memo(CenterBox);

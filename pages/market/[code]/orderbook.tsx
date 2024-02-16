@@ -70,14 +70,14 @@ export const getServerSideProps: GetServerSideProps = async (
 
   const { isLogin, uid } = await getServersideAuth(cookies.token);
 
-  if (!access) {
-    return {
-      redirect: {
-        destination: `/market/${queryCode}`,
-        permanent: false,
-      },
-    };
-  }
+  // if (!access) {
+  //   return {
+  //     redirect: {
+  //       destination: `/market/${queryCode}`,
+  //       permanent: false,
+  //     },
+  //   };
+  // }
 
   return {
     props: {
