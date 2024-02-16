@@ -35,9 +35,10 @@ const Box = styled.div<{ currentPrice: boolean }>`
   justify-content: center;
   align-items: center;
   border-radius: 7px;
-  cursor: pointer;
+
   background-color: ${(props) => (props.currentPrice ? "#f2f4f6" : "white")};
   height: 42px;
+  user-select: none;
 `;
 
 const Price = styled.p<{ color: string }>`

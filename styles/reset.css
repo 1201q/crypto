@@ -116,6 +116,12 @@ body,
   font-feature-settings: "tnum";
   font-display: swap;
   -webkit-tap-highlight-color: transparent;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  box-sizing: border-box;
 }
 ol,
 ul {

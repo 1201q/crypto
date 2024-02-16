@@ -37,6 +37,7 @@ const ListContainer = styled.div<{ height: string }>`
   padding-top: 15px;
   padding-bottom: 20px;
   padding: 15px 21px 20px 21px;
+  user-select: none;
 `;
 
 const RightContainer = styled.div`

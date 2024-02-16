@@ -120,6 +120,7 @@ const HeaderContainer = styled.div<{
   height: ${(props) => `${props.height}px`};
   background-color: white;
   padding: 0px 20px;
+  border: none;
 `;
 
 const Title = styled.div`
@@ -135,6 +136,7 @@ const ListContainer = styled(motion.div)<{ height: number }>`
   padding: 0px 20px;
   height: ${(props) => `${props.height}px`};
   background-color: white;
+  border: none;
 `;
 
 const SortBtn = styled(motion.button)<{ $isselect: boolean }>`

@@ -33,7 +33,7 @@ const Container = styled(motion.div)`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 47px;
+  height: 55px;
   padding: 5px 20px 3px 20px;
   position: relative;
   cursor: pointer;

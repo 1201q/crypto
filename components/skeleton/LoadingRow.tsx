@@ -48,10 +48,13 @@ const CodeIcon = styled(Loading)`
   width: 36px;
   height: 36px;
   border-radius: 50%;
+  margin-top: 2px;
 `;
 
 const Flex = styled.div`
   display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const NameContainer = styled.div`
@@ -64,7 +67,7 @@ const NameContainer = styled.div`
 
 const Name = styled(Loading)`
   width: 80px;
-  height: 14px;
+  height: 16px;
 
   @media screen and (max-width: 320px) {
     width: 65px;
@@ -81,6 +84,7 @@ const PriceBox = styled(Loading)`
   height: 20px;
 `;
 const PriceText = styled(Loading)`
+  width: 80px;
   height: 13px;
   margin-top: 5px;
 `;

@@ -68,9 +68,8 @@ const TradeRow: React.FC<RowPropsType> = ({
 const Container = styled(motion.div)`
   display: grid;
   grid-template-columns: 1fr 2fr 2fr;
-  height: 35px;
+  height: 46px;
   padding: 5px 20px 5px 20px;
-
   background-color: white;
   border-bottom: 1px solid #f1f2f2;
 `;
