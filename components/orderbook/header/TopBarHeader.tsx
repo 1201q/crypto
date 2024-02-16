@@ -5,6 +5,7 @@ import {
 } from "@/context/atoms";
 import { usePrice } from "@/context/hooks";
 import { orderbookTopHeaderHeightAtom } from "@/context/styles";
+import { getRoundedDecimal } from "@/utils/common/decimalUtils";
 import f from "@/utils/common/formatting";
 import { motion } from "framer-motion";
 import { useAtom } from "jotai";
@@ -23,7 +24,7 @@ const TopBarHeader = () => {
   const [priceSum] = useAtom(orderbookPriceModeAtom);
 
   const getRedWidth = useCallback(() => {
-    return Number(((sizeData?.bid / sizeData?.sum) * 100).toFixed(2)) || 0;
+    return getRoundedDecimal((sizeData?.bid / sizeData?.sum) * 100, 1) || 0;
   }, [sizeData]);
 
   return (

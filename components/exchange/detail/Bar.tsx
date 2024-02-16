@@ -1,4 +1,5 @@
 import { usePrice } from "@/context/hooks";
+import { getRoundedDecimal } from "@/utils/common/decimalUtils";
 import f from "@/utils/common/formatting";
 import React, { useMemo } from "react";
 import styled from "styled-components";
@@ -17,7 +18,7 @@ const Bar: React.FC<BarPropsType> = ({ low, high }) => {
   const left = useMemo(() => {
     if (low && high && price) {
       const range = high - low;
-      const result = Number((((price - low) / range) * 100).toFixed(2));
+      const result = getRoundedDecimal(((price - low) / range) * 100, 1);
       return result >= 99 ? 99 : result <= 1 ? 1 : result;
     }
     return 0;
