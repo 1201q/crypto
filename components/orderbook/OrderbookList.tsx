@@ -5,24 +5,15 @@ import { orderbookListHeightAtom } from "@/context/styles";
 import CenterSection from "./section/CenterSection";
 import SideSection from "./section/SideSection";
 
-import {
-  orderbookBuyUnitsAtom,
-  orderbookPriceArrayAtom,
-  orderbookSellUnitsAtom,
-} from "@/context/atoms";
-
 const OrderbookList = () => {
   const [height] = useAtom(orderbookListHeightAtom);
-  const [buyData] = useAtom(orderbookBuyUnitsAtom);
-  const [sellData] = useAtom(orderbookSellUnitsAtom);
-  const [priceList] = useAtom(orderbookPriceArrayAtom);
 
   return (
     <ListContainer height={height}>
-      <SideSection type={"sell"} data={sellData} />
-      <CenterSection data={priceList} />
+      <SideSection type={"sell"} />
+      <CenterSection />
       <RightContainer>
-        <SideSection type={"buy"} data={buyData} top={630} />
+        <SideSection type={"buy"} top={630} />
       </RightContainer>
     </ListContainer>
   );

@@ -1,7 +1,7 @@
 import nookies from "nookies";
 import { GetServerSideProps } from "next";
 import { admin } from "@/utils/firebase/admin";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { ServerSideProps } from "@/types/types";
 import { useAtom } from "jotai";
 import {
@@ -18,13 +18,14 @@ import getServersideAuth from "@/utils/common/getServersideAuth";
 import fetcher from "@/utils/common/fetcher";
 import { useList } from "@/utils/hooks/useList";
 import { useTicker } from "@/utils/websocket/websocketHooks";
-import { useHydrateAtoms } from "jotai/utils";
+import { selectAtom, useHydrateAtoms } from "jotai/utils";
+import { usePrice } from "@/context/hooks";
 
 export default function Home({ queryCode }: ServerSideProps) {
   useHydrateAtoms([[queryCodeAtom, queryCode]]);
   const { coinList } = useList();
   const [selectCode, setSelectCode] = useAtom(queryCodeAtom);
-  // const [data] = useAtom(selectTickerDataAtom);
+  const [data] = useAtom(selectTickerDataAtom);
 
   const { ticker } = useTicker(
     coinList.code || [],
@@ -39,9 +40,6 @@ export default function Home({ queryCode }: ServerSideProps) {
     }
   }, []);
 
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
   return (
     <>
       {queryCode === selectCode && (

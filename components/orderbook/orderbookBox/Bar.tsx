@@ -1,4 +1,4 @@
-import { orderbookBarWidthAtom } from "@/context/atoms";
+import { orderbookBarWidthAtomFamily } from "@/context/deriveredAtoms";
 import { getRoundedDecimal } from "@/utils/common/decimalUtils";
 import { useAtom } from "jotai";
 import React from "react";
@@ -15,10 +15,8 @@ interface BarPropsType {
 }
 
 const Bar: React.FC<PropsType> = ({ type, index }) => {
-  const [width] = useAtom(orderbookBarWidthAtom);
-  const dataIndex = type === "buy" ? index + 15 : index;
-
-  const FixedWidth = getRoundedDecimal(100 - width[dataIndex], 1) || 0;
+  const [width] = useAtom(orderbookBarWidthAtomFamily(index));
+  const FixedWidth = getRoundedDecimal(100 - width, 1) || 0;
 
   return <Container width={FixedWidth} type={type} />;
 };

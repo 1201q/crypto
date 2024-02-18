@@ -4,15 +4,15 @@ import styled from "styled-components";
 import Bar from "./Bar";
 import { useAtom } from "jotai";
 import { orderbookVolumeDisplayModeAtom } from "@/context/atoms";
+import { orderbookUnitsAtomFamily } from "@/context/deriveredAtoms";
 
 interface BoxPropsType {
   type: "sell" | "buy";
-  size: number;
-  price: number;
+
   index: number;
 }
 
-const OrderbookBox: React.FC<BoxPropsType> = ({ type, size, price, index }) => {
+const OrderbookBox: React.FC<BoxPropsType> = ({ type, index }) => {
   const [displayMode] = useAtom(orderbookVolumeDisplayModeAtom);
   const getTextColor = (type: string) => {
     if (type === "buy") {
@@ -22,16 +22,23 @@ const OrderbookBox: React.FC<BoxPropsType> = ({ type, size, price, index }) => {
     }
   };
 
-  return (
-    <Container type={type}>
-      <Size type={type} $color={getTextColor(type)}>
-        {displayMode
-          ? f("orderbookSize", price, size)
-          : f("fixedPrice", price * size)}
-      </Size>
+  const [data] = useAtom(orderbookUnitsAtomFamily(index));
 
-      <Bar type={type} index={index} />
-    </Container>
+  return (
+    <>
+      {data ? (
+        <Container type={type}>
+          <Size type={type} $color={getTextColor(type)}>
+            {displayMode && data
+              ? f("orderbookSize", data?.price, data?.size)
+              : f("fixedPrice", data?.price * data?.size)}
+          </Size>
+          <Bar type={type} index={index} />
+        </Container>
+      ) : (
+        <></>
+      )}
+    </>
   );
 };
 
