@@ -14,7 +14,7 @@ interface LeftProps {
 }
 
 const Bar: React.FC<BarPropsType> = ({ low, high }) => {
-  const price = usePrice("trade_price");
+  const price = usePrice("tp");
   const left = useMemo(() => {
     if (low && high && price) {
       const range = high - low;

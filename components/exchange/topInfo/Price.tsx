@@ -26,14 +26,14 @@ const Price: React.FC = () => {
   };
 
   const PriceComponent = () => {
-    const price = usePrice("trade_price") || 0;
+    const price = usePrice("tp") || 0;
     return <PriceText>{f("price", price)}</PriceText>;
   };
 
   const UpdateComponent = () => {
-    const price = usePrice("trade_price") || 0;
-    const changePercent = usePrice("signed_change_rate");
-    const change = usePrice("change");
+    const price = usePrice("tp") || 0;
+    const changePercent = usePrice("scr");
+    const change = usePrice("c");
 
     const { isUpdated } = usePriceUpdate(price);
     return (

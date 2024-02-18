@@ -8,8 +8,8 @@ interface PropsType {
 }
 
 const CenterBox: React.FC<PropsType> = ({ price }) => {
-  const openingPrice = usePrice("prev_closing_price") || 0;
-  const tradePrice = usePrice("trade_price") || 0;
+  const openingPrice = usePrice("pcp") || 0;
+  const tradePrice = usePrice("tp") || 0;
   const percent = (price - openingPrice) / openingPrice;
 
   const getTextColor = (percent: number) => {

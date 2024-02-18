@@ -17,7 +17,7 @@ interface BarPropsType {
 }
 
 const TopBarHeader = () => {
-  const price = usePrice("trade_price") || 0;
+  const price = usePrice("tp") || 0;
   const [height] = useAtom(orderbookTopHeaderHeightAtom);
   const [sizeData] = useAtom(orderbookSizeAtom);
   const [displayMode, setDisplayMode] = useAtom(orderbookVolumeDisplayModeAtom);

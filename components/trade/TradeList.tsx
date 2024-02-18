@@ -17,12 +17,12 @@ const TradeList = () => {
         style={{ height: "100%" }}
         itemContent={(index, data) => (
           <TradeRow
-            timestamp={data.timestamp}
-            price={data.trade_price}
-            volume={data.trade_volume}
-            change={data.change}
-            askOrBid={data.ask_bid}
-            key={data.sequential_id}
+            timestamp={data.tms}
+            price={data.tp}
+            volume={data.tv}
+            change={data.c}
+            askOrBid={data.ab}
+            key={data.sid}
           />
         )}
         totalCount={data.length}

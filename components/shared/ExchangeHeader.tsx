@@ -28,9 +28,9 @@ const ExchangeHeader: React.FC<HeaderProps> = ({
   const router = useRouter();
   const [queryCode] = useAtom(queryCodeAtom);
   const { coinList } = useList();
-  const price = usePrice("trade_price");
-  const changePercent = usePrice("signed_change_rate");
-  const change = usePrice("change");
+  const price = usePrice("tp");
+  const changePercent = usePrice("scr");
+  const change = usePrice("c");
 
   const [isInfoVisible, setIsInfoVisible] = useState(infoVisible || false);
   const [headerBorderVisible, setHeaderBorderVisible] = useState(

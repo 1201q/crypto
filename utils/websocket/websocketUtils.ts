@@ -1,11 +1,11 @@
 import { PrimitiveAtom, useAtom } from "jotai";
 import createWebsocket from "./createWebsocket";
 import {
-  OrderBookDataType,
-  TickerDataType,
-  TradeDataType,
+  ExtendedOrderBookDataType,
+  ExtendedTradeDataType,
   WebsocketType,
   SetAtomType,
+  ExtendedTickerDataType,
 } from "@/types/types";
 import { useRef } from "react";
 
@@ -59,7 +59,7 @@ const getTickerData = (ws: WebSocket, setData: SetAtomType<any>) => {
   ws.onmessage = async (event: any) => {
     const { data } = event;
     const blobToJson = await new Response(data).json();
-    const type = blobToJson?.type;
+    const type = blobToJson?.ty;
 
     switch (type) {
       case "ticker":
@@ -78,15 +78,15 @@ const getTickerData = (ws: WebSocket, setData: SetAtomType<any>) => {
 };
 
 const handleTickerUpdateEvent = (
-  data: TickerDataType,
-  setData: SetAtomType<TickerDataType[]>
+  data: ExtendedTickerDataType,
+  setData: SetAtomType<ExtendedTickerDataType[]>
 ) => {
-  if (data.stream_type === "SNAPSHOT") {
+  if (data.st === "SNAPSHOT") {
     setData((prev) => [...prev, data]);
   } else {
     setData((prev) => {
       const updatedArr = prev.map((coin) => {
-        if (coin.code === data.code) {
+        if (coin.cd === data.cd) {
           return { ...data };
         }
         return coin;
@@ -97,15 +97,15 @@ const handleTickerUpdateEvent = (
 };
 
 const handleOrderbookUpdateEvent = (
-  data: OrderBookDataType,
-  setData: SetAtomType<OrderBookDataType[]>
+  data: ExtendedOrderBookDataType,
+  setData: SetAtomType<ExtendedOrderBookDataType[]>
 ) => {
   setData([data]);
 };
 
 const handleTradeUpdateEvent = (
-  data: TradeDataType,
-  setData: SetAtomType<TradeDataType[]>
+  data: ExtendedTradeDataType,
+  setData: SetAtomType<ExtendedTradeDataType[]>
 ) => {
   setData((prev) => [data, ...prev]);
 };

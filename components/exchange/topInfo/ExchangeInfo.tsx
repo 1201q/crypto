@@ -7,7 +7,7 @@ import { usePrice } from "@/context/hooks";
 import LoadingExchangeInfo from "@/components/skeleton/LoadingExchangeInfo";
 
 const ExchangeInfo = () => {
-  const price = usePrice("trade_price");
+  const price = usePrice("tp");
 
   return (
     <Container>

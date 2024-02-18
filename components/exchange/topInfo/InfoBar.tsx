@@ -7,10 +7,10 @@ import React from "react";
 import { usePrice } from "@/context/hooks";
 
 const InfoBar: React.FC = () => {
-  const price = usePrice("trade_price");
-  const change = usePrice("change");
-  const changePrice = usePrice("signed_change_price");
-  const accSum = usePrice("acc_trade_price_24h");
+  const price = usePrice("tp");
+  const change = usePrice("c");
+  const changePrice = usePrice("scp");
+  const accSum = usePrice("atp24h");
 
   const getTextColor = (change: string | undefined) => {
     if (change === "RISE") {

@@ -5,14 +5,14 @@ import { usePrice } from "@/context/hooks";
 import f from "@/utils/common/formatting";
 
 const ExchangeDetail = () => {
-  const low = usePrice("low_price");
-  const high = usePrice("high_price");
+  const low = usePrice("lp");
+  const high = usePrice("hp");
 
-  const low24 = usePrice("lowest_52_week_price");
-  const high24 = usePrice("highest_52_week_price");
+  const low24 = usePrice("l52wp");
+  const high24 = usePrice("h52wp");
 
-  const accPrice = usePrice("acc_trade_price_24h");
-  const accVolume = usePrice("acc_trade_volume_24h");
+  const accPrice = usePrice("atp24h");
+  const accVolume = usePrice("atv24h");
 
   return (
     <Container>

@@ -1,4 +1,4 @@
-import { TickerDataType } from "@/types/types";
+import { ExtendedTickerDataType } from "@/types/types";
 import { motion } from "framer-motion";
 import React from "react";
 import styled from "styled-components";
@@ -9,7 +9,7 @@ import CoinPrice from "./CoinPrice";
 interface RowProps {
   name?: string;
   code: string;
-  tickerData?: TickerDataType;
+  tickerData?: ExtendedTickerDataType;
 }
 
 const CoinRow: React.FC<RowProps> = ({ name, code, tickerData }) => {

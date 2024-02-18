@@ -1,14 +1,14 @@
 import { PrimitiveAtom } from "jotai";
 import {
-  OrderBookDataType,
-  TickerDataType,
-  TradeDataType,
+  ExtendedTickerDataType,
+  ExtendedTradeDataType,
+  ExtendedOrderBookDataType,
 } from "@/types/types";
 import { useUpbit } from "./websocketUtils";
 
 export const useTicker = (
   code: string[] | string,
-  atom: PrimitiveAtom<TickerDataType[]>,
+  atom: PrimitiveAtom<ExtendedTickerDataType[]>,
   isWsOpenAtom: PrimitiveAtom<boolean>
 ) => {
   return { ticker: useUpbit("ticker", code, atom, isWsOpenAtom) };
@@ -16,7 +16,7 @@ export const useTicker = (
 
 export const useTrade = (
   code: string[] | string,
-  atom: PrimitiveAtom<TradeDataType[]>,
+  atom: PrimitiveAtom<ExtendedTradeDataType[]>,
   isWsOpenAtom: PrimitiveAtom<boolean>
 ) => {
   return { trade: useUpbit("trade", code, atom, isWsOpenAtom) };
@@ -24,7 +24,7 @@ export const useTrade = (
 
 export const useOrderbook = (
   code: string[] | string,
-  atom: PrimitiveAtom<OrderBookDataType[]>,
+  atom: PrimitiveAtom<ExtendedOrderBookDataType[]>,
   isWsOpenAtom: PrimitiveAtom<boolean>
 ) => {
   return { orderbook: useUpbit("orderbook", code, atom, isWsOpenAtom) };

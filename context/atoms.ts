@@ -1,41 +1,68 @@
 import { atom } from "jotai";
 import {
-  OrderBookDataType,
-  TickerDataType,
-  TradeDataType,
+  ExtendedOrderBookDataType,
+  ExtendedTradeDataType,
   MarketListDataType,
+  ExtendedTickerDataType,
 } from "../types/types";
 
 // https://velog.io/@bnb8419/Jotai-%EC%82%AC%EC%9A%A9%EB%B2%95#%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8-%EB%82%B4%EC%97%90%EC%84%9C-atom%EC%83%9D%EC%84%B1
 
 // coin data
-export const allTickerDataAtom = atom<TickerDataType[]>([]);
-export const selectTickerDataAtom = atom((get) => {
-  const allTickerData = get(allTickerDataAtom);
-  const queryCode = get(queryCodeAtom);
+export const allTickerDataAtom = atom<ExtendedTickerDataType[]>([]);
+export const selectTickerDataAtom = atom(
+  (get) => {
+    const allTickerData = get(allTickerDataAtom);
+    const queryCode = get(queryCodeAtom);
 
-  return allTickerData.find((coin) => coin?.code === queryCode);
-});
+    return allTickerData.find((coin) => coin?.cd === queryCode);
+  },
+  (_, set, update: ExtendedTickerDataType) => {
+    set(selectTickerDataAtom, update);
+  }
+);
 
-export const tradeDataAtom = atom<TradeDataType[]>([]);
+export const sortedAllTickerDataAtom = atom(
+  (get) => {
+    const data = get(allTickerDataAtom);
+    const sort = get(sortOptionAtom);
+
+    return [...data]?.sort((a, b) => {
+      const option = sort.find((option) => option.select)?.en;
+      if (option === "acc") {
+        return b.atp24h - a.atp24h;
+      } else if (option === "up") {
+        return b.scr - a.scr;
+      } else if (option === "down") {
+        return a.scr - b.scr;
+      }
+      return 0;
+    });
+  },
+  (_, set, update: ExtendedTickerDataType[]) => {
+    set(sortedAllTickerDataAtom, update);
+  }
+);
+
+export const tradeDataAtom = atom<ExtendedTradeDataType[]>([]);
 
 // orderbook
-export const orderbookDataAtom = atom<OrderBookDataType[]>([]);
+export const orderbookDataAtom = atom<ExtendedOrderBookDataType[]>([]);
 
 // 오더북 렌더 atom입니다.
 // 값으로 price와 size를 가짐.
 export const orderbookUnitsAtom = atom<any[]>((get) => {
-  const units = get(orderbookDataAtom)[0]?.orderbook_units;
+  const units = get(orderbookDataAtom)[0]?.obu;
 
   const ask =
     units?.reverse().map((d, i) => {
-      return { price: d.ask_price, size: d.ask_size };
+      return { price: d.ap, size: d.as };
     }) || [];
 
   const bid =
     units
       ?.map((d, i) => {
-        return { price: d.bid_price, size: d.bid_size };
+        return { price: d.bp, size: d.bs };
       })
       .reverse() || [];
 
@@ -75,9 +102,9 @@ export const orderbookSizeAtom = atom<any>((get) => {
   const units = get(orderbookDataAtom)[0];
 
   return {
-    ask: units?.total_ask_size,
-    bid: units?.total_bid_size,
-    sum: units?.total_ask_size + units?.total_bid_size,
+    ask: units?.tas,
+    bid: units?.tbs,
+    sum: units?.tas + units?.tbs,
   };
 });
 

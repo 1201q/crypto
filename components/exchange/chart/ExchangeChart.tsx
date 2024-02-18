@@ -54,6 +54,7 @@ const Container = styled.div`
 
 const Chart = styled.div`
   width: 100%;
+  height: 320px;
   display: flex;
   justify-content: center;
   background: none;

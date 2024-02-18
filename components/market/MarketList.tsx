@@ -1,10 +1,8 @@
-import { allTickerDataAtom } from "@/context/atoms";
+import { allTickerDataAtom, sortedAllTickerDataAtom } from "@/context/atoms";
 import { useAtom } from "jotai";
 import styled from "styled-components";
 import { Virtuoso } from "react-virtuoso";
-import React, { useMemo } from "react";
-import { sortOptionAtom } from "@/context/atoms";
-import { TickerDataType } from "@/types/types";
+import React from "react";
 
 import { useList } from "@/utils/hooks/useList";
 import CoinRow from "../shared/coinListRow/CoinRow";
@@ -12,31 +10,18 @@ import SkeletonRow from "../skeleton/LoadingRow";
 
 const MarketList = () => {
   const { coinList } = useList();
-  const [renderData] = useAtom(allTickerDataAtom);
-  const [sort] = useAtom(sortOptionAtom);
 
-  const sortedData: TickerDataType[] = useMemo(() => {
-    return [...renderData]?.sort((a, b) => {
-      const option = sort.find((option) => option.select)?.en;
-      if (option === "acc") {
-        return b.acc_trade_price_24h - a.acc_trade_price_24h;
-      } else if (option === "up") {
-        return b.signed_change_rate - a.signed_change_rate;
-      } else if (option === "down") {
-        return a.signed_change_rate - b.signed_change_rate;
-      }
-      return 0;
-    });
-  }, [renderData, sort]);
+  const [data] = useAtom(sortedAllTickerDataAtom);
+  const [d] = useAtom(allTickerDataAtom);
 
   return (
     <Container>
-      {coinList?.code.length === renderData.length ? (
+      {coinList?.code.length === data.length ? (
         <Virtuoso
-          data={sortedData}
+          data={data}
           useWindowScroll
           itemContent={(index, data) => (
-            <CoinRow key={data.code} code={data.code} tickerData={data} />
+            <CoinRow key={data.cd} code={data.cd} tickerData={data} />
           )}
           totalCount={coinList?.code.length}
           fixedItemHeight={55}

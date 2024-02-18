@@ -10,7 +10,7 @@ export default async function createWebsocket(
   return new Promise((resolve, reject) => {
     try {
       const ws = new WebSocket(WS_URL);
-      const initData = `[{"ticket" : ${uuid_v4()}}, {"type" : ${type}, "codes": [${coinList}]}]`;
+      const initData = `[{"ticket" : ${uuid_v4()}}, {"type" : ${type}, "codes": [${coinList}]}, {"format" : SIMPLE }]`;
 
       ws.onopen = () => {
         ws.send(initData);

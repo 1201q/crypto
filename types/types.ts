@@ -78,6 +78,44 @@ export interface TickerDataType {
   type: "ticker";
 }
 
+export interface ExtendedTickerDataType extends TickerDataType {
+  ty: string;
+  cd: string;
+  op: number;
+  hp: number;
+  lp: number;
+  tp: number;
+  pcp: number;
+  c: "RISE" | "EVEN" | "FALL";
+  cp: number;
+  scp: number;
+  cr: number;
+  scr: number;
+  tv: number;
+  atv: number;
+  atv24h: number;
+  atp: number;
+  atp24h: number;
+  tdt: string;
+  ttm: string;
+  ttms: number;
+  ab: "ASK" | "BID";
+  aav: number;
+  abv: number;
+  h52wp: number;
+  h52wdt: string;
+  l52wp: number;
+  l52wdt: string;
+  ts?: string;
+  ms: "PREVIEW" | "ACTIVE" | "DELISTED";
+  msfi?: string;
+  its: boolean;
+  dd: string | null;
+  mw: "NONE" | "CAUTION";
+  tms: number;
+  st: "SNAPSHOT" | "REALTIME";
+}
+
 export interface TradeDataType {
   ask_bid: "ASK" | "BID";
   change: "EVEN" | "RISE" | "FALL";
@@ -95,16 +133,33 @@ export interface TradeDataType {
   type: "trade";
 }
 
-type OrderBookUnit = {
-  ask_price: number;
-  bid_price: number;
-  ask_size: number;
-  bid_size: number;
+export interface ExtendedTradeDataType extends TradeDataType {
+  ab: "ASK" | "BID";
+  c: "EVEN" | "RISE" | "FALL";
+  cp: number;
+  cd: string;
+  pcp: number;
+  sid: number;
+  st: "SNAPSHOT" | "REALTIME";
+  tms: number;
+  td: string;
+  tp: number;
+  ttm: string;
+  ttms: number;
+  tv: number;
+  ty: "trade";
+}
+
+type ExtendedOrderBookUnit = {
+  ap: number;
+  bp: number;
+  as: number;
+  bs: number;
 };
 
 export interface OrderBookDataType {
   code: string;
-  orderbook_units: OrderBookUnit[];
+  orderbook_units: ExtendedOrderBookUnit[];
   stream_type: "SNAPSHOT" | "REALTIME";
   timestamp: number;
   total_ask_size: number;
@@ -112,7 +167,23 @@ export interface OrderBookDataType {
   type: "orderbook";
 }
 
-export type AtomType = TickerDataType[] | TradeDataType[] | OrderBookDataType[];
+export interface ExtendedOrderBookDataType extends OrderBookDataType {
+  ty: "orderbook";
+  cd: string;
+  tas: number;
+  tbs: number;
+  obu: ExtendedOrderBookUnit[];
+  ap: number;
+  bp: number;
+  bs: number;
+  tms: number;
+  st: "SNAPSHOT" | "REALTIME";
+}
+
+export type AtomType =
+  | ExtendedTickerDataType[]
+  | ExtendedTradeDataType[]
+  | ExtendedOrderBookDataType[];
 // *****************************************************************
 
 // candle 타입
