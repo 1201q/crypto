@@ -1,4 +1,4 @@
-import { allTickerDataAtom, sortedAllTickerDataAtom } from "@/context/atoms";
+import { sortedAllTickerDataAtom } from "@/context/atoms";
 import { useAtom } from "jotai";
 import styled from "styled-components";
 import { Virtuoso } from "react-virtuoso";
@@ -12,7 +12,6 @@ const MarketList = () => {
   const { coinList } = useList();
 
   const [data] = useAtom(sortedAllTickerDataAtom);
-  const [d] = useAtom(allTickerDataAtom);
 
   return (
     <Container>
@@ -21,10 +20,17 @@ const MarketList = () => {
           data={data}
           useWindowScroll
           itemContent={(index, data) => (
-            <CoinRow key={data.cd} code={data.cd} tickerData={data} />
+            <CoinRow
+              key={data.cd}
+              code={data.cd}
+              price={data.tp}
+              change={data.c}
+              changeRate={data.scr}
+            />
           )}
           totalCount={coinList?.code.length}
           fixedItemHeight={55}
+          increaseViewportBy={{ top: 0, bottom: 0 }}
         />
       ) : (
         <Virtuoso

@@ -8,6 +8,7 @@ import {
   allTickerDataAtom,
   isTickerWebsocketOpenAtom,
   queryCodeAtom,
+  selectTickerDataAtom,
 } from "@/context/atoms";
 
 import PageRender from "@/components/page/PageRender";
@@ -23,6 +24,7 @@ export default function Home({ queryCode }: ServerSideProps) {
   useHydrateAtoms([[queryCodeAtom, queryCode]]);
   const { coinList } = useList();
   const [selectCode, setSelectCode] = useAtom(queryCodeAtom);
+  // const [data] = useAtom(selectTickerDataAtom);
 
   const { ticker } = useTicker(
     coinList.code || [],
@@ -37,6 +39,9 @@ export default function Home({ queryCode }: ServerSideProps) {
     }
   }, []);
 
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data]);
   return (
     <>
       {queryCode === selectCode && (

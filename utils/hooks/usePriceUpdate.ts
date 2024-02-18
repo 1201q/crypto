@@ -29,9 +29,7 @@ const usePriceUpdate = (price: number) => {
       updateTimerRef.current = setTimeout(() => {
         setIsUpdated(false);
       }, 200);
-
       setIsUpdated(true);
-
       setCurrentPrice((prev) => {
         if (prev !== price) {
           return price;

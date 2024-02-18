@@ -1,19 +1,20 @@
-import { ExtendedTickerDataType } from "@/types/types";
 import f from "@/utils/common/formatting";
 import usePriceUpdate from "@/utils/hooks/usePriceUpdate";
 import React from "react";
 import styled from "styled-components";
 
 interface ComponentProps {
-  tickerData: ExtendedTickerDataType;
+  price: number;
+  change: string;
+  changeRate: number;
 }
 
 interface UpdateProps {
   bgcolor: string | undefined;
 }
 
-const CoinPrice: React.FC<ComponentProps> = ({ tickerData }) => {
-  const { isUpdated } = usePriceUpdate(tickerData.tp);
+const CoinPrice: React.FC<ComponentProps> = ({ price, change, changeRate }) => {
+  const { isUpdated } = usePriceUpdate(price);
 
   const getUpdateDisplayBgColor = (change: string, isUpdated: boolean) => {
     if (change === "RISE") {
@@ -27,12 +28,10 @@ const CoinPrice: React.FC<ComponentProps> = ({ tickerData }) => {
 
   return (
     <Container>
-      <UpdateContainer
-        bgcolor={getUpdateDisplayBgColor(tickerData.c, isUpdated)}
-      >
-        <PercentText>{f("change", tickerData.scr)}%</PercentText>
+      <UpdateContainer bgcolor={getUpdateDisplayBgColor(change, isUpdated)}>
+        <PercentText>{f("change", changeRate)}%</PercentText>
       </UpdateContainer>
-      <PriceText>{f("price", tickerData.tp)}</PriceText>
+      <PriceText>{f("price", price)}</PriceText>
     </Container>
   );
 };

@@ -8,11 +8,20 @@ import CoinPrice from "./CoinPrice";
 
 interface RowProps {
   name?: string;
+  price?: number;
+  change?: string;
+  changeRate?: number;
   code: string;
   tickerData?: ExtendedTickerDataType;
 }
 
-const CoinRow: React.FC<RowProps> = ({ name, code, tickerData }) => {
+const CoinRow: React.FC<RowProps> = ({
+  name,
+  code,
+  price,
+  change,
+  changeRate,
+}) => {
   const router = useRouter();
 
   return (
@@ -24,7 +33,9 @@ const CoinRow: React.FC<RowProps> = ({ name, code, tickerData }) => {
       }}
     >
       <CoinInfo name={name} code={code} />
-      {tickerData && <CoinPrice tickerData={tickerData} />}
+      {price && change && changeRate !== undefined && (
+        <CoinPrice price={price} change={change} changeRate={changeRate} />
+      )}
     </Container>
   );
 };

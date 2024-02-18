@@ -11,9 +11,10 @@ const CenterSection: React.FC<SectionType> = ({ data }) => {
     <Virtuoso
       data={data}
       useWindowScroll
-      itemContent={(index, data) => <Center price={data} key={data} />}
+      itemContent={(index, data) => <Center price={data} key={index} />}
       totalCount={data?.length}
       fixedItemHeight={42}
+      increaseViewportBy={{ top: 0, bottom: 0 }}
     />
   );
 };
