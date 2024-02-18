@@ -18,7 +18,7 @@ const Bar: React.FC<BarPropsType> = ({ low, high }) => {
   const left = useMemo(() => {
     if (low && high && price) {
       const range = high - low;
-      const result = getRoundedDecimal(((price - low) / range) * 100, 1);
+      const result = getRoundedDecimal(((price - low) / range) * 100, 0);
       return result >= 99 ? 99 : result <= 1 ? 1 : result;
     }
     return 0;

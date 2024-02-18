@@ -13,7 +13,7 @@ const TopHeaderBar = () => {
   const [sizeData] = useAtom(orderbookSizeAtom);
 
   const getRedWidth = useCallback(() => {
-    return getRoundedDecimal((sizeData?.bid / sizeData?.sum) * 100, 1) || 0;
+    return getRoundedDecimal((sizeData?.bid / sizeData?.sum) * 100, 0) || 0;
   }, [sizeData?.sum]);
 
   return (
@@ -43,7 +43,7 @@ const Bar = styled.div.attrs<BarPropsType>((props) => ({
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   transform-origin: left center;
-  transition: transform 0.1s ease-out;
+  transition: transform 0.2s ease-out;
 `;
 
 export default React.memo(TopHeaderBar);

@@ -16,7 +16,7 @@ interface BarPropsType {
 
 const Bar: React.FC<PropsType> = ({ type, index }) => {
   const [width] = useAtom(orderbookBarWidthAtomFamily(index));
-  const FixedWidth = getRoundedDecimal(100 - width, 1) || 0;
+  const FixedWidth = getRoundedDecimal(100 - width, 0) || 0;
 
   return <Container width={FixedWidth} type={type} />;
 };
