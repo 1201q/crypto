@@ -11,13 +11,14 @@ interface SectionType {
 }
 
 const SideSection: React.FC<SectionType> = ({ type, top, startIndex = 0 }) => {
-  const render = useAtomValue(
-    useMemo(() => selectOrderbookUnitArrayAtom(type), [type])
-  );
+  // const render = useAtomValue(
+  //   useMemo(() => selectOrderbookUnitArrayAtom(type), [type])
+  // );
+  const renderArray = Array(15).fill(null);
 
   return (
     <div>
-      {render.map((d, index) => (
+      {renderArray.map((d, index) => (
         <OrderbookBox
           key={`${type}-${index}`}
           type={type}

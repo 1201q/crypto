@@ -5,12 +5,13 @@ import { Virtuoso } from "react-virtuoso";
 import { orderbookPriceArrayAtom } from "@/context/deriveredAtoms";
 
 const CenterSection = () => {
-  const [data] = useAtom(orderbookPriceArrayAtom);
+  // const [data] = useAtom(orderbookPriceArrayAtom);
+  const renderArray = Array(30).fill(null);
 
   return (
     <div>
-      {data?.map((price, index) => (
-        <Center index={index} key={price} />
+      {renderArray?.map((price, index) => (
+        <Center index={index} key={index} />
       ))}
     </div>
   );
