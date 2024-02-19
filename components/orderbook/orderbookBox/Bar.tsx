@@ -18,15 +18,16 @@ const Bar: React.FC<PropsType> = ({ type, index }) => {
     useMemo(() => selectOrderbookBarWidthAtom(index), [index])
   );
 
-  return <Container width={width} type={type} />;
+  return <Container width={100 - width} type={type} />;
 };
 
 const Container = styled.div.attrs<BarPropsType>((props) => ({
   style: {
-    transform:
-      props.type === "buy"
-        ? `translateX(-${props.width}%)`
-        : `translateX(${props.width}%)`,
+    // transform:
+    //   props.type === "buy"
+    //     ? `translateX(-${props.width}%)`
+    //     : `translateX(${props.width}%)`,
+    width: `${props.width}%`,
   },
 }))<BarPropsType>`
   width: 100%;
