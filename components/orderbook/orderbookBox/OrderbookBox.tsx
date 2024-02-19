@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Bar from "./Bar";
 import { useAtom, useAtomValue } from "jotai";
 import { orderbookVolumeDisplayModeAtom } from "@/context/atoms";
-import { selectOrderbookUnitAtom } from "@/context/deriveredAtoms";
+import { selectOrderbookUnitByTypeAndIndexAtom } from "@/context/deriveredAtoms";
 
 interface BoxPropsType {
   type: "sell" | "buy";
@@ -23,8 +23,14 @@ const OrderbookBox: React.FC<BoxPropsType> = ({ type, index }) => {
   };
 
   const data = useAtomValue(
-    useMemo(() => selectOrderbookUnitAtom(index), [index])
+    useMemo(
+      () => selectOrderbookUnitByTypeAndIndexAtom(type, index),
+      [type, index]
+    )
   );
+
+  const size = data?.size;
+  const price = data?.price;
 
   return (
     <>
@@ -32,10 +38,9 @@ const OrderbookBox: React.FC<BoxPropsType> = ({ type, index }) => {
         <Container type={type}>
           <Size type={type} $color={getTextColor(type)}>
             {displayMode && data
-              ? f("orderbookSize", data?.price, data?.size)
-              : f("fixedPrice", data?.price * data?.size)}
+              ? f("orderbookSize", price, size)
+              : f("fixedPrice", price * size)}
           </Size>
-
           <Bar type={type} index={index} />
         </Container>
       ) : (

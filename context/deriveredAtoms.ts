@@ -2,9 +2,14 @@ import { orderbookDataAtom, sortedAllTickerDataAtom } from "./atoms";
 import { atom } from "jotai";
 import { getRoundedDecimal } from "@/utils/common/decimalUtils";
 
+interface OrderbookUnitsType {
+  price: number;
+  size: number;
+}
+
 // 오더북  atom입니다.
 // 값으로 price와 size를 가짐.
-const orderbookUnitsAtom = atom<any[]>((get) => {
+const orderbookUnitsAtom = atom<OrderbookUnitsType[]>((get) => {
   const units = get(orderbookDataAtom)[0]?.obu;
 
   const ask =
@@ -23,7 +28,7 @@ const orderbookUnitsAtom = atom<any[]>((get) => {
 });
 
 // 오더북 bar의 width를 반환
-const orderbookBarWidthAtom = atom<any>((get) => {
+const orderbookBarWidthAtom = atom<number[]>((get) => {
   const units = get(orderbookUnitsAtom);
   const size = get(orderbookSizeAtom);
   let over100Array: number[] = [];
@@ -50,7 +55,7 @@ const orderbookBarWidthAtom = atom<any>((get) => {
 
 // 렌더용 atom입니다.
 // price만 가짐.
-export const orderbookPriceArrayAtom = atom<any[]>((get) => {
+export const orderbookPriceArrayAtom = atom((get) => {
   const units = get(orderbookUnitsAtom);
   return units.map((data) => {
     return data.price;
@@ -90,11 +95,32 @@ export const orderbookSizeAtom = atom<any>((get) => {
   };
 });
 
-export const selectOrderbookBarWidthAtom = (index: number) =>
-  atom((get) => get(orderbookBarWidthAtom)[index]);
+export const selectOrderbookBarWidthAtom = (
+  type: "buy" | "sell",
+  index: number
+) => {
+  if (type === "buy") {
+    return atom((get) => get(orderbookBarWidthAtom)[index + 15]);
+  } else {
+    return atom((get) => get(orderbookBarWidthAtom)[index]);
+  }
+};
 
-export const selectOrderbookUnitAtom = (index: number) =>
+export const selectOrderbookUnitAtIndexAtom = (index: number) =>
   atom((get) => get(orderbookUnitsAtom)[index]);
+
+export const selectOrderbookUnitArrayAtom = (type: "buy" | "sell") => {
+  if (type === "buy") {
+    return atom((get) => get(orderbookUnitsAtom)?.slice(15));
+  } else {
+    return atom((get) => get(orderbookUnitsAtom)?.slice(0, 15));
+  }
+};
+
+export const selectOrderbookUnitByTypeAndIndexAtom = (
+  type: "buy" | "sell",
+  index: number
+) => atom((get) => get(selectOrderbookUnitArrayAtom(type))[index]);
 
 export const selectSortedTickerDataAtom = (index: number) =>
   atom((get) => get(sortedAllTickerDataAtom)[index]);

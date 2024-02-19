@@ -1,33 +1,35 @@
-import React from "react";
+import React, { useMemo } from "react";
 import OrderbookBox from "../orderbookBox/OrderbookBox";
 import { Virtuoso } from "react-virtuoso";
+import { useAtomValue } from "jotai";
+import { selectOrderbookUnitArrayAtom } from "@/context/deriveredAtoms";
 
 interface SectionType {
   type: "sell" | "buy";
   top?: number;
 }
 
-const RenderArrayLength = 15;
-
 const SideSection: React.FC<SectionType> = ({ type, top }) => {
-  const render = Array(RenderArrayLength);
+  const render = useAtomValue(
+    useMemo(() => selectOrderbookUnitArrayAtom(type), [type])
+  );
 
   return (
-    <Virtuoso
-      data={render}
-      style={{ height: "100%", width: "100%" }}
-      useWindowScroll
-      itemContent={(index, data) => (
-        <OrderbookBox
-          key={`${type}-${index}`}
-          type={type}
-          index={type === "buy" ? index + RenderArrayLength : index}
+    <>
+      {render && (
+        <Virtuoso
+          data={render}
+          style={{ height: "100%", width: "100%" }}
+          useWindowScroll
+          itemContent={(index, data) => (
+            <OrderbookBox key={`${type}-${index}`} type={type} index={index} />
+          )}
+          totalCount={render?.length}
+          fixedItemHeight={42}
+          increaseViewportBy={{ top: top || 0, bottom: 0 }}
         />
       )}
-      totalCount={render?.length}
-      fixedItemHeight={42}
-      increaseViewportBy={{ top: top || 0, bottom: 0 }}
-    />
+    </>
   );
 };
 

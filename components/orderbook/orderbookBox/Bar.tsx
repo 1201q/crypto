@@ -15,7 +15,7 @@ interface BarPropsType {
 
 const Bar: React.FC<PropsType> = ({ type, index }) => {
   const width = useAtomValue(
-    useMemo(() => selectOrderbookBarWidthAtom(index), [index])
+    useMemo(() => selectOrderbookBarWidthAtom(type, index), [type, index])
   );
 
   return <Container width={width} type={type} />;
