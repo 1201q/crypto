@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { throttle } from "lodash";
 import { useAtom } from "jotai";
-import { sTickerDataAtom, queryCodeAtom } from "@/context/atoms";
+import { queryCodeAtom } from "@/context/atoms";
 import getKR from "@/utils/common/getKR";
 import { useList } from "@/utils/hooks/useList";
 import { usePrice } from "@/context/hooks";
