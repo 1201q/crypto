@@ -41,7 +41,7 @@ const OrderbookBox: React.FC<BoxPropsType> = ({ type, index }) => {
               ? f("orderbookSize", price, size)
               : f("fixedPrice", price * size)}
           </Size>
-          <Bar type={type} index={index} />
+          {/* <Bar type={type} index={index} /> */}
         </Container>
       ) : (
         <></>
