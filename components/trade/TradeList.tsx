@@ -26,6 +26,7 @@ const TradeList = () => {
           />
         )}
         totalCount={data.length}
+        fixedItemHeight={46}
       />
     </Container>
   );

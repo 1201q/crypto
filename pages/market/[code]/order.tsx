@@ -13,7 +13,6 @@ import {
 } from "@/context/atoms";
 
 import PageRender from "@/components/page/PageRender";
-import OrderbookPage from "@/components/page/OrderbookPage";
 
 import getServersideAuth from "@/utils/common/getServersideAuth";
 import fetcher from "@/utils/common/fetcher";

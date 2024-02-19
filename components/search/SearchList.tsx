@@ -43,6 +43,7 @@ const SearchList = () => {
           />
         )}
         totalCount={filteredCoins?.length}
+        fixedItemHeight={55}
       />
     </Container>
   );

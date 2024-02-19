@@ -39,9 +39,6 @@ const Bar = styled.div.attrs<BarPropsType>((props) => ({
   width: 100%;
   height: 100%;
   background-color: #448aef;
-  border-radius: 7px;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
   transform-origin: left center;
   transition: transform 0.2s ease-out;
 `;

@@ -9,6 +9,8 @@ import {
 } from "@/types/types";
 import { useRef } from "react";
 
+const TradeArray_MaxLength = 50;
+
 interface HookReturnType {
   open: () => void;
   close: () => void;
@@ -107,5 +109,12 @@ const handleTradeUpdateEvent = (
   data: ExtendedTradeDataType,
   setData: SetAtomType<ExtendedTradeDataType[]>
 ) => {
-  setData((prev) => [data, ...prev]);
+  setData((prev) => {
+    const updateData = [data, ...prev];
+
+    if (updateData.length > TradeArray_MaxLength) {
+      updateData.pop();
+    }
+    return updateData;
+  });
 };

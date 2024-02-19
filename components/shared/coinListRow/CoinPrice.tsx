@@ -1,20 +1,23 @@
+import { selectSortedTickerDataAtom } from "@/context/deriveredAtoms";
 import f from "@/utils/common/formatting";
 import usePriceUpdate from "@/utils/hooks/usePriceUpdate";
-import React from "react";
+import { useAtomValue } from "jotai";
+import React, { useEffect, useMemo } from "react";
 import styled from "styled-components";
 
 interface ComponentProps {
-  price: number;
-  change: string;
-  changeRate: number;
+  index: number;
 }
 
 interface UpdateProps {
   bgcolor: string | undefined;
 }
 
-const CoinPrice: React.FC<ComponentProps> = ({ price, change, changeRate }) => {
-  const { isUpdated } = usePriceUpdate(price);
+const CoinPrice: React.FC<ComponentProps> = ({ index }) => {
+  const data = useAtomValue(
+    useMemo(() => selectSortedTickerDataAtom(index), [index])
+  );
+  const { isUpdated } = usePriceUpdate(data?.tp);
 
   const getUpdateDisplayBgColor = (change: string, isUpdated: boolean) => {
     if (change === "RISE") {
@@ -28,10 +31,10 @@ const CoinPrice: React.FC<ComponentProps> = ({ price, change, changeRate }) => {
 
   return (
     <Container>
-      <UpdateContainer bgcolor={getUpdateDisplayBgColor(change, isUpdated)}>
-        <PercentText>{f("change", changeRate)}%</PercentText>
+      <UpdateContainer bgcolor={getUpdateDisplayBgColor(data.c, isUpdated)}>
+        <PercentText>{f("change", data?.cr)}%</PercentText>
       </UpdateContainer>
-      <PriceText>{f("price", price)}</PriceText>
+      <PriceText>{f("price", data?.tp)}</PriceText>
     </Container>
   );
 };
@@ -59,7 +62,6 @@ const UpdateContainer = styled.div.attrs<UpdateProps>((props) => ({
   border-radius: 4px;
   margin-bottom: 3px;
   transition: background-color 0.1s ease-out;
-  will-change: background-color;
 `;
 
 const PercentText = styled.p`

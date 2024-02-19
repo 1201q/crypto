@@ -1,4 +1,3 @@
-import { ExtendedTickerDataType } from "@/types/types";
 import { motion } from "framer-motion";
 import React from "react";
 import styled from "styled-components";
@@ -8,20 +7,11 @@ import CoinPrice from "./CoinPrice";
 
 interface RowProps {
   name?: string;
-  price?: number;
-  change?: string;
-  changeRate?: number;
   code: string;
-  tickerData?: ExtendedTickerDataType;
+  index?: number;
 }
 
-const CoinRow: React.FC<RowProps> = ({
-  name,
-  code,
-  price,
-  change,
-  changeRate,
-}) => {
+const CoinRow: React.FC<RowProps> = ({ name, code, index }) => {
   const router = useRouter();
 
   return (
@@ -33,9 +23,7 @@ const CoinRow: React.FC<RowProps> = ({
       }}
     >
       <CoinInfo name={name} code={code} />
-      {price && change && changeRate !== undefined && (
-        <CoinPrice price={price} change={change} changeRate={changeRate} />
-      )}
+      {index !== undefined && <CoinPrice index={index} />}
     </Container>
   );
 };

@@ -34,8 +34,7 @@ const Box = styled.div<{ currentPrice: boolean }>`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: 7px;
-
+  border-radius: ${(props) => (props.currentPrice ? "7px" : "0px")};
   background-color: ${(props) => (props.currentPrice ? "#f2f4f6" : "white")};
   height: 42px;
   user-select: none;

@@ -1,14 +1,13 @@
 import nookies from "nookies";
 import { GetServerSideProps } from "next";
 import { admin } from "@/utils/firebase/admin";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { ServerSideProps } from "@/types/types";
 import { useAtom } from "jotai";
 import {
   allTickerDataAtom,
   isTickerWebsocketOpenAtom,
   queryCodeAtom,
-  selectTickerDataAtom,
 } from "@/context/atoms";
 
 import PageRender from "@/components/page/PageRender";
@@ -18,14 +17,12 @@ import getServersideAuth from "@/utils/common/getServersideAuth";
 import fetcher from "@/utils/common/fetcher";
 import { useList } from "@/utils/hooks/useList";
 import { useTicker } from "@/utils/websocket/websocketHooks";
-import { selectAtom, useHydrateAtoms } from "jotai/utils";
-import { usePrice } from "@/context/hooks";
+import { useHydrateAtoms } from "jotai/utils";
 
 export default function Home({ queryCode }: ServerSideProps) {
   useHydrateAtoms([[queryCodeAtom, queryCode]]);
   const { coinList } = useList();
   const [selectCode, setSelectCode] = useAtom(queryCodeAtom);
-  const [data] = useAtom(selectTickerDataAtom);
 
   const { ticker } = useTicker(
     coinList.code || [],

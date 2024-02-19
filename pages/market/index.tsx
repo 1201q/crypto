@@ -6,6 +6,8 @@ import {
   allTickerDataAtom,
   isTickerWebsocketOpenAtom,
   pathnameAtom,
+  sTickerDataAtom,
+  isStickerWebsocketOpenAtom,
 } from "@/context/atoms";
 
 import MarketPage from "@/components/page/MarketPage";

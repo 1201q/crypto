@@ -10,7 +10,6 @@ import SkeletonRow from "../skeleton/LoadingRow";
 
 const MarketList = () => {
   const { coinList } = useList();
-
   const [data] = useAtom(sortedAllTickerDataAtom);
 
   return (
@@ -20,13 +19,7 @@ const MarketList = () => {
           data={data}
           useWindowScroll
           itemContent={(index, data) => (
-            <CoinRow
-              key={data.cd}
-              code={data.cd}
-              price={data.tp}
-              change={data.c}
-              changeRate={data.scr}
-            />
+            <CoinRow key={data.cd} code={data.cd} index={index} />
           )}
           totalCount={coinList?.code.length}
           fixedItemHeight={55}

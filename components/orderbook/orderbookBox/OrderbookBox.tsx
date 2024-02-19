@@ -1,10 +1,10 @@
 import f from "@/utils/common/formatting";
-import React from "react";
+import React, { useMemo } from "react";
 import styled from "styled-components";
 import Bar from "./Bar";
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { orderbookVolumeDisplayModeAtom } from "@/context/atoms";
-import { orderbookUnitsAtomFamily } from "@/context/deriveredAtoms";
+import { selectOrderbookUnitAtom } from "@/context/deriveredAtoms";
 
 interface BoxPropsType {
   type: "sell" | "buy";
@@ -22,7 +22,9 @@ const OrderbookBox: React.FC<BoxPropsType> = ({ type, index }) => {
     }
   };
 
-  const [data] = useAtom(orderbookUnitsAtomFamily(index));
+  const data = useAtomValue(
+    useMemo(() => selectOrderbookUnitAtom(index), [index])
+  );
 
   return (
     <>
@@ -33,6 +35,7 @@ const OrderbookBox: React.FC<BoxPropsType> = ({ type, index }) => {
               ? f("orderbookSize", data?.price, data?.size)
               : f("fixedPrice", data?.price * data?.size)}
           </Size>
+
           <Bar type={type} index={index} />
         </Container>
       ) : (
@@ -48,7 +51,6 @@ const Container = styled.div<{ type: string }>`
   justify-content: center;
   align-items: ${(props) =>
     props.type === "sell" ? "flex-end" : "flex-start"};
-
   overflow: hidden;
   position: relative;
   height: 32px;

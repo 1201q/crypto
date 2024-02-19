@@ -4,11 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { throttle } from "lodash";
 import { useAtom } from "jotai";
-import {
-  isHeaderInfoVisibleAtom,
-  isHeaderBorderVisibleAtom,
-  queryCodeAtom,
-} from "@/context/atoms";
+import { sTickerDataAtom, queryCodeAtom } from "@/context/atoms";
 import getKR from "@/utils/common/getKR";
 import { useList } from "@/utils/hooks/useList";
 import { usePrice } from "@/context/hooks";
@@ -28,6 +24,7 @@ const ExchangeHeader: React.FC<HeaderProps> = ({
   const router = useRouter();
   const [queryCode] = useAtom(queryCodeAtom);
   const { coinList } = useList();
+
   const price = usePrice("tp");
   const changePercent = usePrice("scr");
   const change = usePrice("c");

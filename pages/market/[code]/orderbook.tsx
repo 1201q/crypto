@@ -40,6 +40,7 @@ export default function Home({ queryCode }: ServerSideProps) {
 
   useEffect(() => {
     setSelectCode(queryCode);
+
     if (!ticker.isOpen) {
       ticker.open();
     }

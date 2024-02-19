@@ -21,7 +21,6 @@ export const selectTickerDataAtom = atom(
     set(selectTickerDataAtom, update);
   }
 );
-
 export const sortedAllTickerDataAtom = atom(
   (get) => {
     const data = get(allTickerDataAtom);

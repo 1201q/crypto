@@ -1,6 +1,6 @@
-import { atomFamily } from "jotai/utils";
-import { orderbookDataAtom } from "./atoms";
+import { orderbookDataAtom, sortedAllTickerDataAtom } from "./atoms";
 import { atom } from "jotai";
+import { getRoundedDecimal } from "@/utils/common/decimalUtils";
 
 // 오더북  atom입니다.
 // 값으로 price와 size를 가짐.
@@ -41,7 +41,8 @@ const orderbookBarWidthAtom = atom<any>((get) => {
     over100Array.length === 0 ? 1 : 100 / Math.max(...over100Array);
 
   const result = array.map((u) => {
-    return u * calculateValue;
+    const width = u * calculateValue;
+    return getRoundedDecimal(100 - width, 0) || 0;
   });
 
   return result;
@@ -89,11 +90,11 @@ export const orderbookSizeAtom = atom<any>((get) => {
   };
 });
 
-// family
-export const orderbookBarWidthAtomFamily = atomFamily((index: number) =>
-  atom((get) => get(orderbookBarWidthAtom)[index])
-);
+export const selectOrderbookBarWidthAtom = (index: number) =>
+  atom((get) => get(orderbookBarWidthAtom)[index]);
 
-export const orderbookUnitsAtomFamily = atomFamily((index: number) =>
-  atom((get) => get(orderbookUnitsAtom)[index])
-);
+export const selectOrderbookUnitAtom = (index: number) =>
+  atom((get) => get(orderbookUnitsAtom)[index]);
+
+export const selectSortedTickerDataAtom = (index: number) =>
+  atom((get) => get(sortedAllTickerDataAtom)[index]);
