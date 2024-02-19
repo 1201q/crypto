@@ -15,22 +15,26 @@ const SideSection: React.FC<SectionType> = ({ type, top }) => {
   );
 
   return (
-    <>
-      {render && (
-        <Virtuoso
-          data={render}
-          style={{ height: "100%", width: "100%" }}
-          useWindowScroll
-          itemContent={(index, data) => (
-            <OrderbookBox key={`${type}-${index}`} type={type} index={index} />
-          )}
-          totalCount={render?.length}
-          fixedItemHeight={42}
-          increaseViewportBy={{ top: top || 0, bottom: 0 }}
-        />
-      )}
-    </>
+    <div>
+      {render.map((d, index) => (
+        <OrderbookBox key={`${type}-${index}`} type={type} index={index} />
+      ))}
+    </div>
   );
 };
+
+// {render && (
+//   <Virtuoso
+//     data={render}
+//     style={{ height: "100%", width: "100%" }}
+//     useWindowScroll
+//     itemContent={(index, data) => (
+//       <OrderbookBox key={`${type}-${index}`} type={type} index={index} />
+//     )}
+//     totalCount={render?.length}
+//     fixedItemHeight={42}
+//     increaseViewportBy={{ top: top || 0, bottom: 0 }}
+//   />
+// )}
 
 export default React.memo(SideSection);
