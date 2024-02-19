@@ -1,6 +1,7 @@
 import { orderbookDataAtom, sortedAllTickerDataAtom } from "./atoms";
 import { atom } from "jotai";
 import { getRoundedDecimal } from "@/utils/common/decimalUtils";
+import { selectAtom } from "jotai/utils";
 
 interface OrderbookUnitsType {
   price: number;
@@ -9,7 +10,7 @@ interface OrderbookUnitsType {
 
 // 오더북  atom입니다.
 // 값으로 price와 size를 가짐.
-const orderbookUnitsAtom = atom<OrderbookUnitsType[]>((get) => {
+export const orderbookUnitsAtom = atom<OrderbookUnitsType[]>((get) => {
   const units = get(orderbookDataAtom)[0]?.obu;
 
   const ask =
@@ -95,16 +96,9 @@ export const orderbookSizeAtom = atom<any>((get) => {
   };
 });
 
-export const selectOrderbookBarWidthAtom = (
-  type: "buy" | "sell",
-  index: number
-) => {
-  if (type === "buy") {
-    return atom((get) => get(orderbookBarWidthAtom)[index + 15]);
-  } else {
-    return atom((get) => get(orderbookBarWidthAtom)[index]);
-  }
-};
+// export const selectOrderbookBarWidthAtom = (index: number) => {
+//   return atom((get) => get(orderbookBarWidthAtom)[index + 15]);
+// };
 
 export const selectOrderbookUnitAtIndexAtom = (index: number) =>
   atom((get) => get(orderbookUnitsAtom)[index]);
@@ -124,3 +118,25 @@ export const selectOrderbookUnitByTypeAndIndexAtom = (
 
 export const selectSortedTickerDataAtom = (index: number) =>
   atom((get) => get(sortedAllTickerDataAtom)[index]);
+
+//
+//
+// 현재 작업중
+
+export const selectOrderbookPriceAtom = (index: number) =>
+  selectAtom(
+    atom((get) => get(orderbookUnitsAtom)[index]),
+    (d) => d?.price
+  );
+
+export const selectOrderbookSizeAtom = (index: number) =>
+  selectAtom(
+    atom((get) => get(orderbookUnitsAtom)[index]),
+    (d) => d?.size
+  );
+
+export const selectOrderbookBarWidthAtom = (index: number) =>
+  selectAtom(
+    atom((get) => get(orderbookBarWidthAtom)[index]),
+    (d) => d
+  );

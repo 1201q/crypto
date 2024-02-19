@@ -1,5 +1,5 @@
 import { selectOrderbookBarWidthAtom } from "@/context/deriveredAtoms";
-import { useAtomValue } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import React, { useMemo } from "react";
 import styled from "styled-components";
 
@@ -14,8 +14,8 @@ interface BarPropsType {
 }
 
 const Bar: React.FC<PropsType> = ({ type, index }) => {
-  const width = useAtomValue(
-    useMemo(() => selectOrderbookBarWidthAtom(type, index), [type, index])
+  const [width] = useAtom(
+    useMemo(() => selectOrderbookBarWidthAtom(index), [index])
   );
 
   return <Container width={width} type={type} />;

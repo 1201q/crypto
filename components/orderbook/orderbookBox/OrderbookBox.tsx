@@ -4,15 +4,19 @@ import styled from "styled-components";
 import Bar from "./Bar";
 import { useAtom, useAtomValue } from "jotai";
 import { orderbookVolumeDisplayModeAtom } from "@/context/atoms";
-import { selectOrderbookUnitByTypeAndIndexAtom } from "@/context/deriveredAtoms";
+import {
+  selectOrderbookSizeAtom,
+  selectOrderbookPriceAtom,
+  selectOrderbookUnitByTypeAndIndexAtom,
+} from "@/context/deriveredAtoms";
 
 interface BoxPropsType {
   type: "sell" | "buy";
 
-  index: number;
+  dataIndex: number;
 }
 
-const OrderbookBox: React.FC<BoxPropsType> = ({ type, index }) => {
+const OrderbookBox: React.FC<BoxPropsType> = ({ type, dataIndex }) => {
   const [displayMode] = useAtom(orderbookVolumeDisplayModeAtom);
   const getTextColor = (type: string) => {
     if (type === "buy") {
@@ -22,26 +26,33 @@ const OrderbookBox: React.FC<BoxPropsType> = ({ type, index }) => {
     }
   };
 
-  const data = useAtomValue(
-    useMemo(
-      () => selectOrderbookUnitByTypeAndIndexAtom(type, index),
-      [type, index]
-    )
-  );
+  // const data = useAtomValue(
+  //   useMemo(
+  //     () => selectOrderbookUnitByTypeAndIndexAtom(type, index),
+  //     [type, index]
+  //   )
+  // );
 
-  const size = data?.size;
-  const price = data?.price;
+  // const size = data?.size;
+  // const price = data?.price;
+
+  const [price] = useAtom(
+    useMemo(() => selectOrderbookPriceAtom(dataIndex), [dataIndex])
+  );
+  const [size] = useAtom(
+    useMemo(() => selectOrderbookSizeAtom(dataIndex), [dataIndex])
+  );
 
   return (
     <>
-      {data ? (
+      {price ? (
         <Container type={type}>
           <Size type={type} $color={getTextColor(type)}>
-            {displayMode && data
+            {displayMode && price
               ? f("orderbookSize", price, size)
               : f("fixedPrice", price * size)}
           </Size>
-          {/* <Bar type={type} index={index} /> */}
+          <Bar type={type} index={dataIndex} />
         </Container>
       ) : (
         <></>

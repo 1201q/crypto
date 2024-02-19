@@ -1,7 +1,7 @@
-import { selectOrderbookUnitAtIndexAtom } from "@/context/deriveredAtoms";
+import { selectOrderbookPriceAtom } from "@/context/deriveredAtoms";
 import { usePrice } from "@/context/hooks";
 import f from "@/utils/common/formatting";
-import { useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import React, { useMemo } from "react";
 import styled from "styled-components";
 
@@ -13,9 +13,9 @@ const CenterBox: React.FC<PropsType> = ({ index }) => {
   const openingPrice = usePrice("pcp") || 0;
   const tradePrice = usePrice("tp") || 0;
 
-  const price = useAtomValue(
-    useMemo(() => selectOrderbookUnitAtIndexAtom(index), [index])
-  )?.price;
+  const [price] = useAtom(
+    useMemo(() => selectOrderbookPriceAtom(index), [index])
+  );
 
   const percent = useMemo(() => (price - openingPrice) / openingPrice, [price]);
 
@@ -54,8 +54,8 @@ const Price = styled.p<{ color: string }>`
   color: ${(props) => props.color};
 `;
 const Percent = styled.p`
-  margin-top: 3px;
-  font-size: 13px;
+  margin-top: 4px;
+  font-size: 12px;
   letter-spacing: -0.5px;
   color: gray;
 `;

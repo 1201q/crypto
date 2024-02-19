@@ -1,16 +1,16 @@
-import { orderbookPriceArrayAtom } from "@/context/deriveredAtoms";
+import { useAtom } from "jotai";
 import Center from "../orderbookBox/CenterBox";
 import React from "react";
 import { Virtuoso } from "react-virtuoso";
-import { useAtom } from "jotai";
+import { orderbookPriceArrayAtom } from "@/context/deriveredAtoms";
 
 const CenterSection = () => {
   const [data] = useAtom(orderbookPriceArrayAtom);
 
   return (
     <div>
-      {data?.map((v, index) => (
-        <Center index={index} key={v} />
+      {data?.map((price, index) => (
+        <Center index={index} key={price} />
       ))}
     </div>
   );

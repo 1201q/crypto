@@ -7,9 +7,10 @@ import { selectOrderbookUnitArrayAtom } from "@/context/deriveredAtoms";
 interface SectionType {
   type: "sell" | "buy";
   top?: number;
+  startIndex?: number;
 }
 
-const SideSection: React.FC<SectionType> = ({ type, top }) => {
+const SideSection: React.FC<SectionType> = ({ type, top, startIndex = 0 }) => {
   const render = useAtomValue(
     useMemo(() => selectOrderbookUnitArrayAtom(type), [type])
   );
@@ -17,7 +18,11 @@ const SideSection: React.FC<SectionType> = ({ type, top }) => {
   return (
     <div>
       {render.map((d, index) => (
-        <OrderbookBox key={`${type}-${index}`} type={type} index={index} />
+        <OrderbookBox
+          key={`${type}-${index}`}
+          type={type}
+          dataIndex={index + startIndex}
+        />
       ))}
     </div>
   );

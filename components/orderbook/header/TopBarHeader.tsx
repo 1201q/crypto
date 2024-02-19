@@ -1,10 +1,7 @@
 import { orderbookVolumeDisplayModeAtom } from "@/context/atoms";
-import { orderbookSizeAtom } from "@/context/deriveredAtoms";
-import { orderbookPriceModeAtom } from "@/context/deriveredAtoms";
-import { usePrice } from "@/context/hooks";
+
 import { orderbookTopHeaderHeightAtom } from "@/context/styles";
-import { getRoundedDecimal } from "@/utils/common/decimalUtils";
-import f from "@/utils/common/formatting";
+
 import { motion } from "framer-motion";
 import { useAtom } from "jotai";
 import React from "react";

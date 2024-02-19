@@ -13,7 +13,7 @@ const OrderbookList = () => {
       <SideSection type={"sell"} />
       <CenterSection />
       <RightContainer>
-        <SideSection type={"buy"} top={630} />
+        <SideSection type={"buy"} top={630} startIndex={15} />
       </RightContainer>
     </ListContainer>
   );
