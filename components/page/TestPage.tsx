@@ -4,7 +4,7 @@ import Header from "../market/MarketHeader";
 export default function TestPage() {
   return (
     <>
-      <Header />
+      <Header scrollY={0} />
       <MenuTab />
     </>
   );
