@@ -58,9 +58,7 @@ const Container = styled.div<{ type: string }>`
     props.type === "sell" ? "flex-end" : "flex-start"};
   overflow: hidden;
   position: relative;
-  height: 32px;
-  margin-top: 5px;
-  margin-bottom: 10px;
+  height: 42px;
   border-radius: 5px;
 `;
 

@@ -10,8 +10,12 @@ const OrderbookList = () => {
 
   return (
     <ListContainer height={height}>
-      <SideSection type={"sell"} />
-      <CenterSection />
+      <LeftContainer>
+        <SideSection type={"sell"} />
+      </LeftContainer>
+      <CenterContainer>
+        <CenterSection />
+      </CenterContainer>
       <RightContainer>
         <SideSection type={"buy"} top={630} startIndex={15} />
       </RightContainer>
@@ -20,25 +24,30 @@ const OrderbookList = () => {
 };
 
 const ListContainer = styled.div<{ height: string }>`
-  display: grid;
-  grid-template-columns: 1.2fr 1.1fr 1.2fr;
+  display: flex;
   gap: 10px;
   height: ${(props) => props.height};
   min-height: calc(100dvh - 100px);
-  padding-top: 15px;
-  padding-bottom: 20px;
   padding: 15px 21px 20px 21px;
   user-select: none;
 `;
 
-const RightContainer = styled.div`
-  width: 100%;
-  height: 100%;
+const LeftContainer = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: flex-start;
   position: relative;
-  margin-top: 5px;
+`;
+
+const RightContainer = styled(LeftContainer)`
+  justify-content: flex-end;
+`;
+
+const CenterContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 `;
 
 export default React.memo(OrderbookList);
