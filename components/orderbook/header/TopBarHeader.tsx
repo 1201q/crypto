@@ -1,7 +1,4 @@
 import { orderbookVolumeDisplayModeAtom } from "@/context/atoms";
-
-import { orderbookTopHeaderHeightAtom } from "@/context/styles";
-
 import { motion } from "framer-motion";
 import { useAtom } from "jotai";
 import React from "react";
@@ -10,11 +7,10 @@ import TopHeaderBar from "./TopHeaderBar";
 import ValueDisplay from "./ValueDisplay";
 
 const TopBarHeader = () => {
-  const [height] = useAtom(orderbookTopHeaderHeightAtom);
   const [displayMode, setDisplayMode] = useAtom(orderbookVolumeDisplayModeAtom);
 
   return (
-    <Container height={height}>
+    <Container>
       <ValueContainer>
         <ValueDisplay align={"left"} type={"ask"} headerText="판매" />
         <Button
@@ -33,13 +29,13 @@ const TopBarHeader = () => {
   );
 };
 
-const Container = styled.header<{ height: number }>`
-  height: ${(props) => `${props.height}px`};
+const Container = styled.header`
+  height: ${(props) => `${props.theme.height.orderbookHeader}px`};
   background-color: white;
   border: none;
   z-index: 101;
   position: sticky;
-  top: 50px;
+  top: ${(props) => `${props.theme.height.header}px`};
   display: flex;
   flex-direction: column;
   justify-content: space-between;

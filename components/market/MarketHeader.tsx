@@ -2,10 +2,6 @@ import styled from "styled-components";
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useAtom } from "jotai";
-import {
-  headerHeightAtom,
-  coinListControllerHeightAtom,
-} from "@/context/styles";
 import { sortOptionAtom } from "@/context/atoms";
 
 import Image from "next/image";
@@ -17,16 +13,14 @@ const MarketHeader = () => {
   const router = useRouter();
   const beforeScrollY = useRef(0);
 
-  const [headerHeight] = useAtom(headerHeightAtom);
   const [sortOptions, setSortOptions] = useAtom(sortOptionAtom);
-  const [listHeight] = useAtom(coinListControllerHeightAtom);
-  const [isVisible, setIsVisible] = useState(true);
+  const [isScrolled, setIsScrolled] = useState(true);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
 
     return () => {
-      setIsVisible(true);
+      setIsScrolled(true);
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
@@ -48,9 +42,9 @@ const MarketHeader = () => {
 
     if (diff > mobileScrollThreshold) {
       if (scrollY > beforeScrollY.current) {
-        setIsVisible(false);
+        setIsScrolled(false);
       } else {
-        setIsVisible(true);
+        setIsScrolled(true);
       }
 
       beforeScrollY.current = scrollY;
@@ -58,8 +52,8 @@ const MarketHeader = () => {
   }, 50);
 
   return (
-    <Container isVisible={isVisible}>
-      <HeaderContainer height={headerHeight}>
+    <Container isScrolled={isScrolled}>
+      <HeaderContainer>
         <Title onClick={scrollToTop}>
           <Image
             src={require("@/public/logo.png")}
@@ -79,7 +73,7 @@ const MarketHeader = () => {
           }}
         />
       </HeaderContainer>
-      <ListContainer height={listHeight}>
+      <ControllContainer>
         {sortOptions.map((option, index) => (
           <SortBtn
             onClick={() => {
@@ -98,26 +92,24 @@ const MarketHeader = () => {
             {option.name}
           </SortBtn>
         ))}
-      </ListContainer>
+      </ControllContainer>
     </Container>
   );
 };
 
-const Container = styled.header<{ isVisible: boolean }>`
+const Container = styled.header<{ isScrolled: boolean }>`
   position: sticky;
   top: 0;
   z-index: 100;
   transform: ${(props) =>
-    props.isVisible ? `translateY(0px)` : `translateY(-50px)`};
+    props.isScrolled ? `translateY(0px)` : `translateY(-50px)`};
 `;
 
-const HeaderContainer = styled.div<{
-  height: number;
-}>`
+const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: ${(props) => `${props.height}px`};
+  height: ${(props) => `${props.theme.height.header}px`};
   background-color: white;
   padding: 0px 20px;
   border: none;
@@ -130,11 +122,11 @@ const Title = styled.div`
   cursor: pointer;
 `;
 
-const ListContainer = styled(motion.div)<{ height: number }>`
+const ControllContainer = styled.div`
   display: flex;
   align-items: center;
   padding: 0px 20px;
-  height: ${(props) => `${props.height}px`};
+  height: ${(props) => `${props.theme.height.marketListController}px`};
   background-color: white;
   border: none;
 `;

@@ -106,7 +106,7 @@ const Container = styled.header<{ border: boolean }>`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  height: 50px;
+  height: ${(props) => `${props.theme.height.header}px`};
   background-color: white;
   padding: 0px 20px;
   z-index: 200;

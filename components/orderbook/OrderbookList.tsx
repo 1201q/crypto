@@ -1,15 +1,11 @@
-import { useAtom } from "jotai";
 import React from "react";
 import styled from "styled-components";
-import { orderbookListHeightAtom } from "@/context/styles";
 import CenterSection from "./section/CenterSection";
 import SideSection from "./section/SideSection";
 
 const OrderbookList = () => {
-  const [height] = useAtom(orderbookListHeightAtom);
-
   return (
-    <ListContainer height={height}>
+    <ListContainer>
       <LeftContainer>
         <SideSection type={"sell"} />
       </LeftContainer>
@@ -23,10 +19,10 @@ const OrderbookList = () => {
   );
 };
 
-const ListContainer = styled.div<{ height: string }>`
+const ListContainer = styled.div`
   display: flex;
   gap: 10px;
-  height: ${(props) => props.height};
+  height: ${(props) => props.theme.height.orderbookList};
   min-height: calc(100dvh - 100px);
   padding: 15px 21px 20px 21px;
   user-select: none;

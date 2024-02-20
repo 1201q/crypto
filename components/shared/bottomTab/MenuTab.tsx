@@ -3,15 +3,12 @@ import Tab from "./Tab";
 import { pathnameAtom, tabMenuAtom } from "@/context/atoms";
 import { useAtom } from "jotai";
 
-import { bottomTabHeightAtom } from "@/context/styles";
-
 const MenuTab = () => {
   const [tabMenu] = useAtom(tabMenuAtom);
   const [pathname] = useAtom(pathnameAtom);
-  const [height] = useAtom(bottomTabHeightAtom);
 
   return (
-    <Container height={height}>
+    <Container>
       {tabMenu.map((tab) => (
         <Tab
           key={tab.name}
@@ -25,8 +22,8 @@ const MenuTab = () => {
   );
 };
 
-const Container = styled.nav<{ height: number }>`
-  height: ${(props) => `${props.height}px`};
+const Container = styled.nav`
+  height: ${(props) => `${props.theme.height.bottomTab}px`};
   z-index: 100;
   background-color: white;
   position: sticky;

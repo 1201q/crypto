@@ -1,5 +1,4 @@
 import type { AppProps } from "next/app";
-import "@/styles/reset.css";
 import { AuthProvider } from "@/utils/firebase/provider";
 import "@/utils/firebase/client";
 import { ThemeProvider } from "styled-components";
@@ -10,6 +9,7 @@ import { SWRConfig, SWRConfiguration } from "swr";
 import { DevTools } from "jotai-devtools";
 
 import fetcher from "@/utils/common/fetcher";
+import GlobalStyles from "@/styles/globals";
 
 export default function App({ Component, pageProps }: AppProps) {
   const { fallback } = pageProps;
@@ -25,6 +25,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <SpeedInsights />
         <SWRConfig value={options}>
           <DevTools />
+          <GlobalStyles />
           <Component {...pageProps} />
         </SWRConfig>
       </AuthProvider>
