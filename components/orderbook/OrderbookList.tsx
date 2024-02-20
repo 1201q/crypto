@@ -38,7 +38,7 @@ const RightContainer = styled.div`
   flex-direction: column;
   justify-content: flex-end;
   position: relative;
-  margin-top: 4px;
+  margin-top: 5px;
 `;
 
 export default React.memo(OrderbookList);

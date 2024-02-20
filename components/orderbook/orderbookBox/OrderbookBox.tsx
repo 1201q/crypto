@@ -2,12 +2,11 @@ import f from "@/utils/common/formatting";
 import React, { useMemo } from "react";
 import styled from "styled-components";
 import Bar from "./Bar";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import { orderbookVolumeDisplayModeAtom } from "@/context/atoms";
 import {
   selectOrderbookSizeAtom,
   selectOrderbookPriceAtom,
-  selectOrderbookUnitByTypeAndIndexAtom,
 } from "@/context/deriveredAtoms";
 
 interface BoxPropsType {
@@ -25,16 +24,6 @@ const OrderbookBox: React.FC<BoxPropsType> = ({ type, dataIndex }) => {
       return "#448aef";
     }
   };
-
-  // const data = useAtomValue(
-  //   useMemo(
-  //     () => selectOrderbookUnitByTypeAndIndexAtom(type, index),
-  //     [type, index]
-  //   )
-  // );
-
-  // const size = data?.size;
-  // const price = data?.price;
 
   const [price] = useAtom(
     useMemo(() => selectOrderbookPriceAtom(dataIndex), [dataIndex])
