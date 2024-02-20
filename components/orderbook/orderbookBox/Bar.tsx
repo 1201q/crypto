@@ -1,7 +1,7 @@
 import { selectOrderbookBarWidthAtom } from "@/context/orderbook";
 import { useAtom } from "jotai";
-import { debounce } from "lodash";
-import React, { useEffect, useMemo } from "react";
+
+import React, { useMemo, useDeferredValue } from "react";
 import styled from "styled-components";
 
 interface PropsType {
@@ -19,7 +19,9 @@ const Bar: React.FC<PropsType> = ({ type, index }) => {
     useMemo(() => selectOrderbookBarWidthAtom(index), [index])
   );
 
-  return <Container width={width} type={type} />;
+  let deferredWidth = useDeferredValue(width);
+
+  return <Container width={deferredWidth} type={type} />;
 };
 
 const Container = styled.div.attrs<BarPropsType>((props) => ({

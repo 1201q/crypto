@@ -1,8 +1,8 @@
 import { orderbookSizeAtom } from "@/context/orderbook";
 import { getRoundedDecimal } from "@/utils/common/decimalUtils";
 import { useAtom } from "jotai";
-import React from "react";
-import { useCallback } from "react";
+import React, { useDeferredValue, useMemo } from "react";
+
 import styled from "styled-components";
 
 interface BarPropsType {
@@ -12,13 +12,15 @@ interface BarPropsType {
 const TopHeaderBar = () => {
   const [sizeData] = useAtom(orderbookSizeAtom);
 
-  const getRedWidth = useCallback(() => {
+  const getRedWidth = useMemo(() => {
     return getRoundedDecimal((sizeData?.bid / sizeData?.sum) * 100, 0) || 0;
   }, [sizeData?.sum]);
 
+  const deferredWidth = useDeferredValue(getRedWidth);
+
   return (
     <Container>
-      <Bar width={getRedWidth()} />
+      <Bar width={deferredWidth} />
     </Container>
   );
 };
