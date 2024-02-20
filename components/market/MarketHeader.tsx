@@ -9,18 +9,21 @@ import Search from "@/public/search.svg";
 import { useRouter } from "next/router";
 import { throttle } from "lodash";
 
-const MarketHeader = () => {
+interface PropsType {
+  scrollY: number;
+}
+
+const MarketHeader: React.FC<PropsType> = ({ scrollY = 0 }) => {
   const router = useRouter();
-  const beforeScrollY = useRef(0);
+  const beforeScrollY = useRef(scrollY);
 
   const [sortOptions, setSortOptions] = useAtom(sortOptionAtom);
-  const [isScrolled, setIsScrolled] = useState(true);
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
 
     return () => {
-      setIsScrolled(true);
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
@@ -42,9 +45,9 @@ const MarketHeader = () => {
 
     if (diff > mobileScrollThreshold) {
       if (scrollY > beforeScrollY.current) {
-        setIsScrolled(false);
+        setIsVisible(false);
       } else {
-        setIsScrolled(true);
+        setIsVisible(true);
       }
 
       beforeScrollY.current = scrollY;
@@ -52,7 +55,7 @@ const MarketHeader = () => {
   }, 50);
 
   return (
-    <Container isScrolled={isScrolled}>
+    <Container isVisible={isVisible}>
       <HeaderContainer>
         <Title onClick={scrollToTop}>
           <Image
@@ -97,12 +100,12 @@ const MarketHeader = () => {
   );
 };
 
-const Container = styled.header<{ isScrolled: boolean }>`
+const Container = styled.header<{ isVisible: boolean }>`
   position: sticky;
   top: 0;
   z-index: 100;
   transform: ${(props) =>
-    props.isScrolled ? `translateY(0px)` : `translateY(-50px)`};
+    props.isVisible ? `translateY(0px)` : `translateY(-50px)`};
 `;
 
 const HeaderContainer = styled.div`

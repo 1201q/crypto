@@ -46,7 +46,7 @@ const SortBtn = styled.button<{ $isselect: boolean; $bgcolor: string }>`
   color: ${(props) => (props.$isselect ? "white" : "#6b7684")};
   background-color: ${(props) =>
     props.$isselect ? props.$bgcolor : "#f2f4f6"};
-  font-size: 15px;
+  font-size: 14px;
   font-weight: ${(props) => (props.$isselect ? 700 : 500)};
 `;
 

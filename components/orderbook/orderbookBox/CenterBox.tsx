@@ -1,4 +1,4 @@
-import { selectOrderbookPriceAtom } from "@/context/deriveredAtoms";
+import { selectOrderbookPriceAtom } from "@/context/orderbook";
 import { usePrice } from "@/context/hooks";
 import f from "@/utils/common/formatting";
 import { useAtom } from "jotai";

@@ -4,11 +4,8 @@ import { admin } from "@/utils/firebase/admin";
 import { useEffect } from "react";
 import { ServerSideProps } from "@/types/types";
 import { useAtom } from "jotai";
-import {
-  allTickerDataAtom,
-  isTickerWebsocketOpenAtom,
-  queryCodeAtom,
-} from "@/context/atoms";
+import { isTickerWebsocketOpenAtom, queryCodeAtom } from "@/context/atoms";
+import { allTickerDataAtom } from "@/context/fetch";
 
 import PageRender from "@/components/page/PageRender";
 import ExchangePage from "@/components/page/ExchangePage";

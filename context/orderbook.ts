@@ -1,4 +1,5 @@
-import { orderbookDataAtom, sortedAllTickerDataAtom } from "./atoms";
+import { sortedAllTickerDataAtom } from "./atoms";
+import { orderbookDataAtom } from "./fetch";
 import { atom } from "jotai";
 import { getRoundedDecimal } from "@/utils/common/decimalUtils";
 import { selectAtom } from "jotai/utils";
@@ -48,7 +49,7 @@ const orderbookBarWidthAtom = atom<number[]>((get) => {
 
   const result = array.map((u) => {
     const width = u * calculateValue;
-    return getRoundedDecimal(100 - width, 0) || 0;
+    return getRoundedDecimal(width, 0) || 0;
   });
 
   return result;
@@ -95,10 +96,6 @@ export const orderbookSizeAtom = atom<any>((get) => {
     sum: units?.tas + units?.tbs,
   };
 });
-
-// export const selectOrderbookBarWidthAtom = (index: number) => {
-//   return atom((get) => get(orderbookBarWidthAtom)[index + 15]);
-// };
 
 export const selectOrderbookUnitAtIndexAtom = (index: number) =>
   atom((get) => get(orderbookUnitsAtom)[index]);

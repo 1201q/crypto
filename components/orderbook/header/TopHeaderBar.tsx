@@ -1,4 +1,4 @@
-import { orderbookSizeAtom } from "@/context/deriveredAtoms";
+import { orderbookSizeAtom } from "@/context/orderbook";
 import { getRoundedDecimal } from "@/utils/common/decimalUtils";
 import { useAtom } from "jotai";
 import React from "react";

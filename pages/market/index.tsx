@@ -2,11 +2,8 @@ import nookies from "nookies";
 import { useEffect } from "react";
 import getServersideAuth from "@/utils/common/getServersideAuth";
 import { useHydrateAtoms } from "jotai/utils";
-import {
-  allTickerDataAtom,
-  isTickerWebsocketOpenAtom,
-  pathnameAtom,
-} from "@/context/atoms";
+import { isTickerWebsocketOpenAtom, pathnameAtom } from "@/context/atoms";
+import { allTickerDataAtom } from "@/context/fetch";
 
 import MarketPage from "@/components/page/MarketPage";
 import PageRender from "@/components/page/PageRender";

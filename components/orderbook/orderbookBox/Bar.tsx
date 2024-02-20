@@ -1,6 +1,7 @@
-import { selectOrderbookBarWidthAtom } from "@/context/deriveredAtoms";
+import { selectOrderbookBarWidthAtom } from "@/context/orderbook";
 import { useAtom } from "jotai";
-import React, { useMemo } from "react";
+import { debounce } from "lodash";
+import React, { useEffect, useMemo } from "react";
 import styled from "styled-components";
 
 interface PropsType {
@@ -18,7 +19,7 @@ const Bar: React.FC<PropsType> = ({ type, index }) => {
     useMemo(() => selectOrderbookBarWidthAtom(index), [index])
   );
 
-  return <Container width={100 - width} type={type} />;
+  return <Container width={width} type={type} />;
 };
 
 const Container = styled.div.attrs<BarPropsType>((props) => ({

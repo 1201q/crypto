@@ -1,7 +1,4 @@
-import {
-  orderbookPriceModeAtom,
-  orderbookSizeAtom,
-} from "@/context/deriveredAtoms";
+import { orderbookPriceModeAtom, orderbookSizeAtom } from "@/context/orderbook";
 import { orderbookVolumeDisplayModeAtom } from "@/context/atoms";
 import { useAtom } from "jotai";
 import React from "react";

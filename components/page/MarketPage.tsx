@@ -5,7 +5,7 @@ import MarketHeader from "../market/MarketHeader";
 export default function MarketPage() {
   return (
     <>
-      <MarketHeader />
+      <MarketHeader scrollY={0} />
       <MarketList />
       <MenuTab />
     </>

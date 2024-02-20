@@ -1,4 +1,4 @@
-import { selectSortedTickerDataAtom } from "@/context/deriveredAtoms";
+import { selectSortedTickerDataAtom } from "@/context/orderbook";
 import f from "@/utils/common/formatting";
 import usePriceUpdate from "@/utils/hooks/usePriceUpdate";
 import { useAtomValue } from "jotai";

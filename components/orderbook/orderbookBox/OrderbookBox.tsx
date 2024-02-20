@@ -7,7 +7,7 @@ import { orderbookVolumeDisplayModeAtom } from "@/context/atoms";
 import {
   selectOrderbookSizeAtom,
   selectOrderbookPriceAtom,
-} from "@/context/deriveredAtoms";
+} from "@/context/orderbook";
 
 interface BoxPropsType {
   type: "sell" | "buy";

@@ -5,12 +5,12 @@ import { useEffect } from "react";
 import { RedirectProps, ServerSideProps } from "@/types/types";
 import { useAtom } from "jotai";
 import {
-  allTickerDataAtom,
   isTickerWebsocketOpenAtom,
   isOrderbookWebsocketOpenAtom,
   queryCodeAtom,
-  tradeDataAtom,
 } from "@/context/atoms";
+import { tradeDataAtom } from "@/context/fetch";
+import { allTickerDataAtom } from "@/context/fetch";
 
 import PageRender from "@/components/page/PageRender";
 
