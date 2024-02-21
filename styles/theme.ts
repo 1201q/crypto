@@ -4,6 +4,7 @@ const height = {
   marketListController: 50,
   orderbookHeader: 50,
   tradeListHeadar: 45,
+  orderBottomTab: 55,
 };
 
 const calculatedHeight = {
@@ -12,7 +13,7 @@ const calculatedHeight = {
   }px)`,
   tradeList: `calc(100% - ${height.header + height.tradeListHeadar}px)`,
   orderbookList: `calc(100% - ${height.header + height.orderbookHeader}px)`,
-  orderList: `calc(100dvh - ${height.header + 1}px)`,
+  orderList: `calc(100dvh - ${height.header + height.orderBottomTab}px)`,
 };
 
 export const theme = {

@@ -6,7 +6,9 @@ import {
   selectOrderbookSizeAtom,
 } from "@/context/orderbook";
 import f from "@/utils/common/formatting";
+import { motion } from "framer-motion";
 import { useAtom } from "jotai";
+import React from "react";
 import { useMemo, useDeferredValue } from "react";
 import styled from "styled-components";
 
@@ -54,10 +56,15 @@ const OrderbookRow: React.FC<any> = ({ index }) => {
   };
 
   return (
-    <Container currentPrice={price === tradePrice} type={type}>
+    <Container
+      initial={{ backgroundColor: "white" }}
+      whileTap={{ backgroundColor: "#f2f4f6", scale: 0.97 }}
+      currentPrice={price === tradePrice}
+      type={type}
+    >
       <PriceBox>
         <Price color={getTextColor(percent)}>{f("price", price)}</Price>
-        <Percent>{f("change", percent)}%</Percent>
+        <Percent color={getTextColor(percent)}>{f("change", percent)}%</Percent>
       </PriceBox>
       <RightBox>
         <Size $color={getHogaTextColor(type)}>
@@ -73,21 +80,28 @@ const OrderbookRow: React.FC<any> = ({ index }) => {
   );
 };
 
-const Container = styled.div<{ currentPrice: boolean; type: "sell" | "buy" }>`
+const Container = styled(motion.div)<{
+  currentPrice: boolean;
+  type: "sell" | "buy";
+}>`
   display: flex;
-
   justify-content: space-between;
   align-items: center;
-  height: 45px;
-  border: ${(props) => (props.currentPrice ? "1px solid #777777" : "none")};
-  border-radius: 6px;
+  height: 40px;
+
+  border: ${(props) =>
+    props.currentPrice ? "1px solid #777777" : "1px solid white"};
+  border-radius: 7px;
+  cursor: pointer;
+  box-sizing: border-box;
+  margin-bottom: 5px;
 `;
 
 const PriceBox = styled.div`
   width: 60%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 `;
 
 const RightBox = styled.div`
@@ -100,29 +114,30 @@ const Price = styled.p<{ color: string }>`
   font-weight: 500;
   letter-spacing: -0.5px;
   color: ${(props) => props.color};
+  padding-left: 21px;
 `;
-const Percent = styled.p`
+const Percent = styled.p<{ color: string }>`
   margin-top: 4px;
   font-size: 11px;
   letter-spacing: -0.5px;
-  color: gray;
+  color: ${(props) => props.color};
+  padding-left: 21px;
 `;
 
 const Size = styled.p<{ $color: string }>`
   position: absolute;
-  left: 6px;
-  top: 7px;
+  right: 6px;
+  top: 9px;
   font-size: 12px;
-  font-weight: 400;
+  font-weight: 500;
   letter-spacing: -0.5px;
-
   color: ${(props) => props.$color};
 `;
 
 const BarContainer = styled.div`
   width: 100%;
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
 `;
 
 const Bar = styled.div.attrs<BarPropsType>((props) => ({
@@ -133,8 +148,8 @@ const Bar = styled.div.attrs<BarPropsType>((props) => ({
   width: 100%;
   background-color: ${(props) =>
     props.type === "sell" ? "#ebf3fd" : "#fff3f3"};
-  height: 25px;
-  border-radius: 4px;
+  height: 30px;
+  border-radius: 6px;
 `;
 
-export default OrderbookRow;
+export default React.memo(OrderbookRow);

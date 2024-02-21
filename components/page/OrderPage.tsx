@@ -2,16 +2,18 @@ import styled from "styled-components";
 import ExchangeHeader from "../shared/ExchangeHeader";
 import React from "react";
 import OrderSection from "../order/OrderForm";
-import SmallOrderbook from "../order/OrderOrderbook";
+import OrderbookList from "../order/orderbook/OrderbookList";
+import OrderBottomTab from "../order/OrderBottomTab";
 
 const OrderPage = () => {
   return (
     <>
-      <ExchangeHeader borderVisible={true} infoVisible={true} />
+      <ExchangeHeader borderVisible={false} infoVisible={true} />
       <Contents>
-        <SmallOrderbook />
+        <OrderbookList />
         <OrderSection />
       </Contents>
+      <OrderBottomTab />
     </>
   );
 };
