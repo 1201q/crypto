@@ -1,7 +1,5 @@
-import { selectOrderbookPriceAtom } from "@/context/orderbook";
-import { usePrice } from "@/context/hooks";
+import { useOrderbook, usePrice } from "@/context/hooks";
 import f from "@/utils/common/formatting";
-import { useAtom } from "jotai";
 import React, { useMemo } from "react";
 import styled from "styled-components";
 
@@ -13,10 +11,7 @@ const CenterBox: React.FC<PropsType> = ({ index }) => {
   const openingPrice = usePrice("pcp") || 0;
   const tradePrice = usePrice("tp") || 0;
 
-  const [price] = useAtom(
-    useMemo(() => selectOrderbookPriceAtom(index), [index])
-  );
-
+  const price = useOrderbook("price", index);
   const percent = useMemo(() => (price - openingPrice) / openingPrice, [price]);
 
   const getTextColor = (percent: number) => {

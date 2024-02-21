@@ -1,9 +1,5 @@
 import { orderbookVolumeDisplayModeAtom } from "@/context/atoms";
-import {
-  selectOrderbookPriceAtom,
-  selectOrderbookBarWidthAtom,
-  selectOrderbookSizeAtom,
-} from "@/context/orderbook";
+import { useOrderbook } from "@/context/hooks";
 import f from "@/utils/common/formatting";
 
 import { useAtom } from "jotai";
@@ -17,16 +13,11 @@ interface BarPropsType {
 }
 
 const RowRight: React.FC<any> = ({ index }) => {
-  const [price] = useAtom(
-    useMemo(() => selectOrderbookPriceAtom(index), [index])
-  );
-  const [size] = useAtom(
-    useMemo(() => selectOrderbookSizeAtom(index), [index])
-  );
+  const price = useOrderbook("price", index);
+  const size = useOrderbook("size", index);
+  const width = useOrderbook("width", index);
+
   const [displayMode] = useAtom(orderbookVolumeDisplayModeAtom);
-  const [width] = useAtom(
-    useMemo(() => selectOrderbookBarWidthAtom(index), [index])
-  );
 
   let deferredWidth = useDeferredValue(width);
 

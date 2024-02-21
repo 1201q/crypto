@@ -1,13 +1,10 @@
 import f from "@/utils/common/formatting";
-import React, { useMemo } from "react";
+import React from "react";
 import styled from "styled-components";
 import Bar from "./Bar";
 import { useAtom } from "jotai";
 import { orderbookVolumeDisplayModeAtom } from "@/context/atoms";
-import {
-  selectOrderbookSizeAtom,
-  selectOrderbookPriceAtom,
-} from "@/context/orderbook";
+import { useOrderbook } from "@/context/hooks";
 
 interface BoxPropsType {
   type: "sell" | "buy";
@@ -17,6 +14,9 @@ interface BoxPropsType {
 
 const OrderbookBox: React.FC<BoxPropsType> = ({ type, dataIndex }) => {
   const [displayMode] = useAtom(orderbookVolumeDisplayModeAtom);
+  const price = useOrderbook("price", dataIndex);
+  const size = useOrderbook("size", dataIndex);
+
   const getTextColor = (type: string) => {
     if (type === "buy") {
       return "#df5068";
@@ -24,13 +24,6 @@ const OrderbookBox: React.FC<BoxPropsType> = ({ type, dataIndex }) => {
       return "#448aef";
     }
   };
-
-  const [price] = useAtom(
-    useMemo(() => selectOrderbookPriceAtom(dataIndex), [dataIndex])
-  );
-  const [size] = useAtom(
-    useMemo(() => selectOrderbookSizeAtom(dataIndex), [dataIndex])
-  );
 
   return (
     <>

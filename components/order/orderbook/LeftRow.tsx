@@ -1,15 +1,11 @@
-import { usePrice } from "@/context/hooks";
-import { selectOrderbookPriceAtom } from "@/context/orderbook";
+import { useOrderbook, usePrice } from "@/context/hooks";
 import f from "@/utils/common/formatting";
-import { useAtom } from "jotai";
 import React from "react";
 import { useMemo } from "react";
 import styled from "styled-components";
 
 const RowLeft: React.FC<any> = ({ index }) => {
-  const [price] = useAtom(
-    useMemo(() => selectOrderbookPriceAtom(index), [index])
-  );
+  const price = useOrderbook("price", index);
   const openingPrice = usePrice("pcp") || 0;
   const percent = useMemo(() => (price - openingPrice) / openingPrice, [price]);
 
