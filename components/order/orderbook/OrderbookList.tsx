@@ -3,6 +3,7 @@ import OrderbookRow from "./OrderbookRow";
 import { useAtom } from "jotai";
 import { orderbookVolumeDisplayModeAtom } from "@/context/atoms";
 import Down from "@/public/caret-down.svg";
+import React from "react";
 
 const OrderbookList = () => {
   const renderArray = Array(30).fill(null);
@@ -19,12 +20,7 @@ const OrderbookList = () => {
           }}
         >
           {displayMode ? "수량" : "총액"}
-          <Down
-            width={13}
-            height={13}
-            fill={"#808080"}
-            style={{ marginTop: "-1px", marginLeft: "3px" }}
-          />
+          <Down width={13} height={13} />
         </ChangeViewMode>
       </OrderbookController>
     </Container>
@@ -45,10 +41,11 @@ const OrderbookController = styled.div`
   align-items: center;
   justify-content: flex-end;
   position: sticky;
-  bottom: -1px;
+  bottom: 0px;
   height: 30px;
-  background-color: ${(props) => props.theme.bg.default};
+  background-color: white;
   border-top: 1px solid #f1f2f2;
+  z-index: 3;
 `;
 
 const ChangeViewMode = styled.div`
@@ -56,9 +53,15 @@ const ChangeViewMode = styled.div`
   align-items: center;
   font-size: 13px;
   font-weight: 500;
-  color: #808080;
+  color: ${(props) => props.theme.font.gray};
   padding-right: 5px;
   cursor: pointer;
+
+  svg {
+    fill: ${(props) => props.theme.font.gray};
+    margin-top: -1px;
+    margin-left: 3px;
+  }
 `;
 
-export default OrderbookList;
+export default React.memo(OrderbookList);

@@ -13,7 +13,7 @@ const calculatedHeight = {
   }px)`,
   tradeList: `calc(100% - ${height.header + height.tradeListHeadar}px)`,
   orderbookList: `calc(100% - ${height.header + height.orderbookHeader}px)`,
-  orderList: `calc(100dvh - ${height.header + height.orderBottomTab}px)`,
+  orderList: `calc(100dvh - ${height.header + height.orderBottomTab + 1}px)`,
 };
 
 export const theme = {
