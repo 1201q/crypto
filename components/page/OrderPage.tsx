@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import ExchangeHeader from "../shared/ExchangeHeader";
 import React from "react";
-import OrderSection from "../order/OrderSection";
-import SmallOrderbook from "../order/SmallOrderbook";
+import OrderSection from "../order/OrderForm";
+import SmallOrderbook from "../order/OrderOrderbook";
 
 const OrderPage = () => {
   return (

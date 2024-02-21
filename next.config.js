@@ -9,7 +9,6 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 });
 
 const nextconfig = withPWA({
-  transpilePackages: ["jotai-devtools"],
   swcMinify: true,
   compiler: {
     styledComponents: true,

@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
-import QuantityInput from "./AskBid/QuantityInput";
-import DefaultInput from "./AskBid/DefaultInput";
-import OrderTypeSelector from "./AskBid/OrderTypeSelector";
+import QuantityInput from "./orderForm/QuantityInput";
+import DefaultInput from "./orderForm/DefaultInput";
+import OrderTypeSelector from "./orderForm/OrderTypeSelector";
 import f from "@/utils/common/formatting";
-import AmountSelector from "./AskBid/AmountSelector";
+import AmountSelector from "./orderForm/AmountSelector";
 import { motion } from "framer-motion";
 import { useAtom } from "jotai";
 import { orderTypeAtom } from "@/context/atoms";
