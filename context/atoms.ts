@@ -95,3 +95,4 @@ export const orderAmountOptionsAtom = atom([
   { name: "75%", select: false, value: 75 },
   { name: "100%", select: false, value: 100 },
 ]);
+export const isOrderKeyboardVisibleAtom = atom(false);

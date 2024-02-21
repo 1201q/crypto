@@ -97,28 +97,8 @@ export const orderbookSizeAtom = atom<any>((get) => {
   };
 });
 
-export const selectOrderbookUnitAtIndexAtom = (index: number) =>
-  atom((get) => get(orderbookUnitsAtom)[index]);
-
-export const selectOrderbookUnitArrayAtom = (type: "buy" | "sell") => {
-  if (type === "buy") {
-    return atom((get) => get(orderbookUnitsAtom)?.slice(15));
-  } else {
-    return atom((get) => get(orderbookUnitsAtom)?.slice(0, 15));
-  }
-};
-
-export const selectOrderbookUnitByTypeAndIndexAtom = (
-  type: "buy" | "sell",
-  index: number
-) => atom((get) => get(selectOrderbookUnitArrayAtom(type))[index]);
-
 export const selectSortedTickerDataAtom = (index: number) =>
   atom((get) => get(sortedAllTickerDataAtom)[index]);
-
-//
-//
-// 현재 작업중
 
 export const selectOrderbookPriceAtom = (index: number) =>
   selectAtom(

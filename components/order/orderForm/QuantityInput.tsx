@@ -42,7 +42,7 @@ const Container = styled.div<{ isFocus: boolean }>`
   display: flex;
   justify-content: space-between;
   height: 40px;
-  background-color: ${(props) => (props.isFocus ? "#ebf3fd" : "#f2f4f6")};
+  background-color: #f2f4f6;
   border-radius: 7px;
   margin-bottom: 10px;
 `;

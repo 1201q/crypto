@@ -1,16 +1,18 @@
 import styled from "styled-components";
 
-import QuantityInput from "./orderForm/QuantityInput";
-import DefaultInput from "./orderForm/DefaultInput";
-import OrderTypeSelector from "./orderForm/OrderTypeSelector";
+import QuantityInput from "./QuantityInput";
+import DefaultInput from "./DefaultInput";
+import OrderTypeSelector from "./OrderTypeSelector";
 import f from "@/utils/common/formatting";
-import AmountSelector from "./orderForm/AmountSelector";
+import AmountSelector from "./AmountSelector";
 import { motion } from "framer-motion";
 import { useAtom } from "jotai";
-import { orderTypeAtom } from "@/context/atoms";
+import { orderTypeAtom, isOrderKeyboardVisibleAtom } from "@/context/atoms";
 
 const OrderSection = () => {
   const [type] = useAtom(orderTypeAtom);
+  const [, setVisible] = useAtom(isOrderKeyboardVisibleAtom);
+
   return (
     <Container>
       <OrderTypeSelector />
@@ -30,6 +32,13 @@ const OrderSection = () => {
       >
         {type === "bid" ? "매수" : "매도"}
       </OrderBtn>
+      <button
+        onClick={() => {
+          setVisible((prev) => !prev);
+        }}
+      >
+        버튼
+      </button>
     </Container>
   );
 };
