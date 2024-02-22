@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import ExchangeHeader from "../shared/ExchangeHeader";
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import OrderSection from "../order/orderForm/OrderForm";
 import OrderbookList from "../order/orderbook/OrderbookList";
 
