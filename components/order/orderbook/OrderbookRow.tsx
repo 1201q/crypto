@@ -12,7 +12,7 @@ const OrderbookRow: React.FC<any> = ({ index }) => {
   return (
     <Container
       initial={{ backgroundColor: "white" }}
-      whileTap={{ backgroundColor: "#f2f4f6", scale: 0.95 }}
+      whileTap={{ backgroundColor: "#f2f4f6" }}
       $currentprice={price === tradePrice}
     >
       <LeftRow index={index} />
@@ -25,13 +25,12 @@ const Container = styled(motion.div)<{ $currentprice: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 40px;
+  height: 45px;
   border: ${(props) =>
     props.$currentprice ? "1px solid #777777" : "1px solid white"};
   border-radius: 8px;
   cursor: pointer;
   box-sizing: border-box;
-  margin-bottom: 5px;
 `;
 
 export default React.memo(OrderbookRow);

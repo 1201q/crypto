@@ -4,15 +4,22 @@ import { useAtom } from "jotai";
 import { orderbookVolumeDisplayModeAtom } from "@/context/atoms";
 import Down from "@/public/caret-down.svg";
 import React from "react";
+import { Virtuoso } from "react-virtuoso";
 
 const OrderbookList = () => {
   const renderArray = Array(30).fill(null);
   const [displayMode, setDisplayMode] = useAtom(orderbookVolumeDisplayModeAtom);
   return (
     <Container>
-      {renderArray.map((d, index) => (
-        <OrderbookRow index={index} key={index} />
-      ))}
+      <Virtuoso
+        data={renderArray}
+        useWindowScroll
+        itemContent={(index, data) => (
+          <OrderbookRow index={index} key={index} />
+        )}
+        totalCount={renderArray.length}
+        fixedItemHeight={45}
+      />
       <OrderbookController>
         <ChangeViewMode
           onClick={() => {
@@ -28,9 +35,10 @@ const OrderbookList = () => {
 };
 
 const Container = styled.div`
+  height: 100%;
   position: relative;
   border-right: 1px solid #f1f2f2;
-  overflow-y: scroll;
+
   ::-webkit-scrollbar {
     display: none;
   }

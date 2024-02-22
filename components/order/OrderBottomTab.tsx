@@ -15,6 +15,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: flex-start;
   padding: 0px 20px;
+  z-index: 100;
 `;
 const Button = styled(motion.button)`
   width: 65px;

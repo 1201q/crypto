@@ -18,7 +18,7 @@ const OrderPage = () => {
         <OrderbookList />
         <OrderSection />
       </Contents>
-      <OrderBottomTab />
+
       {keyboardVisible && <OrderKeyboard />}
     </>
   );
@@ -28,6 +28,7 @@ const Contents = styled.div`
   display: grid;
   grid-template-columns: 4fr 6fr;
   height: ${(props) => props.theme.height.orderList};
+  position: relative;
 `;
 
 export default OrderPage;

@@ -1,25 +1,18 @@
+import Bar from "@/components/orderbook/orderbookBox/Bar";
 import { orderbookVolumeDisplayModeAtom } from "@/context/atoms";
 import { useOrderbook } from "@/context/hooks";
 import f from "@/utils/common/formatting";
 
 import { useAtom } from "jotai";
 import React from "react";
-import { useMemo, useDeferredValue } from "react";
+import { useMemo } from "react";
 import styled from "styled-components";
-
-interface BarPropsType {
-  $color: string;
-  width: string | number;
-}
 
 const RowRight: React.FC<any> = ({ index }) => {
   const price = useOrderbook("price", index);
   const size = useOrderbook("size", index);
-  const width = useOrderbook("width", index);
 
   const [displayMode] = useAtom(orderbookVolumeDisplayModeAtom);
-
-  let deferredWidth = useDeferredValue(width);
 
   const type = useMemo(() => {
     return index < 15 ? "sell" : "buy";
@@ -41,10 +34,7 @@ const RowRight: React.FC<any> = ({ index }) => {
           : f("fixedPrice", price * size)}
       </Size>
       <BarContainer>
-        <Bar
-          width={deferredWidth}
-          $color={type === "sell" ? "#ebf3fd" : "#fff3f3"}
-        />
+        <Bar index={index} type={type} />
       </BarContainer>
     </Container>
   );
@@ -53,7 +43,6 @@ const RowRight: React.FC<any> = ({ index }) => {
 const Container = styled.div`
   width: 40%;
   position: relative;
-
   z-index: 1;
 `;
 
@@ -76,17 +65,6 @@ const BarContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
-`;
-
-const Bar = styled.div.attrs<BarPropsType>((props) => ({
-  style: {
-    width: `${props.width}%`,
-  },
-}))<BarPropsType>`
-  width: 100%;
-  background-color: ${(props) => props.$color};
-  height: 30px;
-  border-radius: 6px;
 `;
 
 export default React.memo(RowRight);
