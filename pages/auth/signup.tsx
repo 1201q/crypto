@@ -4,7 +4,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import { getAuthErrorMsg } from "@/utils/common/getAuthErrorMsg";
+import { getAuthErrorMsg } from "@/utils/common/auth";
 
 const SignUp = () => {
   const router = useRouter();

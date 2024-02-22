@@ -1,7 +1,7 @@
 import PageRender from "@/components/page/PageRender";
 import SearchPage from "@/components/page/SearchPage";
 import { ServerSideProps } from "@/types/types";
-import fetcher from "@/utils/common/fetcher";
+import { fetcher } from "@/utils/common/fetch";
 
 export default function Home() {
   return <PageRender Render={SearchPage} title={`ALL UP! | 검색`} />;

@@ -1,6 +1,6 @@
 import { atom } from "jotai";
 import { ExtendedTickerDataType } from "../types/types";
-import { allTickerDataAtom } from "./fetch";
+import { allTickerDataAtom, coinListAtom } from "./fetch";
 
 export const selectTickerDataAtom = atom(
   (get) => {
@@ -88,7 +88,7 @@ export const selectedLineChartOptionAtom = atom((get) => {
 });
 
 // 주문
-export const orderTypeAtom = atom<"ask" | "bid">("bid");
+export const orderSideAtom = atom<"buy" | "sell">("buy");
 export const orderAmountOptionsAtom = atom([
   { name: "25%", select: false, value: 25 },
   { name: "50%", select: false, value: 50 },

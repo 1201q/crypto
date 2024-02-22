@@ -1,36 +1,34 @@
 import styled from "styled-components";
-
-import QuantityInput from "./QuantityInput";
 import DefaultInput from "./DefaultInput";
-import OrderTypeSelector from "./OrderTypeSelector";
-import f from "@/utils/common/formatting";
+import OrderSideSelector from "./OrderSideSelector";
 import AmountSelector from "./AmountSelector";
+import OrderTypeSelector from "./OrderTypeSelector";
 import { motion } from "framer-motion";
 import { useAtom } from "jotai";
-import { orderTypeAtom, isOrderKeyboardVisibleAtom } from "@/context/atoms";
+import { orderSideAtom, isOrderKeyboardVisibleAtom } from "@/context/atoms";
+import AccountDisplay from "./AccountDisplay";
 
 const OrderSection = () => {
-  const [type] = useAtom(orderTypeAtom);
+  const [side] = useAtom(orderSideAtom);
   const [, setVisible] = useAtom(isOrderKeyboardVisibleAtom);
+
+  console.log(1);
 
   return (
     <Container>
+      <OrderSideSelector />
       <OrderTypeSelector />
-      <OrderableContainer>
-        <Header>주문가능</Header>
-        <OrderablePrice>{f("fixedPrice", 100231230)}원</OrderablePrice>
-      </OrderableContainer>
-      <QuantityInput placeholder="개수" />
+      <AccountDisplay />
+      <DefaultInput placeholder="수량" />
       <AmountSelector />
-      <QuantityInput placeholder="가격" />
       <DefaultInput placeholder="총액" />
       <OrderBtn
-        bgcolor={type === "bid" ? "#df5068" : "#448aef"}
+        bgcolor={side === "buy" ? "#df5068" : "#448aef"}
         whileTap={{ scale: 0.98 }}
         initial={{ scale: 1 }}
         transition={{ duration: 0.1 }}
       >
-        {type === "bid" ? "매수" : "매도"}
+        {side === "buy" ? "매수" : "매도"}
       </OrderBtn>
       <button
         onClick={() => {
@@ -46,25 +44,6 @@ const OrderSection = () => {
 const Container = styled.div`
   padding: 0px 15px;
   position: relative;
-`;
-
-const OrderableContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 30px;
-`;
-
-const Header = styled.p`
-  width: 60px;
-  font-size: 15px;
-  color: gray;
-  letter-spacing: -0.3px;
-  text-overflow: ellipsis;
-`;
-const OrderablePrice = styled.p`
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: -1px;
 `;
 
 const OrderBtn = styled(motion.button)<{ bgcolor: string }>`

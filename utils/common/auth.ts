@@ -1,4 +1,5 @@
-// 로그인, 회원가입 시 에러 메시지를 반환
+import { admin } from "../firebase/admin";
+
 export const getAuthErrorMsg = (code: string): string => {
   switch (code) {
     case "auth/user-not-found" || "auth/wrong-password":
@@ -22,4 +23,21 @@ export const getAuthErrorMsg = (code: string): string => {
     default:
       return "로그인할 수 없습니다.";
   }
+};
+export const getAuth = async (token: string) => {
+  let isLogin = false;
+  let uid = null;
+
+  try {
+    const mytoken = await admin.auth().verifyIdToken(token);
+
+    if (mytoken) {
+      isLogin = true;
+      uid = mytoken.uid;
+    }
+  } catch (error: any) {
+    console.log(error.code);
+  }
+
+  return { isLogin: isLogin, uid: uid };
 };

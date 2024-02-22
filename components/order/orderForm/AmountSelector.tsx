@@ -1,10 +1,9 @@
-import { orderAmountOptionsAtom, orderTypeAtom } from "@/context/atoms";
+import { orderAmountOptionsAtom, orderSideAtom } from "@/context/atoms";
 import { useAtom } from "jotai";
-import { useEffect } from "react";
 import styled from "styled-components";
 
 const AmountSelector = () => {
-  const [type] = useAtom(orderTypeAtom);
+  const [side] = useAtom(orderSideAtom);
   const [options, setOptions] = useAtom(orderAmountOptionsAtom);
   const selectIndex = options.findIndex((o) => o.select);
 
@@ -41,7 +40,7 @@ const AmountSelector = () => {
         >
           <Bar
             active={selectIndex !== -1 && currentIndex <= selectIndex}
-            bgcolor={type === "bid" ? "#df5068" : "#448aef"}
+            bgcolor={side === "buy" ? "#df5068" : "#448aef"}
           />
           <Text select={option.select}>{option.name}</Text>
         </Option>

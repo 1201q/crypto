@@ -5,7 +5,7 @@ const height = {
   orderbookHeader: 50,
   tradeListHeadar: 45,
   orderBottomTab: 55,
-  orderPageOrderbookController: 30,
+  orderPageOrderbookController: 40,
 };
 
 const calculatedHeight = {

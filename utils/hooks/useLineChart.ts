@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import lineChartFetcher from "../common/lineChartFetcher";
+import { LineChartFetcher } from "../common/fetch";
 import { LineChartPropsType } from "@/types/types";
 
 interface ResponseType {
@@ -8,7 +8,7 @@ interface ResponseType {
 }
 
 export const useLineChart = (URL: string): ResponseType => {
-  const { data, isValidating } = useSWR(URL, lineChartFetcher, {
+  const { data, isValidating } = useSWR(URL, LineChartFetcher, {
     suspense: false,
     revalidateOnFocus: false,
     dedupingInterval: 20000,

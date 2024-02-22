@@ -6,7 +6,7 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { getAuthErrorMsg } from "@/utils/common/getAuthErrorMsg";
+import { getAuthErrorMsg } from "@/utils/common/auth";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import Link from "next/link";

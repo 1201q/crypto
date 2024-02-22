@@ -10,8 +10,8 @@ import { allTickerDataAtom } from "@/context/fetch";
 import PageRender from "@/components/page/PageRender";
 import ExchangePage from "@/components/page/ExchangePage";
 
-import getServersideAuth from "@/utils/common/getServersideAuth";
-import fetcher from "@/utils/common/fetcher";
+import { getAuth } from "@/utils/common/auth";
+import { fetcher } from "@/utils/common/fetch";
 import { useList } from "@/utils/hooks/useList";
 import { useTicker } from "@/utils/websocket/websocketHooks";
 import { useHydrateAtoms } from "jotai/utils";
@@ -55,7 +55,7 @@ export const getServerSideProps: GetServerSideProps = async (
   const cookies = nookies.get(ctx);
   const coinList = await fetcher("/api/markets");
 
-  const { isLogin, uid } = await getServersideAuth(cookies.token);
+  const { isLogin, uid } = await getAuth(cookies.token);
 
   return {
     props: {

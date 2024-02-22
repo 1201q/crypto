@@ -1,6 +1,6 @@
 import nookies from "nookies";
 import { useEffect } from "react";
-import getServersideAuth from "@/utils/common/getServersideAuth";
+import { getAuth } from "@/utils/common/auth";
 import { useHydrateAtoms } from "jotai/utils";
 import { isTickerWebsocketOpenAtom, pathnameAtom } from "@/context/atoms";
 import { allTickerDataAtom } from "@/context/fetch";
@@ -10,7 +10,7 @@ import PageRender from "@/components/page/PageRender";
 
 import { ServerSideProps, ServerSideInitialValues } from "@/types/types";
 import { GetServerSideProps } from "next";
-import fetcher from "@/utils/common/fetcher";
+import { fetcher } from "@/utils/common/fetch";
 import { useList } from "@/utils/hooks/useList";
 import { useTicker } from "@/utils/websocket/websocketHooks";
 
@@ -40,7 +40,7 @@ export const getServerSideProps: GetServerSideProps = async (
   const pathname = ctx.resolvedUrl;
   const coinList = await fetcher("/api/markets");
 
-  const { isLogin, uid } = await getServersideAuth(cookies.token);
+  const { isLogin, uid } = await getAuth(cookies.token);
 
   return {
     props: {

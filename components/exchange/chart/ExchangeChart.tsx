@@ -7,7 +7,7 @@ import { useLatest } from "@/context/hooks";
 import React from "react";
 import { useLineChart } from "@/utils/hooks/useLineChart";
 import { useAtom } from "jotai";
-import getBongFetchURL from "@/utils/common/getBongFetchURL";
+import { getBongFetchURL } from "@/utils/common/fetch";
 import { queryCodeAtom, selectedLineChartOptionAtom } from "@/context/atoms";
 
 const ExchangeChart = () => {
