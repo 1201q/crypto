@@ -1,25 +1,28 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
-const useOutSideClick = (ref: React.RefObject<HTMLElement>) => {
-  const [isFocus, setIsFocus] = useState(false);
-
+const useOutSideClick = (
+  targetref: React.RefObject<HTMLElement | null>[],
+  callback: () => void
+) => {
   useEffect(() => {
-    const handleClick = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
-        setIsFocus(false);
-      } else {
-        setIsFocus(true);
-      }
+    const hasClickedOutsideElement = (
+      event: MouseEvent,
+      targetElement: HTMLElement | null
+    ) => {
+      return !!(targetElement && !targetElement.contains(<Node>event?.target));
     };
-
-    window.addEventListener("mousedown", handleClick);
-
-    return () => {
-      window.removeEventListener("mousedown", handleClick);
+    const clickedOutsideElementListener = (event: MouseEvent) => {
+      const hasClickedOutsideAllElements = targetref
+        .map((ref) => hasClickedOutsideElement(event, ref.current))
+        .includes(false)
+        ? false
+        : true;
+      if (hasClickedOutsideAllElements) callback();
     };
+    window.addEventListener("mousedown", clickedOutsideElementListener);
+    return () =>
+      window.removeEventListener("mousedown", clickedOutsideElementListener);
   }, []);
-
-  return isFocus;
 };
 
 export default useOutSideClick;

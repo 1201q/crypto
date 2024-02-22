@@ -1,25 +1,44 @@
+import {
+  isOrderKeyboardVisibleAtom,
+  orderKeyboardTypeAtom,
+} from "@/context/atoms";
+import { useAtom } from "jotai";
 import styled from "styled-components";
 
 interface PropsType {
-  placeholder: string;
+  headerText: string;
+  type: "amount" | "sum";
 }
 
-const DefaultInput: React.FC<PropsType> = ({ placeholder }) => {
+const DefaultInput: React.FC<PropsType> = ({ headerText, type }) => {
+  const [keyboardVisible, setKeyboardVisible] = useAtom(
+    isOrderKeyboardVisibleAtom
+  );
+  const [keyboardType, setKeyboardType] = useAtom(orderKeyboardTypeAtom);
+
+  const handleKeyboard = () => {
+    setKeyboardType(type);
+    setKeyboardVisible(true);
+  };
+
+  const isFocus = keyboardType === type && keyboardVisible;
+
   return (
-    <Container>
-      <Header>{placeholder}</Header>
-      <Input type="text" placeholder="0" inputMode="none" />
+    <Container onClick={handleKeyboard} focus={isFocus}>
+      <Header>{headerText}</Header>
     </Container>
   );
 };
 
-const Container = styled.div`
+const Container = styled.div<{ focus: boolean }>`
   display: flex;
   justify-content: space-between;
   height: 40px;
-  background-color: #f2f4f6;
+  background-color: ${(props) =>
+    props.focus ? props.theme.bg.lightBlue : props.theme.bg.default};
   border-radius: 7px;
   margin-bottom: 10px;
+  cursor: text;
 `;
 
 const Header = styled.div`
@@ -32,24 +51,6 @@ const Header = styled.div`
   letter-spacing: -0.3px;
   text-overflow: ellipsis;
   margin-left: 10px;
-`;
-
-const Input = styled.input`
-  width: calc(100% - 40px);
-  padding: 0px 15px 0px 5px;
-  height: 100%;
-  background: none;
-  border-radius: 7px;
-  font-size: 15px;
-  font-weight: 500;
-  letter-spacing: -0.5px;
-
-  ::placeholder {
-    font-size: 15px;
-    font-weight: 500;
-    letter-spacing: -0.5px;
-    color: ${(props) => props.theme.font.black};
-  }
 `;
 
 export default DefaultInput;

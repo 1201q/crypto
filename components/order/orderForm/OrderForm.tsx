@@ -5,23 +5,20 @@ import AmountSelector from "./AmountSelector";
 import OrderTypeSelector from "./OrderTypeSelector";
 import { motion } from "framer-motion";
 import { useAtom } from "jotai";
-import { orderSideAtom, isOrderKeyboardVisibleAtom } from "@/context/atoms";
+import { orderSideAtom } from "@/context/atoms";
 import AccountDisplay from "./AccountDisplay";
 
 const OrderSection = () => {
   const [side] = useAtom(orderSideAtom);
-  const [, setVisible] = useAtom(isOrderKeyboardVisibleAtom);
-
-  console.log(1);
 
   return (
     <Container>
       <OrderSideSelector />
       <OrderTypeSelector />
       <AccountDisplay />
-      <DefaultInput placeholder="수량" />
+      <DefaultInput headerText="수량" type="amount" />
       <AmountSelector />
-      <DefaultInput placeholder="총액" />
+      <DefaultInput headerText="총액" type="sum" />
       <OrderBtn
         bgcolor={side === "buy" ? "#df5068" : "#448aef"}
         whileTap={{ scale: 0.98 }}
@@ -30,13 +27,6 @@ const OrderSection = () => {
       >
         {side === "buy" ? "매수" : "매도"}
       </OrderBtn>
-      <button
-        onClick={() => {
-          setVisible((prev) => !prev);
-        }}
-      >
-        버튼
-      </button>
     </Container>
   );
 };
