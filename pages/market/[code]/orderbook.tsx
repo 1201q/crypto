@@ -15,7 +15,7 @@ import { allTickerDataAtom } from "@/context/fetch";
 import PageRender from "@/components/page/PageRender";
 import OrderbookPage from "@/components/page/OrderbookPage";
 
-import { getAuth } from "@/utils/common/auth";
+import getAuth from "@/utils/common/getAuth";
 import { fetcher } from "@/utils/common/fetch";
 import { useList } from "@/utils/hooks/useList";
 import { useTicker, useOrderbook } from "@/utils/websocket/websocketHooks";

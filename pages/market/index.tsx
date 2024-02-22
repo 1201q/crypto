@@ -1,6 +1,6 @@
 import nookies from "nookies";
 import { useEffect } from "react";
-import { getAuth } from "@/utils/common/auth";
+import getAuth from "@/utils/common/getAuth";
 import { useHydrateAtoms } from "jotai/utils";
 import { isTickerWebsocketOpenAtom, pathnameAtom } from "@/context/atoms";
 import { allTickerDataAtom } from "@/context/fetch";
