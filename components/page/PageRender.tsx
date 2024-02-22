@@ -27,7 +27,7 @@ const PageRender: React.FC<PageRenderProps> = ({
 
 const Container = styled.div`
   width: 100%;
-  min-height: 100dvh;
+  height: 100%;
   background-color: #f2f4f6;
   display: flex;
   justify-content: center;

@@ -3,7 +3,7 @@ import { ServerSideProps, ServerSideInitialValues } from "@/types/types";
 import { useHydrateAtoms } from "jotai/utils";
 import { pathnameAtom } from "@/context/atoms";
 import { useEffect } from "react";
-import { getRoundedDecimal } from "@/utils/common/decimalUtils";
+import { getRoundedDecimal } from "@/utils/common/decimal";
 
 export default function Home({ pathname }: ServerSideProps) {
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues);

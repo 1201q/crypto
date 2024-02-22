@@ -4,13 +4,14 @@ import { useOrderbook } from "@/context/hooks";
 import f from "@/utils/common/formatting";
 
 import { useAtom } from "jotai";
-import React from "react";
+import React, { useDeferredValue } from "react";
 import { useMemo } from "react";
 import styled from "styled-components";
 
 const RowRight: React.FC<any> = ({ index }) => {
   const price = useOrderbook("price", index);
   const size = useOrderbook("size", index);
+  const total = useDeferredValue(price * size);
 
   const [displayMode] = useAtom(orderbookVolumeDisplayModeAtom);
 
@@ -31,7 +32,7 @@ const RowRight: React.FC<any> = ({ index }) => {
       <Size $color={getHogaTextColor(type)}>
         {displayMode && price
           ? f("orderbookSize", price, size)
-          : f("fixedPrice", price * size)}
+          : f("fixedPrice", total)}
       </Size>
       <BarContainer>
         <Bar index={index} type={type} />

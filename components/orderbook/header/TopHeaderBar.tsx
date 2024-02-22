@@ -1,5 +1,5 @@
 import { orderbookSizeAtom } from "@/context/orderbook";
-import { getRoundedDecimal } from "@/utils/common/decimalUtils";
+import { getRoundedDecimal } from "@/utils/common/decimal";
 import { useAtom } from "jotai";
 import React, { useDeferredValue, useMemo } from "react";
 

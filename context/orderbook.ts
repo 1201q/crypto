@@ -1,7 +1,7 @@
 import { sortedAllTickerDataAtom } from "./atoms";
 import { orderbookDataAtom } from "./fetch";
 import { atom } from "jotai";
-import { getRoundedDecimal } from "@/utils/common/decimalUtils";
+import { getRoundedDecimal } from "@/utils/common/decimal";
 import { selectAtom } from "jotai/utils";
 
 interface OrderbookUnitsType {

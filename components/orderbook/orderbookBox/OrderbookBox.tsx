@@ -1,5 +1,5 @@
 import f from "@/utils/common/formatting";
-import React from "react";
+import React, { useDeferredValue } from "react";
 import styled from "styled-components";
 import Bar from "./Bar";
 import { useAtom } from "jotai";
@@ -16,6 +16,7 @@ const OrderbookBox: React.FC<BoxPropsType> = ({ type, dataIndex }) => {
   const [displayMode] = useAtom(orderbookVolumeDisplayModeAtom);
   const price = useOrderbook("price", dataIndex);
   const size = useOrderbook("size", dataIndex);
+  const total = useDeferredValue(price * size);
 
   const getTextColor = (type: string) => {
     if (type === "buy") {
@@ -32,7 +33,7 @@ const OrderbookBox: React.FC<BoxPropsType> = ({ type, dataIndex }) => {
           <Size type={type} $color={getTextColor(type)}>
             {displayMode && price
               ? f("orderbookSize", price, size)
-              : f("fixedPrice", price * size)}
+              : f("fixedPrice", total)}
           </Size>
           <Bar type={type} index={dataIndex} />
         </Container>

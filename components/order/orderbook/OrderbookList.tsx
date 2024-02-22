@@ -13,7 +13,6 @@ const OrderbookList = () => {
     <Container>
       <Virtuoso
         data={renderArray}
-        useWindowScroll
         itemContent={(index, data) => (
           <OrderbookRow index={index} key={index} />
         )}
@@ -35,22 +34,26 @@ const OrderbookList = () => {
 };
 
 const Container = styled.div`
-  height: 100%;
   position: relative;
-  border-right: 1px solid #f1f2f2;
+  border-right: 1.5px solid #f1f2f2;
+  padding-bottom: ${(props) =>
+    `${props.theme.height.orderPageOrderbookController}px`};
 
-  ::-webkit-scrollbar {
-    display: none;
+  div {
+    ::-webkit-scrollbar {
+      display: none;
+    }
   }
 `;
 
 const OrderbookController = styled.div`
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  position: sticky;
+  position: absolute;
   bottom: 0px;
-  height: 30px;
+  height: ${(props) => `${props.theme.height.orderPageOrderbookController}px`};
   background-color: white;
   border-top: 1px solid #f1f2f2;
   z-index: 3;
@@ -63,6 +66,7 @@ const ChangeViewMode = styled.div`
   font-weight: 500;
   color: ${(props) => props.theme.font.gray};
   padding-right: 5px;
+  height: 100%;
   cursor: pointer;
 
   svg {

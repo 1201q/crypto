@@ -1,5 +1,5 @@
 import { usePrice } from "@/context/hooks";
-import { getRoundedDecimal } from "@/utils/common/decimalUtils";
+import { getRoundedDecimal } from "@/utils/common/decimal";
 import f from "@/utils/common/formatting";
 import React, { useMemo } from "react";
 import styled from "styled-components";

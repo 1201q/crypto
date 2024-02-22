@@ -42,7 +42,7 @@ const OrderKeyboard = () => {
 const Container = styled.div`
   position: absolute;
   width: 100%;
-  height: 400px;
+  height: 370px;
   bottom: 0;
   background-color: white;
   z-index: 100;

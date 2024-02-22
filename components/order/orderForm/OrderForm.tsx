@@ -45,9 +45,7 @@ const OrderSection = () => {
 
 const Container = styled.div`
   padding: 0px 15px;
-  position: sticky;
-  top: ${(props) => `${props.theme.height.header}px`};
-  height: ${(props) => props.theme.height.orderform};
+  position: relative;
 `;
 
 const OrderableContainer = styled.div`
