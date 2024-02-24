@@ -1,8 +1,9 @@
 import { useAtom } from "jotai";
 import styled from "styled-components";
 import TradeRow from "./TradeRow";
-import { tradeDataAtom } from "@/context/fetch";
+// import { tradeDataAtom } from "@/context/fetch";
 import { Virtuoso } from "react-virtuoso";
+import { tradeDataAtom } from "@/context/websocket";
 
 const TradeList = () => {
   const [data] = useAtom(tradeDataAtom);

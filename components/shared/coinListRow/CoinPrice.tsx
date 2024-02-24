@@ -1,8 +1,8 @@
-import { selectSortedTickerDataAtom } from "@/context/orderbook";
+import { rowTickerDataAtom } from "@/context/websocket";
 import f from "@/utils/common/formatting";
 import usePriceUpdate from "@/utils/hooks/usePriceUpdate";
 import { useAtomValue } from "jotai";
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import styled from "styled-components";
 
 interface ComponentProps {
@@ -14,9 +14,7 @@ interface UpdateProps {
 }
 
 const CoinPrice: React.FC<ComponentProps> = ({ index }) => {
-  const data = useAtomValue(
-    useMemo(() => selectSortedTickerDataAtom(index), [index])
-  );
+  const data = useAtomValue(useMemo(() => rowTickerDataAtom(index), [index]));
   const { isUpdated } = usePriceUpdate(data?.tp);
 
   const getUpdateDisplayBgColor = (change: string, isUpdated: boolean) => {
@@ -31,7 +29,7 @@ const CoinPrice: React.FC<ComponentProps> = ({ index }) => {
 
   return (
     <Container>
-      <UpdateContainer bgcolor={getUpdateDisplayBgColor(data.c, isUpdated)}>
+      <UpdateContainer bgcolor={getUpdateDisplayBgColor(data?.c, isUpdated)}>
         <PercentText>{f("change", data?.cr)}%</PercentText>
       </UpdateContainer>
       <PriceText>{f("price", data?.tp)}</PriceText>

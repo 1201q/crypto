@@ -27,6 +27,7 @@ const ExchangeHeader: React.FC<HeaderProps> = ({
 
   const price = usePrice("tp");
   const changePercent = usePrice("scr");
+
   const change = usePrice("c");
 
   const [isInfoVisible, setIsInfoVisible] = useState(infoVisible || false);

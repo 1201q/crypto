@@ -2,8 +2,7 @@ import nookies from "nookies";
 import { useEffect } from "react";
 import getAuth from "@/utils/common/getAuth";
 import { useHydrateAtoms } from "jotai/utils";
-import { isTickerWebsocketOpenAtom, pathnameAtom } from "@/context/atoms";
-import { allTickerDataAtom } from "@/context/fetch";
+import { pathnameAtom } from "@/context/atoms";
 
 import MarketPage from "@/components/page/MarketPage";
 import PageRender from "@/components/page/PageRender";
@@ -12,22 +11,18 @@ import { ServerSideProps, ServerSideInitialValues } from "@/types/types";
 import { GetServerSideProps } from "next";
 import { fetcher } from "@/utils/common/fetch";
 import { useList } from "@/utils/hooks/useList";
-import { useTicker } from "@/utils/websocket/websocketHooks";
+
+import { useUpbitAll, useUpbitSingle } from "@/utils/ws/control";
 
 export default function Home({ pathname }: ServerSideProps) {
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues);
-
   const { coinList } = useList();
-  const { ticker } = useTicker(
-    coinList.code || [],
-    allTickerDataAtom,
-    isTickerWebsocketOpenAtom
-  );
+  const { all } = useUpbitAll(coinList.code);
+  const { single } = useUpbitSingle("");
 
   useEffect(() => {
-    if (!ticker.isOpen) {
-      ticker.open();
-    }
+    all.open();
+    single.close();
   }, []);
 
   return <PageRender Render={MarketPage} title={"ALL UP! | 마켓"} />;

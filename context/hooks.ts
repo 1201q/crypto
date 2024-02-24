@@ -1,6 +1,5 @@
 import { useAtomValue, Atom } from "jotai";
 import { useCallback, useMemo } from "react";
-import { selectTickerDataAtom } from "./atoms";
 import { selectAtom } from "jotai/utils";
 import dayjs from "dayjs";
 import { ExtendedTickerDataType } from "@/types/types";
@@ -10,6 +9,8 @@ import {
   selectOrderbookPriceAtom,
 } from "@/context/orderbook";
 
+import { tickerDataAtom } from "./websocket";
+
 const useSelectAtom = <T, R>(atom: Atom<T>, keyFn: (data: T) => R) => {
   return useAtomValue(selectAtom(atom, useCallback(keyFn, [])));
 };
@@ -17,13 +18,13 @@ const useSelectAtom = <T, R>(atom: Atom<T>, keyFn: (data: T) => R) => {
 export const usePrice = <K extends keyof ExtendedTickerDataType>(
   key: K
 ): ExtendedTickerDataType[K] | undefined => {
-  return useSelectAtom(selectTickerDataAtom, (d) => {
+  return useSelectAtom(tickerDataAtom, (d) => {
     return d?.[key];
   });
 };
 
 export const useLatest = () => {
-  return useSelectAtom(selectTickerDataAtom, (d) => {
+  return useSelectAtom(tickerDataAtom, (d) => {
     return {
       value: d?.tp || 0,
       time: dayjs(d?.tms).add(-9, "hour").unix(),

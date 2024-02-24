@@ -1,8 +1,7 @@
-import { sortedAllTickerDataAtom } from "./atoms";
-import { orderbookDataAtom } from "./fetch";
 import { atom } from "jotai";
 import { getRoundedDecimal } from "@/utils/common/decimal";
 import { selectAtom } from "jotai/utils";
+import { orderbookDataAtom } from "./websocket";
 
 interface OrderbookUnitsType {
   price: number;
@@ -12,7 +11,7 @@ interface OrderbookUnitsType {
 // 오더북  atom입니다.
 // 값으로 price와 size를 가짐.
 export const orderbookUnitsAtom = atom<OrderbookUnitsType[]>((get) => {
-  const units = get(orderbookDataAtom)[0]?.obu;
+  const units = get(orderbookDataAtom)?.obu;
 
   const ask =
     units?.reverse().map((d, i) => {
@@ -88,17 +87,14 @@ export const orderbookPriceModeAtom = atom<any>((get) => {
 
 // 오더북의 ask, bid, ask+bid 사이즈를 반환
 export const orderbookSizeAtom = atom<any>((get) => {
-  const units = get(orderbookDataAtom)[0];
+  const units = get(orderbookDataAtom);
 
   return {
     ask: units?.tas,
     bid: units?.tbs,
-    sum: units?.tas + units?.tbs,
+    sum: (units && units?.tas + units?.tbs) || 0,
   };
 });
-
-export const selectSortedTickerDataAtom = (index: number) =>
-  atom((get) => get(sortedAllTickerDataAtom)[index]);
 
 export const selectOrderbookPriceAtom = (index: number) =>
   selectAtom(

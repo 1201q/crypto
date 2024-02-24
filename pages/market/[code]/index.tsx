@@ -4,34 +4,30 @@ import { admin } from "@/utils/firebase/admin";
 import { useEffect } from "react";
 import { ServerSideProps } from "@/types/types";
 import { useAtom } from "jotai";
-import { isTickerWebsocketOpenAtom, queryCodeAtom } from "@/context/atoms";
-import { allTickerDataAtom } from "@/context/fetch";
+import { queryCodeAtom } from "@/context/atoms";
 
 import PageRender from "@/components/page/PageRender";
 import ExchangePage from "@/components/page/ExchangePage";
 
 import getAuth from "@/utils/common/getAuth";
 import { fetcher } from "@/utils/common/fetch";
-import { useList } from "@/utils/hooks/useList";
-import { useTicker } from "@/utils/websocket/websocketHooks";
+
 import { useHydrateAtoms } from "jotai/utils";
+import { useUpbitAll, useUpbitSingle } from "@/utils/ws/control";
 
 export default function Home({ queryCode }: ServerSideProps) {
   useHydrateAtoms([[queryCodeAtom, queryCode]]);
-  const { coinList } = useList();
+
   const [selectCode, setSelectCode] = useAtom(queryCodeAtom);
 
-  const { ticker } = useTicker(
-    coinList.code || [],
-    allTickerDataAtom,
-    isTickerWebsocketOpenAtom
-  );
+  const { single } = useUpbitSingle(queryCode || "");
+  const { all } = useUpbitAll([]);
 
   useEffect(() => {
     setSelectCode(queryCode);
-    if (!ticker.isOpen) {
-      ticker.open();
-    }
+
+    single.open();
+    all.close();
   }, []);
 
   return (

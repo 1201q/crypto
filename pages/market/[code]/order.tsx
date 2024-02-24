@@ -4,51 +4,26 @@ import { admin } from "@/utils/firebase/admin";
 import { useEffect } from "react";
 import { ServerSideProps, RedirectProps } from "@/types/types";
 import { useAtom } from "jotai";
-import {
-  isTickerWebsocketOpenAtom,
-  isOrderbookWebsocketOpenAtom,
-  queryCodeAtom,
-} from "@/context/atoms";
-import { orderbookDataAtom } from "@/context/fetch";
-import { allTickerDataAtom } from "@/context/fetch";
+import { queryCodeAtom } from "@/context/atoms";
 
 import PageRender from "@/components/page/PageRender";
 
 import getAuth from "@/utils/common/getAuth";
 import { fetcher } from "@/utils/common/fetch";
-import { useList } from "@/utils/hooks/useList";
-import { useTicker, useOrderbook } from "@/utils/websocket/websocketHooks";
+
 import { useHydrateAtoms } from "jotai/utils";
 import OrderPage from "@/components/page/OrderPage";
+import { useUpbitSingle } from "@/utils/ws/control";
 
 export default function Home({ queryCode }: ServerSideProps) {
   useHydrateAtoms([[queryCodeAtom, queryCode]]);
-  const { coinList } = useList();
+
   const [selectCode, setSelectCode] = useAtom(queryCodeAtom);
-
-  const { ticker } = useTicker(
-    coinList.code || [],
-    allTickerDataAtom,
-    isTickerWebsocketOpenAtom
-  );
-
-  const { orderbook } = useOrderbook(
-    queryCode || "",
-    orderbookDataAtom,
-    isOrderbookWebsocketOpenAtom
-  );
+  const { single } = useUpbitSingle(queryCode || "");
 
   useEffect(() => {
     setSelectCode(queryCode);
-    if (!ticker.isOpen) {
-      ticker.open();
-    }
-
-    orderbook.open();
-
-    return () => {
-      orderbook.close();
-    };
+    single.open();
   }, []);
 
   return (

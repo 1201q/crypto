@@ -1,39 +1,4 @@
 import { atom } from "jotai";
-import { ExtendedTickerDataType } from "../types/types";
-import { allTickerDataAtom, coinListAtom } from "./fetch";
-
-export const selectTickerDataAtom = atom(
-  (get) => {
-    const allTickerData = get(allTickerDataAtom);
-    const queryCode = get(queryCodeAtom);
-
-    return allTickerData.find((coin) => coin?.cd === queryCode);
-  },
-  (_, set, update: ExtendedTickerDataType) => {
-    set(selectTickerDataAtom, update);
-  }
-);
-export const sortedAllTickerDataAtom = atom(
-  (get) => {
-    const data = get(allTickerDataAtom);
-    const sort = get(sortOptionAtom);
-
-    return [...data]?.sort((a, b) => {
-      const option = sort.find((option) => option.select)?.en;
-      if (option === "acc") {
-        return b.atp24h - a.atp24h;
-      } else if (option === "up") {
-        return b.scr - a.scr;
-      } else if (option === "down") {
-        return a.scr - b.scr;
-      }
-      return 0;
-    });
-  },
-  (_, set, update: ExtendedTickerDataType[]) => {
-    set(sortedAllTickerDataAtom, update);
-  }
-);
 
 export const queryCodeAtom = atom<string | undefined>("");
 
@@ -57,11 +22,6 @@ export const pathnameAtom = atom<string | null>(null);
 
 // search
 export const searchInputValueAtom = atom<string>("");
-
-// websocket state
-export const isTickerWebsocketOpenAtom = atom(false);
-export const isTradeWebsocketOpenAtom = atom(false);
-export const isOrderbookWebsocketOpenAtom = atom(false);
 
 // exchange header
 export const isHeaderInfoVisibleAtom = atom(false);
