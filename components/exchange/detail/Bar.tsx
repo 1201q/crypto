@@ -1,7 +1,7 @@
 import { usePrice } from "@/context/hooks";
 import { getRoundedDecimal } from "@/utils/common/decimal";
 import f from "@/utils/common/formatting";
-import React, { useMemo } from "react";
+import React, { memo, useMemo } from "react";
 import styled from "styled-components";
 
 interface BarPropsType {
@@ -15,6 +15,7 @@ interface LeftProps {
 
 const Bar: React.FC<BarPropsType> = ({ low, high }) => {
   const price = usePrice("tp");
+
   const left = useMemo(() => {
     if (low && high && price) {
       const range = high - low;
@@ -24,6 +25,15 @@ const Bar: React.FC<BarPropsType> = ({ low, high }) => {
     return 0;
   }, [price]);
 
+  const Info = memo(() => {
+    return (
+      <BarInfoContainer>
+        <Text color={"#448aef"}>{f("price", low)}원</Text>
+        <Text color={"#df5068"}>{f("price", high)}원</Text>
+      </BarInfoContainer>
+    );
+  });
+
   return (
     <>
       <Container>
@@ -31,10 +41,7 @@ const Bar: React.FC<BarPropsType> = ({ low, high }) => {
           <CurrentPricePoint left={left} />
         </BarContainer>
       </Container>
-      <BarInfoContainer>
-        <Text color={"#448aef"}>{f("price", low)}원</Text>
-        <Text color={"#df5068"}>{f("price", high)}원</Text>
-      </BarInfoContainer>
+      <Info />
     </>
   );
 };

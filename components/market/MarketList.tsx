@@ -2,7 +2,6 @@ import { useAtom } from "jotai";
 import styled from "styled-components";
 import { Virtuoso } from "react-virtuoso";
 import React from "react";
-
 import { useList } from "@/utils/hooks/useList";
 import CoinRow from "../shared/coinListRow/CoinRow";
 import SkeletonRow from "../skeleton/LoadingRow";

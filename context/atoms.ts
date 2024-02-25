@@ -1,6 +1,11 @@
 import { atom } from "jotai";
+import { singleWebsocketDataAtom } from "./websocket";
 
 export const queryCodeAtom = atom<string | undefined>("");
+
+export const isCorrectPage = atom(
+  (get) => get(queryCodeAtom) === get(singleWebsocketDataAtom)?.ticker?.cd
+);
 
 // coinList
 const options = [

@@ -9,7 +9,7 @@ import {
   selectOrderbookPriceAtom,
 } from "@/context/orderbook";
 
-import { tickerDataAtom } from "./websocket";
+import { selectPriceAtom, tickerDataAtom } from "./websocket";
 
 const useSelectAtom = <T, R>(atom: Atom<T>, keyFn: (data: T) => R) => {
   return useAtomValue(selectAtom(atom, useCallback(keyFn, [])));
@@ -18,9 +18,9 @@ const useSelectAtom = <T, R>(atom: Atom<T>, keyFn: (data: T) => R) => {
 export const usePrice = <K extends keyof ExtendedTickerDataType>(
   key: K
 ): ExtendedTickerDataType[K] | undefined => {
-  return useSelectAtom(tickerDataAtom, (d) => {
-    return d?.[key];
-  });
+  return useAtomValue(useMemo(() => selectPriceAtom(key), [])) as
+    | ExtendedTickerDataType[K]
+    | undefined;
 };
 
 export const useLatest = () => {
@@ -42,16 +42,12 @@ export const useOrderbook = (
 ) => {
   switch (type) {
     case "size":
-      return useAtomValue(
-        useMemo(() => selectOrderbookSizeAtom(index), [index])
-      );
+      return useAtomValue(useMemo(() => selectOrderbookSizeAtom(index), []));
     case "width":
       return useAtomValue(
-        useMemo(() => selectOrderbookBarWidthAtom(index), [index])
+        useMemo(() => selectOrderbookBarWidthAtom(index), [])
       );
     case "price":
-      return useAtomValue(
-        useMemo(() => selectOrderbookPriceAtom(index), [index])
-      );
+      return useAtomValue(useMemo(() => selectOrderbookPriceAtom(index), []));
   }
 };

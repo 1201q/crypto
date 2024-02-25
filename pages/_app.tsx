@@ -9,6 +9,7 @@ import { SWRConfig, SWRConfiguration } from "swr";
 
 import { fetcher } from "@/utils/common/fetch";
 import GlobalStyles from "@/styles/globals";
+import { Provider } from "jotai";
 
 export default function App({ Component, pageProps }: AppProps) {
   const { fallback } = pageProps;
@@ -24,7 +25,9 @@ export default function App({ Component, pageProps }: AppProps) {
         <SpeedInsights />
         <SWRConfig value={options}>
           <GlobalStyles />
-          <Component {...pageProps} />
+          <Provider>
+            <Component {...pageProps} />
+          </Provider>
         </SWRConfig>
       </AuthProvider>
     </ThemeProvider>

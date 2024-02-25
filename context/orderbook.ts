@@ -1,6 +1,6 @@
 import { atom } from "jotai";
 import { getRoundedDecimal } from "@/utils/common/decimal";
-import { selectAtom } from "jotai/utils";
+
 import { orderbookDataAtom } from "./websocket";
 
 interface OrderbookUnitsType {
@@ -97,19 +97,10 @@ export const orderbookSizeAtom = atom<any>((get) => {
 });
 
 export const selectOrderbookPriceAtom = (index: number) =>
-  selectAtom(
-    atom((get) => get(orderbookUnitsAtom)[index]),
-    (d) => d?.price
-  );
+  atom((get) => get(orderbookUnitsAtom)[index]?.price);
 
 export const selectOrderbookSizeAtom = (index: number) =>
-  selectAtom(
-    atom((get) => get(orderbookUnitsAtom)[index]),
-    (d) => d?.size
-  );
+  atom((get) => get(orderbookUnitsAtom)[index]?.size);
 
 export const selectOrderbookBarWidthAtom = (index: number) =>
-  selectAtom(
-    atom((get) => get(orderbookBarWidthAtom)[index]),
-    (d) => d
-  );
+  atom((get) => get(orderbookBarWidthAtom)[index]);

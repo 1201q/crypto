@@ -9,7 +9,7 @@ import {
   singleWebsocketAtom,
   singleWebsocketDataAtom,
 } from "@/context/websocket";
-import { useResetAtom } from "jotai/utils";
+import { RESET, useResetAtom } from "jotai/utils";
 
 const getWebsocket = (
   connectType: "all" | "single",
@@ -19,13 +19,14 @@ const getWebsocket = (
 ) => {
   const [websocket, setWebsocket] = useAtom(wsAtom);
   const setData = useSetAtom(dataAtom);
-  const ResetData = useResetAtom(dataAtom);
+  const resetData = useResetAtom(dataAtom);
 
   const wsType: WebsocketType[] =
     connectType === "all" ? ["ticker"] : ["ticker", "orderbook", "trade"];
 
   const open = async () => {
     if (websocket && connectType !== "single") {
+      console.log("꺼져라작동합니다.");
       await close();
     }
 
@@ -40,7 +41,7 @@ const getWebsocket = (
     if (websocket?.readyState === 1) {
       websocket?.close();
       setWebsocket(null);
-      ResetData();
+      resetData();
     }
   };
 
@@ -48,6 +49,7 @@ const getWebsocket = (
     return () => {
       if (connectType === "all") {
         close();
+        resetData();
       }
     };
   }, [websocket]);
