@@ -1,6 +1,7 @@
 import {
   isOrderKeyboardVisibleAtom,
   orderKeyboardTypeAtom,
+  orderSideAtom,
 } from "@/context/atoms";
 import { useAtom } from "jotai";
 import styled from "styled-components";
@@ -15,6 +16,7 @@ const DefaultInput: React.FC<PropsType> = ({ headerText, type }) => {
     isOrderKeyboardVisibleAtom
   );
   const [keyboardType, setKeyboardType] = useAtom(orderKeyboardTypeAtom);
+  const [orderside] = useAtom(orderSideAtom);
 
   const handleKeyboard = () => {
     setKeyboardType(type);
@@ -24,18 +26,22 @@ const DefaultInput: React.FC<PropsType> = ({ headerText, type }) => {
   const isFocus = keyboardType === type && keyboardVisible;
 
   return (
-    <Container onClick={handleKeyboard} focus={isFocus}>
+    <Container onClick={handleKeyboard} focus={isFocus} side={orderside}>
       <Header>{headerText}</Header>
     </Container>
   );
 };
 
-const Container = styled.div<{ focus: boolean }>`
+const Container = styled.div<{ focus: boolean; side: "buy" | "sell" }>`
   display: flex;
   justify-content: space-between;
   height: 40px;
   background-color: ${(props) =>
-    props.focus ? props.theme.bg.lightBlue : props.theme.bg.default};
+    props.focus
+      ? props.side === "sell"
+        ? props.theme.bg.lightBlue
+        : props.theme.bg.lightRed
+      : props.theme.bg.default};
   border-radius: 7px;
   margin-bottom: 10px;
   cursor: text;

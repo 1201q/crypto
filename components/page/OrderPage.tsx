@@ -6,7 +6,7 @@ import OrderbookList from "../order/orderbook/OrderbookList";
 
 import { useAtom } from "jotai";
 import { isOrderKeyboardVisibleAtom } from "@/context/atoms";
-import OrderKeyboard from "../order/OrderKeyboard";
+import KeyboardModal from "../order/keyboard/KeyboardModal";
 import { AnimatePresence } from "framer-motion";
 import { useRouter } from "next/router";
 
@@ -40,7 +40,7 @@ const OrderPage = () => {
         <OrderSection />
       </Contents>
       <AnimatePresence>
-        {isKeyboardVisible && <OrderKeyboard />}
+        {isKeyboardVisible && <KeyboardModal />}
       </AnimatePresence>
     </>
   );
