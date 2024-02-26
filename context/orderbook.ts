@@ -32,35 +32,17 @@ export const orderbookUnitsAtom = atom<OrderbookUnitsType[]>((get) => {
 const orderbookBarWidthAtom = atom<number[]>((get) => {
   const units = get(orderbookUnitsAtom);
   const size = get(orderbookSizeAtom);
-  let over100Array: number[] = [];
 
-  const array = units.map((u) => {
-    const width = (u?.size / size?.sum) * 700;
+  const array = units.map((u) => (u?.size / size?.sum) * 700);
 
-    if (width > 100) {
-      over100Array.push(width);
-    }
-    return width;
-  });
+  const maxOver100 = Math.max(...array.filter((width) => width > 100), 0);
+  const calculateValue = maxOver100 > 0 ? 100 / maxOver100 : 1;
 
-  const calculateValue =
-    over100Array.length === 0 ? 1 : 100 / Math.max(...over100Array);
-
-  const result = array.map((u) => {
-    const width = u * calculateValue;
-    return getRoundedDecimal(width, 0) || 0;
-  });
+  const result = array.map(
+    (width) => getRoundedDecimal(width * calculateValue, 0) || 0
+  );
 
   return result;
-});
-
-// 렌더용 atom입니다.
-// price만 가짐.
-export const orderbookPriceArrayAtom = atom((get) => {
-  const units = get(orderbookUnitsAtom);
-  return units.map((data) => {
-    return data.price;
-  });
 });
 
 // 오더북 헤더가 가격모드일때 표시되는 가격
@@ -102,5 +84,18 @@ export const selectOrderbookPriceAtom = (index: number) =>
 export const selectOrderbookSizeAtom = (index: number) =>
   atom((get) => get(orderbookUnitsAtom)[index]?.size);
 
+export const selectOrderbookTotalAtom = (index: number) =>
+  atom(
+    (get) =>
+      get(orderbookUnitsAtom)[index]?.price *
+      get(orderbookUnitsAtom)[index]?.size
+  );
+
 export const selectOrderbookBarWidthAtom = (index: number) =>
   atom((get) => get(orderbookBarWidthAtom)[index]);
+
+orderbookUnitsAtom.debugLabel = "units (price, size)";
+orderbookBarWidthAtom.debugLabel = "units (bar width)";
+
+orderbookPriceModeAtom.debugLabel = "price모드일때 가격총합";
+orderbookSizeAtom.debugLabel = "ask, bid, sum ";

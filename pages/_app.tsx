@@ -10,6 +10,7 @@ import { SWRConfig, SWRConfiguration } from "swr";
 import { fetcher } from "@/utils/common/fetch";
 import GlobalStyles from "@/styles/globals";
 import { Provider } from "jotai";
+import { DevTools } from "jotai-devtools";
 
 export default function App({ Component, pageProps }: AppProps) {
   const { fallback } = pageProps;
@@ -26,6 +27,8 @@ export default function App({ Component, pageProps }: AppProps) {
         <SWRConfig value={options}>
           <GlobalStyles />
           <Provider>
+            <DevTools />
+
             <Component {...pageProps} />
           </Provider>
         </SWRConfig>

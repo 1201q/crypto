@@ -4,14 +4,14 @@ import { useOrderbook } from "@/context/hooks";
 import f from "@/utils/common/formatting";
 
 import { useAtom } from "jotai";
-import React, { useDeferredValue } from "react";
+import React from "react";
 import { useMemo } from "react";
 import styled from "styled-components";
 
 const RowRight: React.FC<any> = ({ index }) => {
   const price = useOrderbook("price", index);
   const size = useOrderbook("size", index);
-  const total = useDeferredValue(price * size);
+  const total = useOrderbook("total", index);
 
   const [displayMode] = useAtom(orderbookVolumeDisplayModeAtom);
 

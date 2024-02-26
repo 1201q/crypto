@@ -13,6 +13,7 @@ import { fetcher } from "@/utils/common/fetch";
 import { useList } from "@/utils/hooks/useList";
 
 import { useUpbitAll, useUpbitSingle } from "@/utils/ws/control";
+import { useAtomsDebugValue } from "jotai-devtools";
 
 export default function Home({ pathname }: ServerSideProps) {
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues);
@@ -25,7 +26,11 @@ export default function Home({ pathname }: ServerSideProps) {
     single.close();
   }, []);
 
-  return <PageRender Render={MarketPage} title={"ALL UP! | 마켓"} />;
+  return (
+    <>
+      <PageRender Render={MarketPage} title={"ALL UP! | 마켓"} />
+    </>
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async (

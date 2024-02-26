@@ -1,5 +1,5 @@
 import { useAtomValue, Atom } from "jotai";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useDeferredValue } from "react";
 import { selectAtom } from "jotai/utils";
 import dayjs from "dayjs";
 import { ExtendedTickerDataType } from "@/types/types";
@@ -7,6 +7,7 @@ import {
   selectOrderbookSizeAtom,
   selectOrderbookBarWidthAtom,
   selectOrderbookPriceAtom,
+  selectOrderbookTotalAtom,
 } from "@/context/orderbook";
 
 import { selectPriceAtom, tickerDataAtom } from "./websocket";
@@ -37,17 +38,25 @@ export const useLatest = () => {
 };
 
 export const useOrderbook = (
-  type: "size" | "width" | "price",
+  type: "size" | "width" | "price" | "total",
   index: number
 ) => {
   switch (type) {
     case "size":
-      return useAtomValue(useMemo(() => selectOrderbookSizeAtom(index), []));
+      return useDeferredValue(
+        useAtomValue(useMemo(() => selectOrderbookSizeAtom(index), []))
+      );
     case "width":
-      return useAtomValue(
-        useMemo(() => selectOrderbookBarWidthAtom(index), [])
+      return useDeferredValue(
+        useAtomValue(useMemo(() => selectOrderbookBarWidthAtom(index), []))
       );
     case "price":
-      return useAtomValue(useMemo(() => selectOrderbookPriceAtom(index), []));
+      return useDeferredValue(
+        useAtomValue(useMemo(() => selectOrderbookPriceAtom(index), []))
+      );
+    case "total":
+      return useDeferredValue(
+        useAtomValue(useMemo(() => selectOrderbookTotalAtom(index), []))
+      );
   }
 };

@@ -1,5 +1,4 @@
 import { useOrderbook, usePrice } from "@/context/hooks";
-import { motion } from "framer-motion";
 import React from "react";
 import styled from "styled-components";
 import LeftRow from "./LeftRow";
@@ -10,18 +9,14 @@ const OrderbookRow: React.FC<any> = ({ index }) => {
   const tradePrice = usePrice("tp") || 0;
 
   return (
-    <Container
-      initial={{ backgroundColor: "white" }}
-      whileTap={{ backgroundColor: "#f2f4f6" }}
-      $currentprice={price === tradePrice}
-    >
+    <Container $currentprice={price === tradePrice}>
       <LeftRow index={index} />
       <RightRow index={index} />
     </Container>
   );
 };
 
-const Container = styled(motion.div)<{ $currentprice: boolean }>`
+const Container = styled.div<{ $currentprice: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;

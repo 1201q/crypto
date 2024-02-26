@@ -18,6 +18,7 @@ const OrderbookList = () => {
         )}
         totalCount={renderArray.length}
         fixedItemHeight={45}
+        initialTopMostItemIndex={7}
       />
       <OrderbookController>
         <ChangeViewMode

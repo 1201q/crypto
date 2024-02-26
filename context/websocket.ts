@@ -19,14 +19,17 @@ type WsType =
 
 // 기본
 export const allWebsocketAtom = atom<WebSocket | null>(null);
+
 export const singleWebsocketAtom = atom<WebSocket | null>(null);
 
 export const allWebsocketDataAtom = atomWithReset<ExtendedTickerDataType[]>([]);
+
 export const defaultSingleWebsocketDataAtom = atomWithReset<SingleWsDataType>({
   ticker: null,
   orderbook: null,
   trade: [],
 });
+
 export const singleWebsocketDataAtom = atom(
   (get) => get(defaultSingleWebsocketDataAtom),
   (_get, set, update: WsType) => {
@@ -64,9 +67,11 @@ export const singleWebsocketDataAtom = atom(
 export const tickerDataAtom = atom<ExtendedTickerDataType | null>(
   (get) => get(singleWebsocketDataAtom).ticker
 );
+
 export const tradeDataAtom = atom<ExtendedTradeDataType[]>(
   (get) => get(singleWebsocketDataAtom).trade
 );
+
 export const orderbookDataAtom = atom<ExtendedOrderBookDataType | null>(
   (get) => get(singleWebsocketDataAtom).orderbook
 );
@@ -98,3 +103,14 @@ export const selectPriceAtom = <K extends keyof ExtendedTickerDataType>(
   atom((get) => get(tickerDataAtom)?.[key] || undefined) as PrimitiveAtom<
     ExtendedTickerDataType[K] | undefined
   >;
+
+allWebsocketAtom.debugLabel = "allWebsocketAtom";
+singleWebsocketAtom.debugLabel = "singleWebsocketAtom";
+allWebsocketDataAtom.debugLabel = "allWebsocketDataAtom";
+defaultSingleWebsocketDataAtom.debugLabel = "defaultSingleWebsocketDataAtom";
+singleWebsocketDataAtom.debugLabel = "singleWebsocketDataAtom";
+tickerDataAtom.debugLabel = "tickerDataAtom";
+tradeDataAtom.debugLabel = "tradeDataAtom";
+orderbookDataAtom.debugLabel = "orderbookDataAtom";
+sortedAllTickerDataAtom.debugLabel = "sortedAllTickerDataAtom";
+rowTickerDataAtom.debugLabel = "rowTickerDataAtom";
