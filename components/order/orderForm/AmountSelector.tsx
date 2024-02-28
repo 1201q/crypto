@@ -1,9 +1,9 @@
-import { orderAmountOptionsAtom, orderSideAtom } from "@/context/atoms";
+import { orderAmountOptionsAtom } from "@/context/order";
 import { useAtom } from "jotai";
+import React from "react";
 import styled from "styled-components";
 
-const AmountSelector = () => {
-  const [side] = useAtom(orderSideAtom);
+const AmountSelector = ({ side }: { side: "buy" | "sell" }) => {
   const [options, setOptions] = useAtom(orderAmountOptionsAtom);
   const selectIndex = options.findIndex((o) => o.select);
 
@@ -82,8 +82,7 @@ const Text = styled.p<{ select: boolean }>`
   margin-left: 2px;
   font-weight: 600;
   color: ${(props) => (props.select ? "black" : "#e5e5e5")};
-
   position: absolute;
 `;
 
-export default AmountSelector;
+export default React.memo(AmountSelector);

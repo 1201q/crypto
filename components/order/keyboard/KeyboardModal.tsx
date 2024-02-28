@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import styled from "styled-components";
 import { useAtom } from "jotai";
-import { isOrderKeyboardVisibleAtom } from "@/context/atoms";
+import { isOrderKeyboardVisibleAtom } from "@/context/order";
 import { useRef } from "react";
 import useOutSideClick from "@/utils/hooks/useOutSideClick";
 import OrderKeyboardHeader from "./KeyboardHeader";
@@ -43,7 +43,6 @@ const MotionContainer = styled(motion.div)`
   width: 100%;
   height: 100%;
   background-color: white;
-  /* border-top: 1.5px solid #f1f2f2; */
 `;
 
 export default KeyboardModal;

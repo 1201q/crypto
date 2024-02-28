@@ -5,23 +5,31 @@ import OrderSection from "../order/orderForm/OrderForm";
 import OrderbookList from "../order/orderbook/OrderbookList";
 
 import { useAtom } from "jotai";
-import { isOrderKeyboardVisibleAtom } from "@/context/atoms";
+import {
+  isOpenOrderConfirmModalAtom,
+  isOrderKeyboardVisibleAtom,
+} from "@/context/order";
 import KeyboardModal from "../order/keyboard/KeyboardModal";
 import { AnimatePresence } from "framer-motion";
 import { useRouter } from "next/router";
+import ConfirmModal from "../order/orderForm/ConfirmModal";
 
 const OrderPage = () => {
   const router = useRouter();
   const [isKeyboardVisible, setIsKeyboardVisible] = useAtom(
     isOrderKeyboardVisibleAtom
   );
+  const [isOpenConfirmModal, setIsOpenConfirmModal] = useAtom(
+    isOpenOrderConfirmModalAtom
+  );
 
   useEffect(() => {
     router.beforePopState(() => {
-      if (isKeyboardVisible) {
+      if (isKeyboardVisible || isOpenConfirmModal) {
         window.history.pushState("", "");
         router.push(router.asPath);
         setIsKeyboardVisible(false);
+        setIsOpenConfirmModal(false);
         return false;
       }
 
@@ -30,7 +38,7 @@ const OrderPage = () => {
     return () => {
       router.beforePopState(() => true);
     };
-  }, [isKeyboardVisible]);
+  }, [isKeyboardVisible, isOpenConfirmModal]);
 
   return (
     <>
@@ -41,6 +49,7 @@ const OrderPage = () => {
       </Contents>
       <AnimatePresence>
         {isKeyboardVisible && <KeyboardModal />}
+        {isOpenConfirmModal && <ConfirmModal />}
       </AnimatePresence>
     </>
   );

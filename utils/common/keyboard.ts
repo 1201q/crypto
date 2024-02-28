@@ -1,4 +1,4 @@
-const keyboardShortCutOptions = [
+const amountKeyboardOptions = [
   { name: "+100억", value: 10000000000 },
   { name: "+10억", value: 1000000000 },
   { name: "+1억", value: 100000000 },
@@ -12,6 +12,13 @@ const keyboardShortCutOptions = [
   { name: "+1", value: 1 },
   { name: "+0.1", value: 0.1 },
   { name: "+0.01", value: 0.01 },
+];
+
+export const defaultTotalkeyboardOptions = [
+  { name: "+1000만", value: 10000000 },
+  { name: "+100만", value: 1000000 },
+  { name: "+10만", value: 100000 },
+  { name: "+1만", value: 10000 },
 ];
 
 const getStartIndex = (price: number): number => {
@@ -50,7 +57,7 @@ export const getKeyboardAmountOptions = (
   price: number
 ): { name: string; value: number }[] => {
   let startIndex = getStartIndex(price);
-  return keyboardShortCutOptions.slice(startIndex, startIndex + 4);
+  return amountKeyboardOptions.slice(startIndex, startIndex + 4);
 };
 
 export const handleNumber = (prev: any, key: number): string => {

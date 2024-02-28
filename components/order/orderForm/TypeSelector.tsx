@@ -1,6 +1,7 @@
+import React from "react";
 import styled from "styled-components";
 
-const OrderTypeSelector = () => {
+const TypeSelector = () => {
   return (
     <Container>
       <OptionContainer isActive={true}>
@@ -34,4 +35,4 @@ const Header = styled.p`
   margin-right: 10px;
 `;
 
-export default OrderTypeSelector;
+export default React.memo(TypeSelector);

@@ -1,6 +1,7 @@
-import { orderKeyboardTypeAtom } from "@/context/atoms";
+import { orderKeyboardTypeAtom } from "@/context/order";
 import { usePrice } from "@/context/hooks";
 import {
+  defaultTotalkeyboardOptions,
   getKeyboardAmountOptions,
   getKeyboardKeys,
 } from "@/utils/common/keyboard";
@@ -8,13 +9,6 @@ import { useAtomValue } from "jotai";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import Key from "./Key";
-
-const defaultKeys = [
-  { name: "+1000만", value: 10000000 },
-  { name: "+100만", value: 1000000 },
-  { name: "+10만", value: 100000 },
-  { name: "+1만", value: 10000 },
-];
 
 const Keyboard = () => {
   const price = usePrice("pcp");
@@ -24,7 +18,7 @@ const Keyboard = () => {
     if (type === "amount") {
       return price && getKeyboardAmountOptions(price);
     } else {
-      return defaultKeys;
+      return defaultTotalkeyboardOptions;
     }
   });
 
@@ -34,7 +28,7 @@ const Keyboard = () => {
       if (type === "amount") {
         return price && getKeyboardAmountOptions(price);
       } else {
-        return defaultKeys;
+        return defaultTotalkeyboardOptions;
       }
     });
   }, [type]);

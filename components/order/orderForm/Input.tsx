@@ -4,7 +4,7 @@ import {
   orderSideAtom,
   orderTotalAtom,
   displayOrderAmountAtom,
-} from "@/context/atoms";
+} from "@/context/order";
 
 import { useAtom } from "jotai";
 import styled from "styled-components";
@@ -14,7 +14,7 @@ interface PropsType {
   type: "amount" | "total";
 }
 
-const TotalInput: React.FC<PropsType> = ({ headerText, type }) => {
+const Input: React.FC<PropsType> = ({ headerText, type }) => {
   const [keyboardVisible, setKeyboardVisible] = useAtom(
     isOrderKeyboardVisibleAtom
   );
@@ -26,13 +26,13 @@ const TotalInput: React.FC<PropsType> = ({ headerText, type }) => {
 
   const isFocus = keyboardType === type && keyboardVisible;
 
-  const handleKeyboard = () => {
+  const handleOpenKeyboard = () => {
     setKeyboardType(type);
     setKeyboardVisible(true);
   };
 
   return (
-    <Container onClick={handleKeyboard} focus={isFocus} side={orderside}>
+    <Container onClick={handleOpenKeyboard} focus={isFocus} side={orderside}>
       <Header>{headerText}</Header>
       <Price
         type="text"
@@ -88,4 +88,4 @@ const Price = styled.input`
   height: 100%;
 `;
 
-export default TotalInput;
+export default Input;

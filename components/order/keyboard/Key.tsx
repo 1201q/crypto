@@ -8,7 +8,7 @@ import {
   orderAmountAtom,
   orderTotalAtom,
   orderKeyboardTypeAtom,
-} from "@/context/atoms";
+} from "@/context/order";
 import {
   handleBackspace,
   handleNumber,

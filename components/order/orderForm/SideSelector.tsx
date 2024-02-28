@@ -1,10 +1,10 @@
-import { orderKeyboardTypeAtom, orderSideAtom } from "@/context/atoms";
+import { orderSideAtom } from "@/context/order";
 import { useAtom } from "jotai";
+import React from "react";
 import styled from "styled-components";
 
-const OrderSideSelector = () => {
+const SideSelector = () => {
   const [side, setSide] = useAtom(orderSideAtom);
-  const [, setKeyboardType] = useAtom(orderKeyboardTypeAtom);
 
   return (
     <Container>
@@ -12,7 +12,6 @@ const OrderSideSelector = () => {
         $isselect={side === "buy"}
         onClick={() => {
           setSide("buy");
-          setKeyboardType("total");
         }}
         $bgcolor={"#df5068"}
       >
@@ -22,7 +21,6 @@ const OrderSideSelector = () => {
         $isselect={side === "sell"}
         onClick={() => {
           setSide("sell");
-          setKeyboardType("amount");
         }}
         $bgcolor={"#448aef"}
       >
@@ -53,4 +51,4 @@ const SortBtn = styled.button<{ $isselect: boolean; $bgcolor: string }>`
   font-weight: ${(props) => (props.$isselect ? 700 : 500)};
 `;
 
-export default OrderSideSelector;
+export default React.memo(SideSelector);

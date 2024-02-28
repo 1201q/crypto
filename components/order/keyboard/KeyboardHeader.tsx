@@ -4,10 +4,11 @@ import {
   orderKeyboardTypeAtom,
   orderSideAtom,
   orderTotalAtom,
-} from "@/context/atoms";
+} from "@/context/order";
 import { useAtom } from "jotai";
 import styled from "styled-components";
 import X from "@/public/x.svg";
+import React from "react";
 
 const KeyboardHeader = () => {
   const [type] = useAtom(orderKeyboardTypeAtom);
@@ -95,4 +96,4 @@ const ButtonContainer = styled.div`
   align-items: center;
 `;
 
-export default KeyboardHeader;
+export default React.memo(KeyboardHeader);

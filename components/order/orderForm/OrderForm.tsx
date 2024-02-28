@@ -1,22 +1,22 @@
 import styled from "styled-components";
-import TotalInput from "./TotalInput";
-import OrderSideSelector from "./OrderSideSelector";
+import Input from "./Input";
+import SideSelector from "./SideSelector";
 import AmountSelector from "./AmountSelector";
-import OrderTypeSelector from "./OrderTypeSelector";
-import { motion } from "framer-motion";
+import TypeSelector from "./TypeSelector";
+
 import { useAtom } from "jotai";
 import {
   orderAmountAtom,
-  orderKeyboardTypeAtom,
   orderSideAtom,
   orderTotalAtom,
-} from "@/context/atoms";
+} from "@/context/order";
 import AccountDisplay from "./AccountDisplay";
 import { useEffect } from "react";
+import React from "react";
+import OrderBtn from "./OrderBtn";
 
 const OrderSection = () => {
   const [side, setSide] = useAtom(orderSideAtom);
-  const [type] = useAtom(orderKeyboardTypeAtom);
   const [, setAmount] = useAtom(orderAmountAtom);
   const [, setTotal] = useAtom(orderTotalAtom);
 
@@ -30,19 +30,15 @@ const OrderSection = () => {
 
   return (
     <Container>
-      <OrderSideSelector />
-      <OrderTypeSelector />
+      <SideSelector />
+      <TypeSelector />
       <AccountDisplay />
-      <AmountSelector />
-      <TotalInput headerText={type === "total" ? "총액" : "수량"} type={type} />
-      <OrderBtn
-        bgcolor={side === "buy" ? "#df5068" : "#448aef"}
-        whileTap={{ scale: 0.98 }}
-        initial={{ scale: 1 }}
-        transition={{ duration: 0.1 }}
-      >
-        {side === "buy" ? "매수" : "매도"}
-      </OrderBtn>
+      <AmountSelector side={side} />
+      <Input
+        headerText={side === "buy" ? "총액" : "수량"}
+        type={side === "buy" ? "total" : "amount"}
+      />
+      <OrderBtn side={side} />
     </Container>
   );
 };
@@ -53,19 +49,4 @@ const Container = styled.div`
   position: relative;
 `;
 
-const OrderBtn = styled(motion.button)<{ bgcolor: string }>`
-  position: absolute;
-  bottom: 40px;
-  background-color: ${(props) => props.bgcolor};
-  width: calc(100% - 30px);
-  height: 45px;
-  border-radius: 12px;
-  border: none;
-  color: white;
-  font-size: 18px;
-  font-weight: 700;
-  cursor: pointer;
-  padding: 0;
-`;
-
-export default OrderSection;
+export default React.memo(OrderSection);
