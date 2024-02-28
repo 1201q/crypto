@@ -1,7 +1,9 @@
 import {
   buyOrderDataAtom,
+  displayOrderAmountAtom,
   isOpenOrderConfirmModalAtom,
   orderSideAtom,
+  sellOrderDataAtom,
 } from "@/context/order";
 import f from "@/utils/common/formatting";
 import getKR from "@/utils/common/getKR";
@@ -21,6 +23,7 @@ const ConfirmModal = () => {
   const [side] = useAtom(orderSideAtom);
   const [, setOpenModal] = useAtom(isOpenOrderConfirmModalAtom);
   const [buyOrderData] = useAtom(buyOrderDataAtom);
+  const [sellOrderData] = useAtom(sellOrderDataAtom);
 
   useOutSideClick([modalRef], () => {
     setOpenModal(false);
@@ -52,7 +55,11 @@ const ConfirmModal = () => {
         </IconContainer>
         <OrderInfoContainer>
           <Name>{getKR(coinList.data, buyOrderData.code)}</Name>
-          <Price>{f("fixedPrice", buyOrderData.total)}원</Price>
+          <Price>
+            {side === "buy"
+              ? `${f("fixedPrice", buyOrderData.total)}원`
+              : `${sellOrderData.total.toLocaleString()}`}
+          </Price>
           <PriceType color={side === "buy" ? "#df5068" : "#448aef"}>
             {`시장가 ${side === "buy" ? "매수" : "매도"} 주문`}
           </PriceType>
@@ -98,12 +105,12 @@ const ModalContainer = styled(motion.div)`
   position: absolute;
   bottom: 0px;
   width: 100%;
-  height: 40dvh;
+  height: 43dvh;
   min-height: 300px;
   background-color: white;
-  border-top-right-radius: 27px;
-  border-top-left-radius: 27px;
-  padding: 20px 15px 15px 15px;
+  border-top-right-radius: 30px;
+  border-top-left-radius: 30px;
+  padding: 25px 15px 15px 15px;
 
   display: flex;
   flex-direction: column;

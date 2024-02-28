@@ -4,8 +4,8 @@ import { useAtom, useSetAtom } from "jotai";
 import styled from "styled-components";
 
 const OrderBtn = ({ side }: { side: "buy" | "sell" }) => {
-  const [buyorder] = useAtom(buyOrderDataAtom);
   const setModalOpen = useSetAtom(isOpenOrderConfirmModalAtom);
+
   return (
     <Btn
       bgcolor={side === "buy" ? "#df5068" : "#448aef"}
@@ -23,7 +23,7 @@ const OrderBtn = ({ side }: { side: "buy" | "sell" }) => {
 
 const Btn = styled(motion.button)<{ bgcolor: string }>`
   position: absolute;
-  bottom: 40px;
+  bottom: 120px;
   background-color: ${(props) => props.bgcolor};
   width: calc(100% - 30px);
   height: 45px;

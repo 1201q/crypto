@@ -2,11 +2,13 @@ import { GetServerSideProps } from "next";
 import { ServerSideProps, ServerSideInitialValues } from "@/types/types";
 import { useHydrateAtoms } from "jotai/utils";
 import { pathnameAtom } from "@/context/atoms";
+import PageRender from "@/components/page/PageRender";
+import TestPage from "@/components/page/TestPage";
 
 export default function Home({ pathname }: ServerSideProps) {
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues);
 
-  return <></>;
+  return <PageRender Render={TestPage} />;
 }
 
 export const getServerSideProps: GetServerSideProps = async (

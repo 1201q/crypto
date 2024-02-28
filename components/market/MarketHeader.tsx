@@ -66,15 +66,17 @@ const MarketHeader: React.FC<PropsType> = ({ scrollY = 0 }) => {
             style={{ marginLeft: "4px" }}
           />
         </Title>
-        <Search
-          width={23}
-          height={23}
-          fill={"#b7bfc7"}
-          style={{ cursor: "pointer", marginTop: "3px" }}
-          onClick={() => {
-            router.push("/search");
-          }}
-        />
+        <RightContainer>
+          <Search
+            width={23}
+            height={23}
+            fill={"#b7bfc7"}
+            style={{ cursor: "pointer", marginTop: "3px" }}
+            onClick={() => {
+              router.push("/search");
+            }}
+          />
+        </RightContainer>
       </HeaderContainer>
       <ControllContainer>
         {sortOptions.map((option, index) => (
@@ -116,6 +118,11 @@ const HeaderContainer = styled.div`
   background-color: white;
   padding: 0px 20px;
   border: none;
+`;
+
+const RightContainer = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const Title = styled.div`
