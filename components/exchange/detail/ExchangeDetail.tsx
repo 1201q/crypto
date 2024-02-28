@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Bar from "./Bar";
 import { usePrice } from "@/context/hooks";
 import f from "@/utils/common/formatting";
+import { useAtomValue } from "jotai";
+import { queryCodeAtom } from "@/context/atoms";
 
 const ExchangeDetail = () => {
   const low = usePrice("lp");
@@ -27,7 +29,7 @@ const ExchangeDetail = () => {
       <InfoTable>
         <div>
           <InfoName>24시간 거래대금</InfoName>
-          <InfoPrice>{f("fixedPrice", accPrice)}원</InfoPrice>
+          <InfoPrice>{`${f("KRW", accPrice)}원`}</InfoPrice>
         </div>
         <div>
           <InfoName>24시간 거래량</InfoName>
@@ -75,7 +77,15 @@ const InfoName = styled.p`
 const InfoPrice = styled.p`
   font-size: 14px;
   font-weight: 600;
-  letter-spacing: -1px;
+  letter-spacing: -0.7px;
+  margin-bottom: 6px;
+`;
+
+const KRW = styled.p`
+  color: ${(props) => props.theme.font.gray};
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: -0.4px;
 `;
 
 export default ExchangeDetail;

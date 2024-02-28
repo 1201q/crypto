@@ -60,5 +60,21 @@ export const orderAmountOptionsAtom = atom([
   { name: "75%", select: false, value: 75 },
   { name: "100%", select: false, value: 100 },
 ]);
+
 export const isOrderKeyboardVisibleAtom = atom(false);
-export const orderKeyboardTypeAtom = atom<"amount" | "sum">("amount");
+export const orderKeyboardTypeAtom = atom<"total" | "amount">("total");
+
+export const orderAmountAtom = atom<string>("0");
+export const orderTotalAtom = atom<string>("0");
+
+export const displayOrderAmountAtom = atom((get) => {
+  const amount = get(orderAmountAtom);
+  const incluesPoint = amount.includes(".");
+  const int = Number(amount.split(".")[0]).toLocaleString();
+  const decimal =
+    incluesPoint && amount.split(".")[1] === ""
+      ? "."
+      : `.${amount.split(".")[1]}`;
+
+  return !incluesPoint ? int : int + decimal;
+});

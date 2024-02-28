@@ -2,39 +2,55 @@ import {
   isOrderKeyboardVisibleAtom,
   orderKeyboardTypeAtom,
   orderSideAtom,
+  orderTotalAtom,
+  displayOrderAmountAtom,
 } from "@/context/atoms";
+
 import { useAtom } from "jotai";
 import styled from "styled-components";
 
 interface PropsType {
   headerText: string;
-  type: "amount" | "sum";
+  type: "amount" | "total";
 }
 
-const DefaultInput: React.FC<PropsType> = ({ headerText, type }) => {
+const TotalInput: React.FC<PropsType> = ({ headerText, type }) => {
   const [keyboardVisible, setKeyboardVisible] = useAtom(
     isOrderKeyboardVisibleAtom
   );
   const [keyboardType, setKeyboardType] = useAtom(orderKeyboardTypeAtom);
   const [orderside] = useAtom(orderSideAtom);
 
+  const [displayOrderAmount] = useAtom(displayOrderAmountAtom);
+  const [orderTotal] = useAtom(orderTotalAtom);
+
+  const isFocus = keyboardType === type && keyboardVisible;
+
   const handleKeyboard = () => {
     setKeyboardType(type);
     setKeyboardVisible(true);
   };
 
-  const isFocus = keyboardType === type && keyboardVisible;
-
   return (
     <Container onClick={handleKeyboard} focus={isFocus} side={orderside}>
       <Header>{headerText}</Header>
+      <Price
+        type="text"
+        value={
+          type === "amount"
+            ? displayOrderAmount
+            : Number(orderTotal).toLocaleString()
+        }
+        readOnly
+      />
     </Container>
   );
 };
 
 const Container = styled.div<{ focus: boolean; side: "buy" | "sell" }>`
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  width: 100%;
   height: 40px;
   background-color: ${(props) =>
     props.focus
@@ -45,6 +61,7 @@ const Container = styled.div<{ focus: boolean; side: "buy" | "sell" }>`
   border-radius: 7px;
   margin-bottom: 10px;
   cursor: text;
+  overflow-x: hidden;
 `;
 
 const Header = styled.div`
@@ -55,8 +72,20 @@ const Header = styled.div`
   font-weight: 500;
   color: gray;
   letter-spacing: -0.3px;
-  text-overflow: ellipsis;
+
+  margin-right: 10px;
   margin-left: 10px;
+  white-space: nowrap;
 `;
 
-export default DefaultInput;
+const Price = styled.input`
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  background: none;
+  width: 100%;
+  height: 100%;
+`;
+
+export default TotalInput;

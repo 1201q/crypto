@@ -23,11 +23,11 @@ const Container = styled.div`
 
 const OptionContainer = styled.div<{ isActive: boolean }>`
   display: flex;
-  margin-right: 15px;
+  margin-right: 10px;
   opacity: ${(props) => (props.isActive ? 1 : "0.3")};
 `;
 const Header = styled.p`
-  font-size: 15px;
+  font-size: 14px;
   color: gray;
   letter-spacing: -0.3px;
   text-overflow: ellipsis;

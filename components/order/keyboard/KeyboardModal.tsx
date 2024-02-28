@@ -43,7 +43,7 @@ const MotionContainer = styled(motion.div)`
   width: 100%;
   height: 100%;
   background-color: white;
-  border-top: 1.5px solid #f1f2f2;
+  /* border-top: 1.5px solid #f1f2f2; */
 `;
 
 export default KeyboardModal;

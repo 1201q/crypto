@@ -10,8 +10,8 @@ import styled from "styled-components";
 import Key from "./Key";
 
 const defaultKeys = [
-  { name: "+1000만", value: 100000000 },
-  { name: "+100만", value: 10000000 },
+  { name: "+1000만", value: 10000000 },
+  { name: "+100만", value: 1000000 },
   { name: "+10만", value: 100000 },
   { name: "+1만", value: 10000 },
 ];
@@ -44,12 +44,17 @@ const Keyboard = () => {
       <ShortCutBtnContainer>
         {shortCutKeyboard &&
           shortCutKeyboard?.map((option) => (
-            <Key key={option.value} name={option.name} value={option.value} />
+            <Key
+              key={option.name}
+              name={option.name}
+              value={option.value}
+              keyType={"shortcut"}
+            />
           ))}
       </ShortCutBtnContainer>
       <NormalKeyboardContainer type={type}>
         {keyboard.map((key) => (
-          <Key key={key} name={key} />
+          <Key key={key} name={key} value={key} keyType={"normal"} />
         ))}
       </NormalKeyboardContainer>
     </Container>
@@ -68,11 +73,11 @@ const ShortCutBtnContainer = styled.div`
   grid-template-rows: repeat(4, 1fr);
 `;
 
-const NormalKeyboardContainer = styled.div<{ type: "amount" | "sum" }>`
+const NormalKeyboardContainer = styled.div<{ type: "amount" | "total" }>`
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  direction: ${(props) => (props.type === "sum" ? "rtl" : "ltl")};
+  direction: ${(props) => (props.type === "total" ? "rtl" : "ltl")};
 `;
 
 export default Keyboard;

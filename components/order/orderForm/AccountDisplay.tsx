@@ -5,7 +5,7 @@ const AccountDisplay = () => {
   return (
     <Container>
       <Header>주문가능</Header>
-      <OrderablePrice>{f("fixedPrice", 100231230)}원</OrderablePrice>
+      <OrderablePrice>{f("fixedPrice", 30)}원</OrderablePrice>
     </Container>
   );
 };
@@ -17,7 +17,6 @@ const Container = styled.div`
 `;
 
 const Header = styled.p`
-  width: 60px;
   font-size: 15px;
   color: gray;
   letter-spacing: -0.3px;

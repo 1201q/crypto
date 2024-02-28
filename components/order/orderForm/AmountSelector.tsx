@@ -53,7 +53,7 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   height: 40px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   border-radius: 7px;
   gap: 7px;
 `;
@@ -64,6 +64,7 @@ const Option = styled.div<{ select: boolean; active: boolean }>`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  position: relative;
 `;
 
 const Bar = styled.div<{ bgcolor: string; active: boolean }>`
@@ -73,13 +74,16 @@ const Bar = styled.div<{ bgcolor: string; active: boolean }>`
   border-radius: 10px;
   margin-bottom: 5px;
   opacity: ${(props) => (props.active ? 1 : 0.3)};
+  margin-bottom: 30px;
 `;
 
 const Text = styled.p<{ select: boolean }>`
-  font-size: 13px;
+  font-size: 12px;
   margin-left: 2px;
   font-weight: 600;
   color: ${(props) => (props.select ? "black" : "#e5e5e5")};
+
+  position: absolute;
 `;
 
 export default AmountSelector;

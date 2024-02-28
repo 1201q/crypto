@@ -9,7 +9,7 @@ import {
   singleWebsocketAtom,
   singleWebsocketDataAtom,
 } from "@/context/websocket";
-import { RESET, useResetAtom } from "jotai/utils";
+import { useResetAtom } from "jotai/utils";
 
 const getWebsocket = (
   connectType: "all" | "single",

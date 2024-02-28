@@ -1,7 +1,9 @@
 import {
   isOrderKeyboardVisibleAtom,
+  orderAmountAtom,
   orderKeyboardTypeAtom,
   orderSideAtom,
+  orderTotalAtom,
 } from "@/context/atoms";
 import { useAtom } from "jotai";
 import styled from "styled-components";
@@ -11,12 +13,25 @@ const KeyboardHeader = () => {
   const [type] = useAtom(orderKeyboardTypeAtom);
   const [side] = useAtom(orderSideAtom);
   const [, setVisible] = useAtom(isOrderKeyboardVisibleAtom);
+  const [, setAmount] = useAtom(orderAmountAtom);
+  const [, setTotal] = useAtom(orderTotalAtom);
 
   return (
     <Container side={side}>
       <HeaderText side={side}>{type === "amount" ? "수량" : "총액"}</HeaderText>
       <ButtonContainer>
-        <ResetBtn side={side}>초기화</ResetBtn>
+        <ResetBtn
+          side={side}
+          onClick={() => {
+            if (type === "amount") {
+              setAmount("0");
+            } else if (type === "total") {
+              setTotal("0");
+            }
+          }}
+        >
+          초기화
+        </ResetBtn>
         <CloseBtn
           onClick={() => {
             setVisible(false);

@@ -1,24 +1,40 @@
 import styled from "styled-components";
-import DefaultInput from "./DefaultInput";
+import TotalInput from "./TotalInput";
 import OrderSideSelector from "./OrderSideSelector";
 import AmountSelector from "./AmountSelector";
 import OrderTypeSelector from "./OrderTypeSelector";
 import { motion } from "framer-motion";
 import { useAtom } from "jotai";
-import { orderSideAtom } from "@/context/atoms";
+import {
+  orderAmountAtom,
+  orderKeyboardTypeAtom,
+  orderSideAtom,
+  orderTotalAtom,
+} from "@/context/atoms";
 import AccountDisplay from "./AccountDisplay";
+import { useEffect } from "react";
 
 const OrderSection = () => {
-  const [side] = useAtom(orderSideAtom);
+  const [side, setSide] = useAtom(orderSideAtom);
+  const [type] = useAtom(orderKeyboardTypeAtom);
+  const [, setAmount] = useAtom(orderAmountAtom);
+  const [, setTotal] = useAtom(orderTotalAtom);
+
+  useEffect(() => {
+    return () => {
+      setSide("buy");
+      setAmount("0");
+      setTotal("0");
+    };
+  }, []);
 
   return (
     <Container>
       <OrderSideSelector />
       <OrderTypeSelector />
       <AccountDisplay />
-      <DefaultInput headerText="수량" type="amount" />
       <AmountSelector />
-      <DefaultInput headerText="총액" type="sum" />
+      <TotalInput headerText={type === "total" ? "총액" : "수량"} type={type} />
       <OrderBtn
         bgcolor={side === "buy" ? "#df5068" : "#448aef"}
         whileTap={{ scale: 0.98 }}
@@ -32,6 +48,7 @@ const OrderSection = () => {
 };
 
 const Container = styled.div`
+  width: 100%;
   padding: 0px 15px;
   position: relative;
 `;

@@ -7,7 +7,8 @@ type Functiontype =
   | "changePrice"
   | "plus"
   | "orderbookSize"
-  | "fixedPrice";
+  | "fixedPrice"
+  | "KRW";
 
 export default function f(
   type: Functiontype,
@@ -30,6 +31,8 @@ export default function f(
     return getOrderbookSize(value as number, value2 as number);
   } else if (type === "fixedPrice") {
     return getFixedPrice(value as number);
+  } else if (type === "KRW") {
+    return getKRW(value as string);
   }
   return "Invalid type";
 }
@@ -119,4 +122,20 @@ function getPlus(change: string): string {
     return "+";
   }
   return "";
+}
+
+function getKRW(price: string): string {
+  const stringToNumber = Number(price);
+  const scaledValue = stringToNumber / 100000000;
+
+  if (scaledValue < 1) {
+    return `${(scaledValue * 10).toFixed()} 천만`;
+  } else if (scaledValue < 100) {
+    const split = scaledValue.toFixed(1).split(".");
+    return `${split[0]} 억 ${split[1]} 천만`;
+  } else if (scaledValue < 10000) {
+    return `${Math.round(scaledValue).toLocaleString()} 억`;
+  } else {
+    return `${(scaledValue / 10000).toFixed(1)} 조`;
+  }
 }

@@ -92,7 +92,7 @@ const ExchangeHeader: React.FC<HeaderProps> = ({
           <Name>{getKR(coinList.data, queryCode)}</Name>
           <Info color={getTextColor(change)}>
             <Price>{f("price", price)}원</Price>
-            <Price>{f("change", changePercent)}%</Price>
+            <Price>{f("change", changePercent || 0)}%</Price>
           </Info>
         </InfoContainer>
       )}

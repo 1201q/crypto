@@ -1,9 +1,10 @@
-import { orderSideAtom } from "@/context/atoms";
+import { orderKeyboardTypeAtom, orderSideAtom } from "@/context/atoms";
 import { useAtom } from "jotai";
 import styled from "styled-components";
 
 const OrderSideSelector = () => {
   const [side, setSide] = useAtom(orderSideAtom);
+  const [, setKeyboardType] = useAtom(orderKeyboardTypeAtom);
 
   return (
     <Container>
@@ -11,6 +12,7 @@ const OrderSideSelector = () => {
         $isselect={side === "buy"}
         onClick={() => {
           setSide("buy");
+          setKeyboardType("total");
         }}
         $bgcolor={"#df5068"}
       >
@@ -20,6 +22,7 @@ const OrderSideSelector = () => {
         $isselect={side === "sell"}
         onClick={() => {
           setSide("sell");
+          setKeyboardType("amount");
         }}
         $bgcolor={"#448aef"}
       >
