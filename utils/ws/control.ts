@@ -48,7 +48,6 @@ const getWebsocket = (
     return () => {
       if (connectType === "all") {
         close();
-        resetData();
       }
     };
   }, [websocket]);

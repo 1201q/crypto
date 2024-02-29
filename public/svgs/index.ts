@@ -11,6 +11,7 @@ import IconRight from "./right.svg";
 import IconSearch from "./search.svg";
 import IconWallet from "./wallet.svg";
 import IconX from "./x.svg";
+import IconUser from "./user.svg";
 
 export {
   IconBack,
@@ -26,4 +27,5 @@ export {
   IconSearch,
   IconWallet,
   IconX,
+  IconUser,
 };

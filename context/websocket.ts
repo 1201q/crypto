@@ -22,9 +22,29 @@ export const allWebsocketAtom = atom<WebSocket | null>(null);
 
 export const singleWebsocketAtom = atom<WebSocket | null>(null);
 
-export const allWebsocketDataAtom = atomWithReset<ExtendedTickerDataType[]>([]);
+const defaultAllWebsocketDataAtom = atomWithReset<ExtendedTickerDataType[]>([]);
+export const allWebsocketDataAtom = atom(
+  (get) => get(defaultAllWebsocketDataAtom),
+  (_get, set, data: ExtendedTickerDataType) => {
+    if (data.st === "SNAPSHOT") {
+      set(defaultAllWebsocketDataAtom, (prev) => [...prev, data]);
+    } else if (data.st === "REALTIME") {
+      set(defaultAllWebsocketDataAtom, (prev) => {
+        const updatedArr = prev.map((coin) => {
+          if (coin.cd === data.cd) {
+            return { ...data };
+          }
+          return coin;
+        });
+        return updatedArr;
+      });
+    } else {
+      set(defaultAllWebsocketDataAtom, RESET);
+    }
+  }
+);
 
-export const defaultSingleWebsocketDataAtom = atomWithReset<SingleWsDataType>({
+const defaultSingleWebsocketDataAtom = atomWithReset<SingleWsDataType>({
   ticker: null,
   orderbook: null,
   trade: [],

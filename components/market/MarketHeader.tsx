@@ -5,7 +5,7 @@ import { useAtom } from "jotai";
 import { sortOptionAtom } from "@/context/atoms";
 
 import Image from "next/image";
-import { IconSearch } from "@/public/svgs";
+import { IconSearch, IconUser } from "@/public/svgs";
 import { useRouter } from "next/router";
 import useScrollTop from "./hooks/useScrollTop";
 import useScrollDirection from "./hooks/useScrollDirection";
@@ -44,6 +44,9 @@ const MarketHeader: React.FC<PropsType> = () => {
               router.push("/search");
             }}
           />
+          <User onClick={() => router.push("/auth")}>
+            <IconUser width={20} height={20} fill={"white"} />
+          </User>
         </RightContainer>
       </HeaderContainer>
       <ControllContainer>
@@ -84,6 +87,23 @@ const HeaderContainer = styled.div`
 const RightContainer = styled.div`
   display: flex;
   align-items: center;
+`;
+
+const User = styled.div`
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #b7bfc7;
+  border-radius: 50%;
+  margin-top: 3px;
+  margin-left: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  svg {
+    margin-top: 6px;
+  }
 `;
 
 const Title = styled.div`

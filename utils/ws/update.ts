@@ -5,11 +5,6 @@ import {
   ExtendedTickerDataType,
 } from "@/types/types";
 
-type SingleDataType =
-  | ExtendedTickerDataType
-  | ExtendedOrderBookDataType
-  | ExtendedTradeDataType;
-
 interface SingleWsDataType {
   ticker: ExtendedTickerDataType | null;
   orderbook: ExtendedOrderBookDataType | null;
@@ -35,21 +30,9 @@ export default function updateWebsocketData(
 
 const handleAllDataUpdateEvent = (
   data: ExtendedTickerDataType,
-  setData: SetAtomType<ExtendedTickerDataType[]>
+  setData: SetAtomType<ExtendedTickerDataType>
 ) => {
-  if (data.st === "SNAPSHOT") {
-    setData((prev) => [...prev, data]);
-  } else {
-    setData((prev) => {
-      const updatedArr = prev.map((coin) => {
-        if (coin.cd === data.cd) {
-          return { ...data };
-        }
-        return coin;
-      });
-      return updatedArr;
-    });
-  }
+  setData(data);
 };
 
 const handleSingleDataUpdateEvent = (
