@@ -5,7 +5,7 @@ import {
   ExtendedOrderBookDataType,
 } from "@/types/types";
 import { sortOptionAtom } from "./atoms";
-import { atomWithReset } from "jotai/utils";
+import { RESET, atomWithReset } from "jotai/utils";
 
 interface SingleWsDataType {
   ticker: ExtendedTickerDataType | null;
@@ -59,6 +59,8 @@ export const singleWebsocketDataAtom = atom(
           trade: updatedTrade,
         };
       });
+    } else {
+      set(defaultSingleWebsocketDataAtom, RESET);
     }
   }
 );

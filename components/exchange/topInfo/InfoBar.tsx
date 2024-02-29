@@ -6,7 +6,7 @@ import { usePrice } from "@/context/hooks";
 const InfoBar = () => {
   const ChangePriceInfo = memo(() => {
     const price = usePrice("tp") || 0;
-    const change = usePrice("c") || 0;
+    const change = usePrice("c");
     const changePrice = usePrice("scp") || 0;
 
     const getTextColor = (change: string | undefined) => {

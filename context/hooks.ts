@@ -19,9 +19,9 @@ const useSelectAtom = <T, R>(atom: Atom<T>, keyFn: (data: T) => R) => {
 export const usePrice = <K extends keyof ExtendedTickerDataType>(
   key: K
 ): ExtendedTickerDataType[K] | undefined => {
-  return useAtomValue(useMemo(() => selectPriceAtom(key), [])) as
-    | ExtendedTickerDataType[K]
-    | undefined;
+  return useDeferredValue(
+    useAtomValue(useMemo(() => selectPriceAtom(key), []))
+  ) as ExtendedTickerDataType[K] | undefined;
 };
 
 export const useLatest = () => {

@@ -26,7 +26,6 @@ const getWebsocket = (
 
   const open = async () => {
     if (websocket && connectType !== "single") {
-      console.log("꺼져라작동합니다.");
       await close();
     }
 
