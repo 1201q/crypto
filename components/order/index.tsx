@@ -1,18 +1,18 @@
 import styled from "styled-components";
 import ExchangeHeader from "../shared/ExchangeHeader";
 import React, { useEffect } from "react";
-import OrderSection from "../order/orderForm/OrderForm";
-import OrderbookList from "../order/orderbook/OrderbookList";
+import OrderSection from "./orderForm/OrderForm";
+import OrderbookList from "./orderbook/OrderbookList";
 
 import { useAtom } from "jotai";
 import {
   isOpenOrderConfirmModalAtom,
   isOrderKeyboardVisibleAtom,
 } from "@/context/order";
-import KeyboardModal from "../order/keyboard/KeyboardModal";
+import KeyboardModal from "./keyboard/KeyboardModal";
 import { AnimatePresence } from "framer-motion";
 import { useRouter } from "next/router";
-import ConfirmModal from "../order/orderForm/ConfirmModal";
+import ConfirmModal from "./orderForm/ConfirmModal";
 
 const OrderPage = () => {
   const router = useRouter();

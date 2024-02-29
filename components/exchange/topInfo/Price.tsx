@@ -32,7 +32,7 @@ const Price: React.FC = () => {
 
   const UpdateComponent = () => {
     const price = usePrice("tp") || 0;
-    const changePercent = usePrice("scr");
+    const changePercent = usePrice("scr") || 0;
     const change = usePrice("c");
 
     const { isUpdated } = usePriceUpdate(price);

@@ -10,8 +10,8 @@ interface PropsType {
 const CenterBox: React.FC<PropsType> = ({ index }) => {
   const openingPrice = usePrice("pcp") || 0;
   const tradePrice = usePrice("tp") || 0;
-
   const price = useOrderbook("price", index);
+
   const percent = useMemo(() => (price - openingPrice) / openingPrice, [price]);
 
   const getTextColor = (percent: number) => {

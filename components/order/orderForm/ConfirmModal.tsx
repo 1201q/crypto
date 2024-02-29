@@ -1,6 +1,5 @@
 import {
   buyOrderDataAtom,
-  displayOrderAmountAtom,
   isOpenOrderConfirmModalAtom,
   orderSideAtom,
   sellOrderDataAtom,
@@ -8,10 +7,10 @@ import {
 import f from "@/utils/common/formatting";
 import getKR from "@/utils/common/getKR";
 import { useList } from "@/utils/hooks/useList";
-import useOutSideClick from "@/utils/hooks/useOutSideClick";
+
 import { motion } from "framer-motion";
 import { useAtom } from "jotai";
-import { useRef } from "react";
+
 import styled from "styled-components";
 import Image from "next/image";
 
@@ -19,15 +18,11 @@ const ConfirmModal = () => {
   const BlurURL =
     "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg==";
   const { coinList } = useList();
-  const modalRef = useRef(null);
+
   const [side] = useAtom(orderSideAtom);
   const [, setOpenModal] = useAtom(isOpenOrderConfirmModalAtom);
   const [buyOrderData] = useAtom(buyOrderDataAtom);
   const [sellOrderData] = useAtom(sellOrderDataAtom);
-
-  useOutSideClick([modalRef], () => {
-    setOpenModal(false);
-  });
 
   return (
     <Container>
@@ -36,7 +31,6 @@ const ConfirmModal = () => {
         animate={{ y: 0 }}
         transition={{ duration: 0.1, type: "just" }}
         exit={{ y: 300 }}
-        ref={modalRef}
       >
         <IconContainer>
           <CodeIcon>
@@ -108,8 +102,8 @@ const ModalContainer = styled(motion.div)`
   height: 43dvh;
   min-height: 300px;
   background-color: white;
-  border-top-right-radius: 30px;
-  border-top-left-radius: 30px;
+  border-top-right-radius: 33px;
+  border-top-left-radius: 33px;
   padding: 25px 15px 15px 15px;
 
   display: flex;
@@ -142,6 +136,9 @@ const Name = styled.p`
   font-weight: 800;
   text-align: center;
   margin-bottom: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 const Price = styled.p`
   font-size: 25px;

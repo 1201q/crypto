@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import styled from "styled-components";
-import TradeRow from "./TradeRow";
+import TradeItem from "./TradeItem";
 
 import { Virtuoso } from "react-virtuoso";
 import { tradeDataAtom } from "@/context/websocket";
@@ -15,7 +15,7 @@ const TradeList = () => {
         useWindowScroll
         style={{ height: "100%" }}
         itemContent={(index, data) => (
-          <TradeRow
+          <TradeItem
             timestamp={data.tms}
             price={data.tp}
             volume={data.tv}

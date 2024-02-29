@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import HeadMeta from "../shared/Meta/HeadMeta";
+import HeadMeta from "./Meta/HeadMeta";
 
 interface PageRenderProps {
   Render: React.FC;

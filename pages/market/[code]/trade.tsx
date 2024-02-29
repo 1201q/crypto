@@ -6,12 +6,12 @@ import { RedirectProps, ServerSideProps } from "@/types/types";
 import { useAtom } from "jotai";
 import { queryCodeAtom } from "@/context/atoms";
 
-import PageRender from "@/components/page/PageRender";
+import PageRender from "@/components/shared/PageRender";
 
 import getAuth from "@/utils/common/getAuth";
 import { fetcher } from "@/utils/common/fetch";
 import { useHydrateAtoms } from "jotai/utils";
-import TradePage from "@/components/page/TradePage";
+import TradePage from "@/components/trade/index";
 import { useUpbitSingle } from "@/utils/ws/control";
 
 export default function Home({ queryCode }: ServerSideProps) {

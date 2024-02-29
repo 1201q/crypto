@@ -1,5 +1,5 @@
-import SearchHeader from "../search/SearchHeader";
-import SearchList from "../search/SearchList";
+import SearchHeader from "./SearchHeader";
+import SearchList from "./SearchList";
 
 export default function SearchPage() {
   return (

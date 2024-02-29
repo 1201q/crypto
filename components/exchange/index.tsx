@@ -1,11 +1,11 @@
-import ExchangeChart from "../exchange/chart/ExchangeChart";
+import ExchangeChart from "./chart/ExchangeChart";
 import ExchangeHeader from "../shared/ExchangeHeader";
-import ExchangeInfo from "../exchange/topInfo/ExchangeInfo";
-import ExchangeMenu from "../exchange/others/ExchangeMenu";
+import ExchangeInfo from "./topInfo/ExchangeInfo";
+import ExchangeMenu from "./others/ExchangeMenu";
 
 import Footer from "../shared/Footer";
-import ExchangeDetail from "../exchange/detail/ExchangeDetail";
-import SectionLine from "../exchange/others/SectionLine";
+import ExchangeDetail from "./detail/ExchangeDetail";
+import SectionLine from "./others/SectionLine";
 import React from "react";
 import OrderBtn from "../shared/OrderBtn";
 

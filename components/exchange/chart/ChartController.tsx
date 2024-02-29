@@ -2,7 +2,6 @@ import { lineChartControllerOptionAtom } from "@/context/atoms";
 import { motion } from "framer-motion";
 import { useAtom } from "jotai";
 import React from "react";
-
 import styled from "styled-components";
 
 const ChartController = () => {
@@ -14,12 +13,7 @@ const ChartController = () => {
         <SortBtn
           key={option.name}
           onClick={() => {
-            setOptions((prev) => {
-              return prev.map((o, oi) => ({
-                ...o,
-                select: oi === index,
-              }));
-            });
+            setOptions(index);
           }}
           $isselect={option.select}
         >

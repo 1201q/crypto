@@ -7,7 +7,8 @@ import {
 } from "@/context/order";
 import { useAtom } from "jotai";
 import styled from "styled-components";
-import X from "@/public/x.svg";
+
+import { IconX } from "@/public/svgs";
 import React from "react";
 
 const KeyboardHeader = () => {
@@ -39,7 +40,7 @@ const KeyboardHeader = () => {
           }}
           side={side}
         >
-          <X width={21} height={21} />
+          <IconX width={21} height={21} />
         </CloseBtn>
       </ButtonContainer>
     </Container>

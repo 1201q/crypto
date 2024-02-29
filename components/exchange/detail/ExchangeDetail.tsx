@@ -3,8 +3,6 @@ import styled from "styled-components";
 import Bar from "./Bar";
 import { usePrice } from "@/context/hooks";
 import f from "@/utils/common/formatting";
-import { useAtomValue } from "jotai";
-import { queryCodeAtom } from "@/context/atoms";
 
 const ExchangeDetail = () => {
   const low = usePrice("lp");

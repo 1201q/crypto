@@ -1,5 +1,5 @@
-import TradeList from "../trade/TradeList";
-import TradeHeader from "../trade/TradeHeader";
+import TradeList from "./TradeList";
+import TradeHeader from "./TradeHeader";
 
 export default function TradePage() {
   return (

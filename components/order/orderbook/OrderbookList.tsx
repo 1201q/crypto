@@ -2,7 +2,7 @@ import styled from "styled-components";
 import OrderbookRow from "./OrderbookRow";
 import { useAtom } from "jotai";
 import { orderbookVolumeDisplayModeAtom } from "@/context/atoms";
-import Down from "@/public/caret-down.svg";
+import { IconCaretDown } from "@/public/svgs";
 import React from "react";
 import { Virtuoso } from "react-virtuoso";
 
@@ -27,7 +27,7 @@ const OrderbookList = () => {
           }}
         >
           {displayMode ? "수량" : "총액"}
-          <Down width={13} height={13} />
+          <IconCaretDown width={13} height={13} />
         </ChangeViewMode>
       </OrderbookController>
     </Container>

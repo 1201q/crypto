@@ -1,4 +1,4 @@
-import MenuTab from "../shared/bottomTab/MenuTab";
+import MenuTab from "./bottomTab/MenuTab";
 import Header from "../market/MarketHeader";
 
 export default function TestPage() {

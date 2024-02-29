@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Back from "@/public/back.svg";
+import { IconBack } from "@/public/svgs";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { throttle } from "lodash";
@@ -73,7 +73,7 @@ const ExchangeHeader: React.FC<HeaderProps> = ({
 
   return (
     <Container border={headerBorderVisible}>
-      <Back
+      <IconBack
         width={26}
         height={26}
         fill={"#b7bfc7"}

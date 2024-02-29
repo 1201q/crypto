@@ -1,58 +1,26 @@
 import styled from "styled-components";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useAtom } from "jotai";
 import { sortOptionAtom } from "@/context/atoms";
 
 import Image from "next/image";
-import Search from "@/public/search.svg";
+import { IconSearch } from "@/public/svgs";
 import { useRouter } from "next/router";
-import { throttle } from "lodash";
+import useScrollTop from "./hooks/useScrollTop";
+import useScrollDirection from "./hooks/useScrollDirection";
 
 interface PropsType {
   scrollY: number;
 }
 
-const MarketHeader: React.FC<PropsType> = ({ scrollY = 0 }) => {
+const MarketHeader: React.FC<PropsType> = () => {
   const router = useRouter();
-  const beforeScrollY = useRef(scrollY);
-
   const [sortOptions, setSortOptions] = useAtom(sortOptionAtom);
   const [isVisible, setIsVisible] = useState(true);
 
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  const scrollToTop = () => {
-    const element = document.body;
-    element.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-      inline: "nearest",
-    });
-  };
-
-  const handleScroll = throttle(() => {
-    const scrollY = window.scrollY;
-    const mobileScrollThreshold = 15;
-
-    const diff = Math.abs(scrollY - beforeScrollY.current);
-
-    if (diff > mobileScrollThreshold) {
-      if (scrollY > beforeScrollY.current) {
-        setIsVisible(false);
-      } else {
-        setIsVisible(true);
-      }
-
-      beforeScrollY.current = scrollY;
-    }
-  }, 50);
+  const { scrollToTop } = useScrollTop();
+  useScrollDirection(setIsVisible);
 
   return (
     <Container isVisible={isVisible}>
@@ -67,7 +35,7 @@ const MarketHeader: React.FC<PropsType> = ({ scrollY = 0 }) => {
           />
         </Title>
         <RightContainer>
-          <Search
+          <IconSearch
             width={23}
             height={23}
             fill={"#b7bfc7"}
@@ -82,17 +50,10 @@ const MarketHeader: React.FC<PropsType> = ({ scrollY = 0 }) => {
         {sortOptions.map((option, index) => (
           <SortBtn
             onClick={() => {
-              setSortOptions((prev) => {
-                return prev.map((o, oi) => ({
-                  ...o,
-                  select: oi === index,
-                }));
-              });
+              setSortOptions(index);
             }}
             key={option.name}
             $isselect={option.select}
-            initial={{ scale: 1 }}
-            whileTap={{ scale: 0.95 }}
           >
             {option.name}
           </SortBtn>

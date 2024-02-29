@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import styled from "styled-components";
-import Back from "@/public/back.svg";
+import { IconBack } from "@/public/svgs";
 import React from "react";
 
 import { useSetAtom, useAtom } from "jotai";
@@ -51,7 +51,7 @@ const Key: React.FC<{
         }
       }}
     >
-      {name === "back" ? <Back width={20} height={20} /> : name}
+      {name === "back" ? <IconBack width={20} height={20} /> : name}
     </Keyboard>
   );
 };

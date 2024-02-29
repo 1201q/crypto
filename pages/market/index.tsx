@@ -4,8 +4,8 @@ import getAuth from "@/utils/common/getAuth";
 import { useHydrateAtoms } from "jotai/utils";
 import { pathnameAtom } from "@/context/atoms";
 
-import MarketPage from "@/components/page/MarketPage";
-import PageRender from "@/components/page/PageRender";
+import MarketPage from "@/components/market/index";
+import PageRender from "@/components/shared/PageRender";
 
 import { ServerSideProps, ServerSideInitialValues } from "@/types/types";
 import { GetServerSideProps } from "next";
@@ -13,7 +13,6 @@ import { fetcher } from "@/utils/common/fetch";
 import { useList } from "@/utils/hooks/useList";
 
 import { useUpbitAll, useUpbitSingle } from "@/utils/ws/control";
-import { useAtomsDebugValue } from "jotai-devtools";
 
 export default function Home({ pathname }: ServerSideProps) {
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues);

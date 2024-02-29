@@ -6,8 +6,8 @@ import { ServerSideProps } from "@/types/types";
 import { useAtom } from "jotai";
 import { queryCodeAtom } from "@/context/atoms";
 
-import PageRender from "@/components/page/PageRender";
-import ExchangePage from "@/components/page/ExchangePage";
+import PageRender from "@/components/shared/PageRender";
+import ExchangePage from "@/components/exchange/index";
 
 import getAuth from "@/utils/common/getAuth";
 import { fetcher } from "@/utils/common/fetch";

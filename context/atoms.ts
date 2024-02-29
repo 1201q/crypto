@@ -13,7 +13,18 @@ const options = [
   { name: "상승", en: "up", select: false },
   { name: "하락", en: "down", select: false },
 ];
-export const sortOptionAtom = atom(options);
+const defaultSortOptionAtom = atom(options);
+export const sortOptionAtom = atom(
+  (get) => get(defaultSortOptionAtom),
+  (_get, set, index) => {
+    set(defaultSortOptionAtom, (prev: typeof options) => {
+      return prev.map((o, oi) => ({
+        ...o,
+        select: oi === index,
+      }));
+    });
+  }
+);
 
 // bottom tab
 const menu = [
@@ -46,7 +57,18 @@ const lineChartControllerOptions = [
   { name: "1년", select: false, type: "days", count: 365, unit: 0 },
   { name: "3년", select: false, type: "weeks", count: 157, unit: 0 },
 ];
-export const lineChartControllerOptionAtom = atom(lineChartControllerOptions);
+const defaultLineChartControllerOptionAtom = atom(lineChartControllerOptions);
+export const lineChartControllerOptionAtom = atom(
+  (get) => get(defaultLineChartControllerOptionAtom),
+  (_get, set, index) => {
+    set(defaultLineChartControllerOptionAtom, (prev) => {
+      return prev.map((o, oi) => ({
+        ...o,
+        select: oi === index,
+      }));
+    });
+  }
+);
 export const selectedLineChartOptionAtom = atom((get) => {
   const options = get(lineChartControllerOptionAtom);
   return options.find((option) => option.select) || options[1];

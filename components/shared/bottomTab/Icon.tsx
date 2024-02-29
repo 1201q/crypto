@@ -1,7 +1,7 @@
-import Home from "@/public/home.svg";
-import Wallet from "@/public/wallet.svg";
-import Community from "@/public/community.svg";
-import Menu from "@/public/menu.svg";
+import { IconHome as Home } from "@/public/svgs";
+import { IconWallet as Wallet } from "@/public/svgs";
+import { IconCommunity as Community } from "@/public/svgs";
+import { IconMenu as Menu } from "@/public/svgs";
 import styled from "styled-components";
 import React from "react";
 

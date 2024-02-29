@@ -1,5 +1,5 @@
-import PageRender from "@/components/page/PageRender";
-import SearchPage from "@/components/page/SearchPage";
+import PageRender from "@/components/shared/PageRender";
+import SearchPage from "@/components/search/index";
 import { ServerSideProps } from "@/types/types";
 import { fetcher } from "@/utils/common/fetch";
 

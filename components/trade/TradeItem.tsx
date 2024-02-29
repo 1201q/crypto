@@ -14,7 +14,7 @@ interface RowPropsType {
   askOrBid: string;
 }
 
-const TradeRow: React.FC<RowPropsType> = ({
+const TradeItem: React.FC<RowPropsType> = ({
   timestamp,
   price,
   volume,
@@ -84,4 +84,4 @@ const Data = styled.div<{ sort: string; color?: string }>`
   color: ${(props) => props.color};
 `;
 
-export default TradeRow;
+export default TradeItem;

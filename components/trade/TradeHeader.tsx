@@ -1,8 +1,7 @@
 import { useAtom } from "jotai";
 import styled from "styled-components";
 import ExchangeHeader from "../shared/ExchangeHeader";
-import Exchange from "@/public/exchange.svg";
-
+import { IconExchange } from "@/public/svgs";
 import { tradeListVolumeDisplayModeAtom } from "@/context/atoms";
 
 const TradeHeader = () => {
@@ -21,7 +20,7 @@ const TradeHeader = () => {
         >
           {displayMode ? "체결량" : "체결액"}
           <SvgBtn>
-            <Exchange width={13} height={13} fill={"#6b7684"} />
+            <IconExchange width={13} height={13} fill={"#6b7684"} />
           </SvgBtn>
         </Header>
       </Container>

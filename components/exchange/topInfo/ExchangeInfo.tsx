@@ -1,12 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import Price from "./Price";
 import Name from "./Name";
 import InfoBar from "./InfoBar";
-
 import LoadingExchangeInfo from "@/components/skeleton/LoadingExchangeInfo";
 import { useAtomValue } from "jotai";
-
 import { isCorrectPage } from "@/context/atoms";
 
 const ExchangeInfo = () => {

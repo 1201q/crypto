@@ -1,34 +1,14 @@
 import styled from "styled-components";
-import Back from "@/public/back.svg";
-import X from "@/public/x.svg";
-import { useEffect, useRef } from "react";
-import { useAtom } from "jotai";
-import { searchInputValueAtom } from "@/context/atoms";
-import { useRouter } from "next/router";
+import { IconBack, IconX } from "@/public/svgs";
+import useSearchInput from "./hooks/useSearchInput";
 
 const SearchHeader = () => {
-  const router = useRouter();
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const [keyword, setKeyword] = useAtom(searchInputValueAtom);
-
-  useEffect(() => {
-    setKeyword("");
-  }, []);
-
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [inputRef]);
-
-  const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setKeyword(value);
-  };
+  const { inputRef, keyword, onChange, redirectToMarket, clearInput } =
+    useSearchInput();
 
   return (
     <Container>
-      <Back
+      <IconBack
         width={26}
         height={26}
         fill={"#b7bfc7"}
@@ -38,9 +18,7 @@ const SearchHeader = () => {
           marginRight: "10px",
           marginTop: "2px",
         }}
-        onClick={() => {
-          router.replace("/market");
-        }}
+        onClick={redirectToMarket}
       />
       <Input
         type="text"
@@ -48,9 +26,9 @@ const SearchHeader = () => {
         placeholder="가상자산을 검색해보세요"
         maxLength={20}
         value={keyword}
-        onChange={onInputChange}
+        onChange={onChange}
       />
-      <X
+      <IconX
         width={23}
         height={23}
         fill={"#b7bfc7"}
@@ -58,9 +36,7 @@ const SearchHeader = () => {
           marginRight: "-2px",
           cursor: "pointer",
         }}
-        onClick={() => {
-          setKeyword("");
-        }}
+        onClick={clearInput}
       />
     </Container>
   );
