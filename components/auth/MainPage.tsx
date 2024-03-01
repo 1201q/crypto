@@ -2,9 +2,12 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import Header from "./Header";
 import { motion } from "framer-motion";
+import { useGoogle } from "./hooks/useGoogle";
 
-const Main = () => {
+const MainPage = () => {
   const router = useRouter();
+  const { loginGoogle } = useGoogle();
+
   return (
     <>
       <Header />
@@ -16,16 +19,19 @@ const Main = () => {
         <ButtonContainer>
           <Button
             onClick={() => {
-              router.push("/auth/in");
+              router.push("/auth/login");
             }}
+            whileTap={{ scale: 0.98 }}
           >
             이메일로 로그인
           </Button>
-          <Button>구글로 계속하기</Button>
+          <Button onClick={loginGoogle} whileTap={{ scale: 0.98 }}>
+            구글로 계속하기
+          </Button>
         </ButtonContainer>
         <SignUpLink
           onClick={() => {
-            router.push("/auth/create");
+            router.push("/auth/signup");
           }}
         >
           회원가입
@@ -64,7 +70,7 @@ const SmallText = styled.p`
   color: ${(props) => props.theme.font.gray};
 `;
 
-const Button = styled.button`
+const Button = styled(motion.button)`
   width: 80%;
   max-width: 400px;
   height: 40px;
@@ -86,7 +92,7 @@ const Button = styled.button`
 const SignUpLink = styled.p`
   width: 100%;
   margin-top: 80px;
-  font-size: 14px;
+  font-size: 15px;
   color: gray;
   text-align: right;
   text-decoration: underline;
@@ -94,4 +100,4 @@ const SignUpLink = styled.p`
   text-align: center;
 `;
 
-export default Main;
+export default MainPage;

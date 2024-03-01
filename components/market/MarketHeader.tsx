@@ -31,7 +31,7 @@ const MarketHeader: React.FC<PropsType> = () => {
             alt={"logo"}
             width={32}
             height={28}
-            style={{ marginLeft: "4px" }}
+            style={{ marginLeft: "4px", marginBottom: "2px" }}
           />
         </Title>
         <RightContainer>

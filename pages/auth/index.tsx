@@ -3,7 +3,7 @@ import { ServerSideProps, ServerSideInitialValues } from "@/types/types";
 import { useHydrateAtoms } from "jotai/utils";
 import { pathnameAtom } from "@/context/atoms";
 import PageRender from "@/components/shared/PageRender";
-import MainPage from "@/components/auth/Main";
+import MainPage from "@/components/auth/MainPage";
 
 export default function Home({ pathname }: ServerSideProps) {
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues);

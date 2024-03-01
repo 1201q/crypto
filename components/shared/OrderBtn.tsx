@@ -38,17 +38,17 @@ const Container = styled.div`
 `;
 
 const BtnContainer = styled.div`
-  padding: 0px 20px 15px 20px;
+  padding: 0px 20px 20px 20px;
 `;
 
 const BidBtn = styled(motion.button)`
   background-color: #448aef;
   width: 100%;
-  height: 50px;
+  height: 54px;
   border-radius: 12px;
   border: none;
   color: white;
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 700;
   cursor: pointer;
   padding: 0;

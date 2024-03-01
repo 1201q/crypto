@@ -14,7 +14,7 @@ import { useList } from "@/utils/hooks/useList";
 
 import { useUpbitAll, useUpbitSingle } from "@/utils/ws/control";
 
-export default function Home({ pathname }: ServerSideProps) {
+export default function Home({ pathname, isLogin }: ServerSideProps) {
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues);
   const { coinList } = useList();
   const { all } = useUpbitAll(coinList.code);

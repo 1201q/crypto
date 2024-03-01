@@ -21,8 +21,8 @@ const CoinInfo: React.FC<InfoProps> = ({ code, name }) => {
         <Image
           src={`${process.env.NEXT_PUBLIC_LOGO_API_URL}${f("code", code)}.png`}
           alt={"logo"}
-          width={23}
-          height={23}
+          width={32}
+          height={32}
           placeholder="blur"
           blurDataURL={BlurURL}
         />
@@ -55,13 +55,14 @@ const NameContainer = styled.div`
 `;
 
 const CodeIcon = styled.div`
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   background-color: #f2f4f6;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 `;
 
 // text
