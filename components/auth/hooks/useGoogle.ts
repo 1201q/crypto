@@ -27,7 +27,7 @@ const useGoogle = () => {
         if (result) {
           const credential = GoogleAuthProvider.credentialFromResult(result);
           setIsLoading(false);
-          router.replace("/market");
+          router.replace("/market", undefined, { shallow: true });
         } else {
           setIsLoading(false);
         }

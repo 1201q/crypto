@@ -26,7 +26,8 @@ const useLogin = (email: string, password: string) => {
     signInWithEmailAndPassword(authService, email, password)
       .then(() => {
         setIsLoading(false);
-        router.replace("/market");
+
+        router.replace("/market", undefined, { shallow: true });
       })
       .catch((error: FirebaseError) => {
         setErrorMsg(getAuthErrorMsg(error.code));
