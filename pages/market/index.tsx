@@ -27,7 +27,7 @@ export default function Home({ pathname, isLogin }: ServerSideProps) {
   useEffect(() => {
     all.open();
     single.close();
-    isLogin && setIsLogin(isLogin);
+    isLogin !== undefined && setIsLogin(isLogin);
   }, []);
 
   return (

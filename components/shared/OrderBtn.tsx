@@ -45,7 +45,7 @@ const BidBtn = styled(motion.button)`
   background-color: #448aef;
   width: 100%;
   height: 54px;
-  border-radius: 12px;
+  border-radius: 15px;
   border: none;
   color: white;
   font-size: 18px;

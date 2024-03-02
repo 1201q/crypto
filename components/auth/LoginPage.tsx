@@ -119,7 +119,7 @@ const SubmitButton = styled(motion.button)`
   background-color: #448aef;
   width: 100%;
   height: 54px;
-  border-radius: 12px;
+  border-radius: 15px;
   border: none;
 
   cursor: pointer;
@@ -133,7 +133,7 @@ const ButtonText = styled.p<{ isLoading: boolean }>`
   transform: ${(props) =>
     props.isLoading ? "translateX(17px)" : "translateX(0)"};
   transition-duration: 0.2s;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   color: white;
 `;
