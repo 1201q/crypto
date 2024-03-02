@@ -27,7 +27,7 @@ const useLogin = (email: string, password: string) => {
       .then(() => {
         setIsLoading(false);
 
-        router.replace("/market", undefined, { shallow: true });
+        router.replace("/", undefined, { shallow: false });
       })
       .catch((error: FirebaseError) => {
         setErrorMsg(getAuthErrorMsg(error.code));

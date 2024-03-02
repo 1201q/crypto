@@ -7,6 +7,7 @@ import { IconGoogle } from "@/public/svgs";
 import { authService } from "@/utils/firebase/client";
 import { signOut } from "firebase/auth";
 import LoadingSpinner from "../shared/LoadingSpinner";
+import Link from "next/link";
 
 const MainPage = () => {
   const router = useRouter();
@@ -34,20 +35,16 @@ const MainPage = () => {
             <p>소셜 계정 로그인</p>
           </SocialLoginButton>
         </ButtonContainer>
-        <SignUpLink
-          onClick={() => {
-            router.push("/auth/signup");
-          }}
-        >
-          회원가입
-        </SignUpLink>
-        <SignUpLink
-          onClick={() => {
-            signOut(authService);
-          }}
-        >
-          테스트 로그아웃
-        </SignUpLink>
+        <LinkContainer>
+          <SignUpLink href={"/auth/signup"}>회원가입</SignUpLink>
+          <p
+            onClick={() => {
+              signOut(authService);
+            }}
+          >
+            테스트 로그아웃
+          </p>
+        </LinkContainer>
       </motion.div>
       {isGoogleLoading && (
         <Redirecting>
@@ -71,6 +68,11 @@ const ButtonContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 60px;
+`;
+
+const LinkContainer = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const HeaderText = styled.p`
@@ -128,7 +130,7 @@ const SocialLoginButton = styled(motion.button)`
   }
 `;
 
-const SignUpLink = styled.p`
+const SignUpLink = styled(Link)`
   width: 100%;
   margin-top: 50px;
   font-size: 15px;

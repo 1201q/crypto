@@ -19,6 +19,7 @@ import { useAtom } from "jotai";
 export default function Home({ pathname, isLogin }: ServerSideProps) {
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues);
   useHydrateAtoms([[isLoginAtom, isLogin]] as ServerSideInitialValues);
+
   const { coinList } = useList();
   const { all } = useUpbitAll(coinList.code);
   const { single } = useUpbitSingle("");
@@ -45,6 +46,7 @@ export const getServerSideProps: GetServerSideProps = async (
   const coinList = await fetcher("/api/markets");
 
   const { isLogin, uid } = await getAuth(cookies.token);
+  console.log("서버사이드");
 
   return {
     props: {

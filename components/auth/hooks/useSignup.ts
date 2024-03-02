@@ -23,7 +23,7 @@ const useSignup = (email: string, password: string, name: string) => {
       .then(async (userObj) => {
         await updateProfile(userObj.user, { displayName: name });
         setIsLoading(false);
-        router.replace("/market", undefined, { shallow: true });
+        router.replace("/", undefined, { shallow: false });
       })
       .catch((error: FirebaseError) => {
         setIsLoading(false);

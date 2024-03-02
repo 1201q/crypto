@@ -8,15 +8,13 @@ import { useHydrateAtoms } from "jotai/utils";
 import { pathnameAtom } from "@/context/atoms";
 import PageRender from "@/components/shared/PageRender";
 import MainPage from "@/components/auth/MainPage";
-import { useAuth } from "@/utils/firebase/provider";
+
 import nookies from "nookies";
 import getAuth from "@/utils/common/getAuth";
 
 export default function Home({ pathname }: ServerSideProps) {
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues);
 
-  const user = useAuth();
-  console.log(user);
   return <PageRender Render={MainPage} />;
 }
 
