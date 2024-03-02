@@ -12,6 +12,7 @@ import IconSearch from "./search.svg";
 import IconWallet from "./wallet.svg";
 import IconX from "./x.svg";
 import IconUser from "./user.svg";
+import IconGoogle from "./google.svg";
 
 export {
   IconBack,
@@ -28,4 +29,5 @@ export {
   IconWallet,
   IconX,
   IconUser,
+  IconGoogle,
 };

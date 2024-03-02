@@ -13,16 +13,21 @@ import { fetcher } from "@/utils/common/fetch";
 import { useList } from "@/utils/hooks/useList";
 
 import { useUpbitAll, useUpbitSingle } from "@/utils/ws/control";
+import { isLoginAtom } from "@/context/user";
+import { useAtom } from "jotai";
 
 export default function Home({ pathname, isLogin }: ServerSideProps) {
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues);
+  useHydrateAtoms([[isLoginAtom, isLogin]] as ServerSideInitialValues);
   const { coinList } = useList();
   const { all } = useUpbitAll(coinList.code);
   const { single } = useUpbitSingle("");
+  const [, setIsLogin] = useAtom(isLoginAtom);
 
   useEffect(() => {
     all.open();
     single.close();
+    isLogin && setIsLogin(isLogin);
   }, []);
 
   return (

@@ -9,6 +9,9 @@ import { IconSearch, IconUser } from "@/public/svgs";
 import { useRouter } from "next/router";
 import useScrollTop from "./hooks/useScrollTop";
 import useScrollDirection from "./hooks/useScrollDirection";
+import { isLoginAtom } from "@/context/user";
+import { signOut } from "firebase/auth";
+import { authService } from "@/utils/firebase/client";
 
 interface PropsType {
   scrollY: number;
@@ -18,6 +21,7 @@ const MarketHeader: React.FC<PropsType> = () => {
   const router = useRouter();
   const [sortOptions, setSortOptions] = useAtom(sortOptionAtom);
   const [isVisible, setIsVisible] = useState(true);
+  const [isLogin, setIsLogin] = useAtom(isLoginAtom);
 
   const { scrollToTop } = useScrollTop();
   useScrollDirection(setIsVisible);
@@ -44,9 +48,23 @@ const MarketHeader: React.FC<PropsType> = () => {
               router.push("/search");
             }}
           />
-          <User onClick={() => router.push("/auth")}>
-            <IconUser width={20} height={20} fill={"white"} />
-          </User>
+          {!isLogin ? (
+            <User onClick={() => router.push("/auth")}>
+              <IconUser width={20} height={20} fill={"white"} />
+            </User>
+          ) : (
+            <button
+              onClick={() => {
+                signOut(authService)
+                  .then(() => {
+                    router.reload();
+                  })
+                  .catch((err) => console.log(err));
+              }}
+            >
+              테스트
+            </button>
+          )}
         </RightContainer>
       </HeaderContainer>
       <ControllContainer>

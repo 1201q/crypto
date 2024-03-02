@@ -1,20 +1,41 @@
 import { GetServerSideProps } from "next";
-import { ServerSideProps, ServerSideInitialValues } from "@/types/types";
+import {
+  ServerSideProps,
+  ServerSideInitialValues,
+  RedirectProps,
+} from "@/types/types";
 import { useHydrateAtoms } from "jotai/utils";
 import { pathnameAtom } from "@/context/atoms";
 import PageRender from "@/components/shared/PageRender";
 import MainPage from "@/components/auth/MainPage";
+import { useAuth } from "@/utils/firebase/provider";
+import nookies from "nookies";
+import getAuth from "@/utils/common/getAuth";
 
 export default function Home({ pathname }: ServerSideProps) {
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues);
 
+  const user = useAuth();
+  console.log(user);
   return <PageRender Render={MainPage} />;
 }
 
 export const getServerSideProps: GetServerSideProps = async (
   ctx: any
-): Promise<{ props: ServerSideProps }> => {
+): Promise<{ props: ServerSideProps } | { redirect: RedirectProps }> => {
   let pathname = ctx?.resolvedUrl;
+
+  const cookies = nookies.get(ctx);
+  const { isLogin } = await getAuth(cookies.token);
+
+  if (isLogin) {
+    return {
+      redirect: {
+        destination: `/market`,
+        permanent: false,
+      },
+    };
+  }
 
   return { props: { pathname } };
 };
