@@ -13,7 +13,9 @@ import nookies from "nookies";
 import getAuth from "@/utils/common/getAuth";
 
 export default function Home({ pathname }: ServerSideProps) {
-  useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues);
+  useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues, {
+    dangerouslyForceHydrate: true,
+  });
 
   return <PageRender Render={MainPage} />;
 }

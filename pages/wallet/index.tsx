@@ -6,7 +6,9 @@ import PageRender from "@/components/shared/PageRender";
 import TestPage from "@/components/shared/TestPage";
 
 export default function Home({ pathname }: ServerSideProps) {
-  useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues);
+  useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues, {
+    dangerouslyForceHydrate: true,
+  });
 
   return <PageRender Render={TestPage} />;
 }

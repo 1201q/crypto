@@ -17,8 +17,12 @@ import { isLoginAtom } from "@/context/user";
 import { useAtom } from "jotai";
 
 export default function Home({ pathname, isLogin }: ServerSideProps) {
-  useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues);
-  useHydrateAtoms([[isLoginAtom, isLogin]] as ServerSideInitialValues);
+  useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues, {
+    dangerouslyForceHydrate: true,
+  });
+  useHydrateAtoms([[isLoginAtom, isLogin]] as ServerSideInitialValues, {
+    dangerouslyForceHydrate: true,
+  });
 
   const { coinList } = useList();
   const { all } = useUpbitAll(coinList.code);
