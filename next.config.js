@@ -18,7 +18,6 @@ const withPWA = require("next-pwa")({
   skipWaiting: true,
   buildExcludes: [/middleware-manifest.json$/],
   disable: process.env.NODE_ENV === "development",
-  reactStrictMode: false,
 });
 
 const withPlugins = require("next-compose-plugins");
@@ -28,6 +27,7 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 });
 
 const nextconfig = withPWA({
+  reactStrictMode: false,
   transpilePackages: ["jotai-devtools"],
   swcMinify: true,
   compiler: {
