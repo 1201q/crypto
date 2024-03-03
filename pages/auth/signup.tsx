@@ -10,17 +10,11 @@ import PageRender from "@/components/shared/PageRender";
 import SignUpPage from "@/components/auth/SignupPage";
 import nookies from "nookies";
 import getAuth from "@/utils/common/getAuth";
-import { Provider } from "jotai";
-import { authStore } from "@/context/user";
 
 export default function Home({ pathname }: ServerSideProps) {
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues);
 
-  return (
-    <Provider store={authStore}>
-      <PageRender Render={SignUpPage} />
-    </Provider>
-  );
+  return <PageRender Render={SignUpPage} />;
 }
 
 export const getServerSideProps: GetServerSideProps = async (

@@ -26,6 +26,8 @@ const MarketHeader: React.FC<PropsType> = () => {
   const { scrollToTop } = useScrollTop();
   useScrollDirection(setIsVisible);
 
+  console.log(`헤더 :${isLogin}`);
+
   return (
     <Container isVisible={isVisible}>
       <HeaderContainer>

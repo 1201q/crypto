@@ -31,6 +31,8 @@ export default function Home({ pathname, isLogin }: ServerSideProps) {
     isLogin !== undefined && setIsLogin(isLogin);
   }, []);
 
+  console.log(`마켓 :${isLogin}`);
+
   return (
     <>
       <PageRender Render={MarketPage} title={"ALL UP! | 마켓"} />
