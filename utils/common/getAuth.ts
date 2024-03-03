@@ -13,6 +13,7 @@ export default async function getAuth(token: string) {
     if (mytoken) {
       isLogin = true;
       uid = mytoken.uid;
+      console.log("로그인상태");
     }
   } catch (error: any) {
     console.log(error.code);

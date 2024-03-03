@@ -26,8 +26,6 @@ const MarketHeader: React.FC<PropsType> = () => {
   const { scrollToTop } = useScrollTop();
   useScrollDirection(setIsVisible);
 
-  console.log(`헤더 :${isLogin}`);
-
   return (
     <Container isVisible={isVisible}>
       <HeaderContainer>
@@ -41,6 +39,17 @@ const MarketHeader: React.FC<PropsType> = () => {
           />
         </Title>
         <RightContainer>
+          <button
+            onClick={() => {
+              signOut(authService)
+                .then(() => {
+                  router.reload();
+                })
+                .catch((err) => console.log(err));
+            }}
+          >
+            로그아웃
+          </button>
           <IconSearch
             width={23}
             height={23}

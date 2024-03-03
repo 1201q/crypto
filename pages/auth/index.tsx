@@ -6,7 +6,7 @@ import {
 } from "@/types/types";
 import { useHydrateAtoms } from "jotai/utils";
 import { pathnameAtom } from "@/context/atoms";
-import { isLoginAtom } from "@/context/user";
+
 import PageRender from "@/components/shared/PageRender";
 import MainPage from "@/components/auth/MainPage";
 
@@ -15,10 +15,6 @@ import getAuth from "@/utils/common/getAuth";
 
 export default function Home({ pathname, isLogin }: ServerSideProps) {
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues, {
-    dangerouslyForceHydrate: true,
-  });
-
-  useHydrateAtoms([[isLoginAtom, isLogin]] as ServerSideInitialValues, {
     dangerouslyForceHydrate: true,
   });
 

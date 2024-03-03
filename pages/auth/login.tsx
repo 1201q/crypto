@@ -10,14 +10,9 @@ import PageRender from "@/components/shared/PageRender";
 import LoginPage from "@/components/auth/LoginPage";
 import nookies from "nookies";
 import getAuth from "@/utils/common/getAuth";
-import { isLoginAtom } from "@/context/user";
 
 export default function Home({ pathname, isLogin }: ServerSideProps) {
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues, {
-    dangerouslyForceHydrate: true,
-  });
-
-  useHydrateAtoms([[isLoginAtom, isLogin]] as ServerSideInitialValues, {
     dangerouslyForceHydrate: true,
   });
 
