@@ -39,20 +39,7 @@ const MarketHeader: React.FC<PropsType> = () => {
           />
         </Title>
         <RightContainer>
-          <IconSearch
-            width={23}
-            height={23}
-            fill={"#b7bfc7"}
-            style={{ cursor: "pointer", marginTop: "3px" }}
-            onClick={() => {
-              router.push("/search");
-            }}
-          />
-          {!isLogin ? (
-            <User onClick={() => router.push("/auth")}>
-              <IconUser width={20} height={20} fill={"white"} />
-            </User>
-          ) : (
+          {isLogin && (
             <button
               onClick={() => {
                 signOut(authService)
@@ -64,6 +51,20 @@ const MarketHeader: React.FC<PropsType> = () => {
             >
               테스트
             </button>
+          )}
+          <IconSearch
+            width={23}
+            height={23}
+            fill={"#b7bfc7"}
+            style={{ cursor: "pointer", marginTop: "3px" }}
+            onClick={() => {
+              router.push("/search");
+            }}
+          />
+          {!isLogin && (
+            <User onClick={() => router.push("/auth")}>
+              <IconUser width={20} height={20} fill={"white"} />
+            </User>
           )}
         </RightContainer>
       </HeaderContainer>

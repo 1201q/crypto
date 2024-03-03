@@ -2,7 +2,12 @@ import nookies from "nookies";
 import { GetServerSideProps } from "next";
 import { admin } from "@/utils/firebase/admin";
 import { useEffect } from "react";
-import { ServerSideProps } from "@/types/types";
+import {
+  CoinListResponseType,
+  CoinListType,
+  RedirectProps,
+  ServerSideProps,
+} from "@/types/types";
 import { useAtom } from "jotai";
 import { queryCodeAtom } from "@/context/atoms";
 
@@ -45,13 +50,21 @@ export default function Home({ queryCode }: ServerSideProps) {
 
 export const getServerSideProps: GetServerSideProps = async (
   ctx: any
-): Promise<{ props: ServerSideProps }> => {
-  const queryCode = ctx.query.code;
-
+): Promise<{ props: ServerSideProps } | { redirect: RedirectProps }> => {
   const cookies = nookies.get(ctx);
-  const coinList = await fetcher("/api/markets");
-
+  const queryCode = ctx.query.code;
+  const coinList = (await fetcher("/api/markets")) as CoinListResponseType;
+  const isCorrectCode = coinList.code.includes(queryCode);
   const { isLogin, uid } = await getAuth(cookies.token);
+
+  if (!isCorrectCode) {
+    return {
+      redirect: {
+        destination: `/market`,
+        permanent: false,
+      },
+    };
+  }
 
   return {
     props: {

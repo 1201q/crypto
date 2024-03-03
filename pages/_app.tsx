@@ -28,7 +28,6 @@ export default function App({ Component, pageProps }: AppProps) {
           <GlobalStyles />
           <Provider>
             <DevTools />
-
             <Component {...pageProps} />
           </Provider>
         </SWRConfig>

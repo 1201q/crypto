@@ -37,13 +37,6 @@ const MainPage = () => {
         </ButtonContainer>
         <LinkContainer>
           <SignUpLink href={"/auth/signup"}>회원가입</SignUpLink>
-          <p
-            onClick={() => {
-              signOut(authService);
-            }}
-          >
-            테스트 로그아웃
-          </p>
         </LinkContainer>
       </motion.div>
       {isGoogleLoading && (

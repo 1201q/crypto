@@ -21,7 +21,7 @@ export interface ServerSideProps {
   access?: boolean;
   pathname?: string;
   keyword?: string | undefined;
-  fallback?: { [key: string]: CoinListType };
+  fallback?: { [key: string]: CoinListResponseType };
 }
 
 export interface RedirectProps {

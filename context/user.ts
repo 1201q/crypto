@@ -8,3 +8,8 @@ export const isGoogleLoginLoadingAtom = atomWithStorage(
   "isGoogleLoginLoading",
   false
 );
+
+export const isLoginPlzPopupDisplayAtom = atomWithStorage(
+  "isLoginPlzPopupDisplay",
+  true
+);

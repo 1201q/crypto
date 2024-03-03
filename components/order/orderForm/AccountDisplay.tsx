@@ -5,7 +5,7 @@ const AccountDisplay = () => {
   return (
     <Container>
       <Header>주문가능</Header>
-      <OrderablePrice>{f("fixedPrice", 30)}원</OrderablePrice>
+      <OrderablePrice>{f("fixedPrice", 0)}원</OrderablePrice>
     </Container>
   );
 };

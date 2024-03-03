@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import HeadMeta from "./Meta/HeadMeta";
+import WelcomePopup from "../market/LoginPlzPopup";
 
 interface PageRenderProps {
   Render: React.FC;
@@ -41,6 +42,7 @@ const Mobile = styled.div<{ bgColor: string }>`
   border-right: 1px solid #d1d6db;
   border-left: 1px solid #d1d6db;
   position: relative;
+  z-index: 1;
 
   @media screen and (max-width: 840px) {
     border: none;
