@@ -13,9 +13,13 @@ import { fetcher } from "@/utils/common/fetch";
 import { useList } from "@/utils/hooks/useList";
 
 import { useUpbitAll, useUpbitSingle } from "@/utils/ws/control";
+import { isLoginAtom } from "@/context/user";
 
 export default function Home({ pathname, isLogin }: ServerSideProps) {
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues, {
+    dangerouslyForceHydrate: true,
+  });
+  useHydrateAtoms([[isLoginAtom, isLogin]] as ServerSideInitialValues, {
     dangerouslyForceHydrate: true,
   });
 
