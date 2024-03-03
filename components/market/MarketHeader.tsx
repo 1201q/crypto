@@ -39,17 +39,6 @@ const MarketHeader: React.FC<PropsType> = () => {
           />
         </Title>
         <RightContainer>
-          <button
-            onClick={() => {
-              signOut(authService)
-                .then(() => {
-                  router.reload();
-                })
-                .catch((err) => console.log(err));
-            }}
-          >
-            로그아웃
-          </button>
           <IconSearch
             width={23}
             height={23}
