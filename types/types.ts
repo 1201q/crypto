@@ -21,6 +21,7 @@ export interface ServerSideProps {
   access?: boolean;
   pathname?: string;
   keyword?: string | undefined;
+  isFirstLogin?: boolean;
   fallback?: { [key: string]: CoinListResponseType };
 }
 
