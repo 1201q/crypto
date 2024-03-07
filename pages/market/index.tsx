@@ -55,14 +55,13 @@ export const getServerSideProps: GetServerSideProps = async (
   const pathname = ctx.resolvedUrl;
   const coinList = await fetcher("/api/markets");
 
-  const { isLogin, uid } = await getAuth(cookies.token);
+  const { isLogin } = await getAuth(cookies.token);
 
   return {
     props: {
       fallback: { "/api/markets": coinList },
       coinList,
       isLogin,
-      uid,
       pathname,
     },
   };

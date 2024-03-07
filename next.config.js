@@ -4,13 +4,17 @@ const runtimeCaching = require("next-pwa/cache");
 const nextDataIndex = runtimeCaching.findIndex(
   (entry) => entry.options.cacheName === "next-data"
 );
-
-console.log(
-  runtimeCaching.find((entry) => entry.options.cacheName === "others")
+const othersDataIndex = runtimeCaching.findIndex(
+  (entry) => entry.options.cacheName === "others"
+);
+const apisDataIndex = runtimeCaching.findIndex(
+  (entry) => entry.options.cacheName === "apis"
 );
 
 if (nextDataIndex !== -1) {
-  runtimeCaching[nextDataIndex].handler = "NetworkFirst";
+  runtimeCaching[nextDataIndex].handler = "NetworkOnly";
+  runtimeCaching[othersDataIndex].handler = "NetworkOnly";
+  runtimeCaching[apisDataIndex].handler = "NetworkOnly";
 } else {
   throw new Error("Failed to find next-data object in runtime caching");
 }
