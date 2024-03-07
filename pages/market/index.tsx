@@ -19,6 +19,7 @@ import { useList } from "@/utils/hooks/useList";
 import { useUpbitAll, useUpbitSingle } from "@/utils/ws/control";
 import { isLoginAtom } from "@/context/user";
 import { useAtom } from "jotai";
+import { useRouter } from "next/router";
 
 export default function Home({ pathname, isLogin }: ServerSideProps) {
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues, {
@@ -27,6 +28,7 @@ export default function Home({ pathname, isLogin }: ServerSideProps) {
   useHydrateAtoms([[isLoginAtom, isLogin]] as ServerSideInitialValues, {
     dangerouslyForceHydrate: true,
   });
+  const router = useRouter();
 
   const { coinList } = useList();
   const { all } = useUpbitAll(coinList.code);
@@ -37,6 +39,7 @@ export default function Home({ pathname, isLogin }: ServerSideProps) {
     all.open();
     single.close();
     isLogin !== undefined && setIsLoggedIn(isLogin);
+    console.log(router);
   }, []);
 
   return (

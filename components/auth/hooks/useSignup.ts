@@ -24,7 +24,7 @@ const useSignup = (email: string, password: string, name: string) => {
         await updateProfile(userObj.user, { displayName: name });
         setIsLoading(false);
 
-        await router.replace(router.asPath, undefined, { shallow: false });
+        router.reload();
       })
       .catch((error: FirebaseError) => {
         setIsLoading(false);

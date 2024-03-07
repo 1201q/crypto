@@ -27,7 +27,7 @@ const useLogin = (email: string, password: string) => {
       .then(async () => {
         setIsLoading(false);
 
-        await router.replace(router.asPath, undefined, { shallow: false });
+        router.reload();
       })
       .catch((error: FirebaseError) => {
         setErrorMsg(getAuthErrorMsg(error.code));
