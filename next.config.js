@@ -19,6 +19,8 @@ const withPWA = require("next-pwa")({
   skipWaiting: true,
   buildExcludes: [/middleware-manifest.json$/],
   disable: false,
+  cacheStartUrl: false,
+  dynamicStartUrl: false,
 });
 
 const withPlugins = require("next-compose-plugins");
