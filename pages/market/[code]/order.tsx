@@ -45,15 +45,6 @@ export const getServerSideProps: GetServerSideProps = async (
 
   const { isLogin, uid } = await getAuth(cookies.token);
 
-  // if (!access) {
-  //   return {
-  //     redirect: {
-  //       destination: `/market/${queryCode}`,
-  //       permanent: false,
-  //     },
-  //   };
-  // }
-
   return {
     props: {
       fallback: { "/api/markets": coinList },

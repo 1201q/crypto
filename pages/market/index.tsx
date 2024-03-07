@@ -19,13 +19,8 @@ import { useList } from "@/utils/hooks/useList";
 import { useUpbitAll, useUpbitSingle } from "@/utils/ws/control";
 import { isLoginAtom } from "@/context/user";
 import { useAtom } from "jotai";
-import { getIsFirstLogin } from "@/utils/common/db";
 
-export default function Home({
-  pathname,
-  isLogin,
-  isFirstLogin,
-}: ServerSideProps) {
+export default function Home({ pathname, isLogin }: ServerSideProps) {
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues, {
     dangerouslyForceHydrate: true,
   });
@@ -61,7 +56,6 @@ export const getServerSideProps: GetServerSideProps = async (
   const coinList = await fetcher("/api/markets");
 
   const { isLogin, uid } = await getAuth(cookies.token);
-  const isFirstLogin = uid ? await getIsFirstLogin(uid) : false;
 
   return {
     props: {
@@ -70,7 +64,6 @@ export const getServerSideProps: GetServerSideProps = async (
       isLogin,
       uid,
       pathname,
-      isFirstLogin,
     },
   };
 };

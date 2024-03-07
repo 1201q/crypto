@@ -4,9 +4,13 @@ const runtimeCaching = require("next-pwa/cache");
 const nextDataIndex = runtimeCaching.findIndex(
   (entry) => entry.options.cacheName === "next-data"
 );
+const startDataIndex = runtimeCaching.findIndex(
+  (entry) => entry.options.cacheName === "start-url"
+);
 
 if (nextDataIndex !== -1) {
   runtimeCaching[nextDataIndex].handler = "NetworkOnly";
+  runtimeCaching[startDataIndex].handler = "NetworkOnly";
 } else {
   throw new Error("Failed to find next-data object in runtime caching");
 }
@@ -18,6 +22,8 @@ const withPWA = require("next-pwa")({
   skipWaiting: true,
   buildExcludes: [/middleware-manifest.json$/],
   disable: false,
+  cacheStartUrl: false,
+  dynamicStartUrl: false,
 });
 
 const withPlugins = require("next-compose-plugins");
