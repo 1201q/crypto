@@ -4,8 +4,7 @@ import Header from "./Header";
 import { motion } from "framer-motion";
 import { useGoogle } from "./hooks/useGoogle";
 import { IconGoogle } from "@/public/svgs";
-import { authService } from "@/utils/firebase/client";
-import { signOut } from "firebase/auth";
+
 import LoadingSpinner from "../shared/LoadingSpinner";
 import Link from "next/link";
 

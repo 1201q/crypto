@@ -27,7 +27,8 @@ const useGoogle = () => {
         if (result) {
           const credential = GoogleAuthProvider.credentialFromResult(result);
           setIsLoading(false);
-          router.replace("/", undefined, { shallow: false });
+
+          await router.replace(router.asPath, undefined, { shallow: false });
         } else {
           setIsLoading(false);
         }

@@ -1,26 +1,24 @@
 /** @type {import('next').NextConfig} */
 
-// const nextDataIndex = runtimeCaching.findIndex(
-//   (entry) => entry.options.cacheName === "next-data"
-// );
+const runtimeCaching = require("next-pwa/cache");
 
-// if (nextDataIndex !== -1) {
-//   runtimeCaching[nextDataIndex].handler = "NetworkFirst";
-// } else {
-//   throw new Error("Failed to find next-data object in runtime caching");
-// }
+const nextDataIndex = runtimeCaching.findIndex(
+  (entry) => entry.options.cacheName === "next-data"
+);
+
+if (nextDataIndex !== -1) {
+  runtimeCaching[nextDataIndex].handler = "NetworkFirst";
+} else {
+  throw new Error("Failed to find next-data object in runtime caching");
+}
 
 const withPWA = require("next-pwa")({
   dest: "public",
+  runtimeCaching,
   register: true,
   skipWaiting: true,
-  disable: false,
-  runtimeCaching: [],
-  publicExcludes: ["!**/*"],
-  buildExcludes: [() => true],
-  fallbacks: false,
-  cacheStartUrl: false,
-  dynamicStartUrl: false,
+  buildExcludes: [/middleware-manifest.json$/],
+  disable: process.env.NODE_ENV === "development",
 });
 
 const withPlugins = require("next-compose-plugins");

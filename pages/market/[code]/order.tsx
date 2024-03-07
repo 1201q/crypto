@@ -42,7 +42,6 @@ export const getServerSideProps: GetServerSideProps = async (
   const access = ctx.query.access ? true : false;
   const cookies = nookies.get(ctx);
   const coinList = await fetcher("/api/markets");
-
   const { isLogin, uid } = await getAuth(cookies.token);
 
   return {

@@ -24,10 +24,10 @@ const useLogin = (email: string, password: string) => {
 
   const signInEmailandPassword = async (email: string, password: string) => {
     signInWithEmailAndPassword(authService, email, password)
-      .then(() => {
+      .then(async () => {
         setIsLoading(false);
 
-        router.replace("/", undefined, { shallow: false });
+        await router.replace(router.asPath, undefined, { shallow: false });
       })
       .catch((error: FirebaseError) => {
         setErrorMsg(getAuthErrorMsg(error.code));
