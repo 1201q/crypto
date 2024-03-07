@@ -6,7 +6,7 @@ const nextDataIndex = runtimeCaching.findIndex(
 );
 
 if (nextDataIndex !== -1) {
-  runtimeCaching[nextDataIndex].handler = "NetworkFirst";
+  runtimeCaching[nextDataIndex].handler = "NetworkOnly";
 } else {
   throw new Error("Failed to find next-data object in runtime caching");
 }
@@ -17,8 +17,7 @@ const withPWA = require("next-pwa")({
   register: true,
   skipWaiting: true,
   buildExcludes: [/middleware-manifest.json$/],
-  disable: process.env.NODE_ENV === "development",
-  cacheStartUrl: false,
+  disable: false,
 });
 
 const withPlugins = require("next-compose-plugins");
