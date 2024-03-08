@@ -3,14 +3,21 @@ import { ServerSideProps, ServerSideInitialValues } from "@/types/types";
 import { useHydrateAtoms } from "jotai/utils";
 import { pathnameAtom } from "@/context/atoms";
 import PageRender from "@/components/shared/PageRender";
-import TestPage from "@/components/shared/TestPage";
+import WalletPage from "@/components/wallet/index";
+import { useEffect } from "react";
+import { useAtom } from "jotai";
 
 export default function Home({ pathname }: ServerSideProps) {
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues, {
     dangerouslyForceHydrate: true,
   });
+  const [, setPathName] = useAtom(pathnameAtom);
 
-  return <PageRender Render={TestPage} />;
+  useEffect(() => {
+    pathname !== undefined && setPathName(pathname);
+  }, []);
+
+  return <PageRender Render={WalletPage} bgColor={"#f2f4f6"} />;
 }
 
 export const getServerSideProps: GetServerSideProps = async (

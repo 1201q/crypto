@@ -35,13 +35,15 @@ export default function Home({ pathname, isLogin }: ServerSideProps) {
   const { all } = useUpbitAll(coinList.code);
   const { single } = useUpbitSingle("");
   const [isLoggedIn, setIsLoggedIn] = useAtom(isLoginAtom);
+  const [, setPathName] = useAtom(pathnameAtom);
 
   useEffect(() => {
     all.open();
     single.close();
-    isLogin !== undefined && setIsLoggedIn(isLogin);
 
+    isLogin !== undefined && setIsLoggedIn(isLogin);
     isLogin !== undefined && reload(isLogin);
+    pathname !== undefined && setPathName(pathname);
 
     return () => {
       isLogin !== undefined && reload(isLogin);
