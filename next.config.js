@@ -1,6 +1,21 @@
 /** @type {import('next').NextConfig} */
 
-const runtimeCaching = require("next-pwa/cache");
+let runtimeCaching = require("next-pwa/cache");
+runtimeCaching.unshift({
+  // MUST be the same as "start_url" in manifest.json
+  urlPattern: "/",
+  // use NetworkFirst or NetworkOnly if you redirect un-authenticated user to login page
+  // use StaleWhileRevalidate if you want to prompt user to reload when new version available
+  handler: "NetworkOnly",
+  options: {
+    // don't change cache name
+    cacheName: "start-url",
+    expiration: {
+      maxEntries: 1,
+      maxAgeSeconds: 24 * 60 * 60, // 24 hours
+    },
+  },
+});
 
 const nextDataIndex = runtimeCaching.findIndex(
   (entry) => entry.options.cacheName === "next-data"
@@ -15,7 +30,7 @@ if (nextDataIndex !== -1) {
 const withPWA = require("next-pwa")({
   dest: "public",
   runtimeCaching,
-  register: true,
+  register: false,
   skipWaiting: true,
   buildExcludes: [/middleware-manifest.json$/],
   disable: false,
