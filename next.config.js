@@ -18,12 +18,15 @@ runtimeCaching.unshift({
   },
 });
 
-const nextDataIndex = runtimeCaching.findIndex(
+const othersDataIndex = runtimeCaching.findIndex(
   (entry) => entry.options.cacheName === "others"
 );
+const nextDataIndex = runtimeCaching.findIndex(
+  (entry) => entry.options.cacheName === "next-data"
+);
 
-if (nextDataIndex !== -1) {
-  runtimeCaching[nextDataIndex] = {
+if (othersDataIndex !== -1) {
+  runtimeCaching[othersDataIndex] = {
     urlPattern: ({ url }) => {
       const isSameOrigin = self.origin === url.origin;
       if (!isSameOrigin) return false;
@@ -40,6 +43,12 @@ if (nextDataIndex !== -1) {
       },
     },
   };
+} else {
+  throw new Error("Failed to find others object in runtime caching");
+}
+
+if (nextDataIndex !== -1) {
+  runtimeCaching[nextDataIndex].handler = "NetworkOnly";
 } else {
   throw new Error("Failed to find next-data object in runtime caching");
 }
