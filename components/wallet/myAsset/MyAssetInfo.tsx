@@ -1,5 +1,6 @@
 import SectionLine from "@/components/exchange/others/SectionLine";
 import f from "@/utils/common/formatting";
+import { motion } from "framer-motion";
 import styled from "styled-components";
 
 const AmountInfo = () => {
@@ -23,6 +24,7 @@ const AmountInfo = () => {
           <Update bgcolor={getUpdateDisplayBgColor("RISE")}>
             <PercentText>{f("change", 2)}%</PercentText>
           </Update>
+          <KrwDepositBtn>원화입금</KrwDepositBtn>
         </Flex>
       </MyAmountContainer>
       <PortfolioContainer>
@@ -30,14 +32,20 @@ const AmountInfo = () => {
         <Bar />
       </PortfolioContainer>
       <PortfolioBtnContainer>
-        <PortfolioBtn>
+        <PortfolioBtn
+          initial={{ scale: 1, backgroundColor: "white" }}
+          whileTap={{ scale: 0.98, backgroundColor: "#f2f4f6" }}
+        >
           <Flex>
             <Color />
             <BarHeaderText>원화</BarHeaderText>
           </Flex>
           <PortfolioBtnText>10000000</PortfolioBtnText>
         </PortfolioBtn>
-        <PortfolioBtn>
+        <PortfolioBtn
+          initial={{ scale: 1, backgroundColor: "white" }}
+          whileTap={{ scale: 0.98, backgroundColor: "#f2f4f6" }}
+        >
           <Flex>
             <Color />
             <BarHeaderText>가상자산</BarHeaderText>
@@ -88,13 +96,13 @@ const DetailInfoContainer = styled.div`
 `;
 
 const HeaderText = styled.p`
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   margin-bottom: 10px;
 `;
 
 const AllAmountText = styled.p`
-  font-size: 31px;
+  font-size: 32px;
   font-weight: 700;
   letter-spacing: -2px;
   margin-left: -2px;
@@ -107,7 +115,7 @@ const DetailInfoBox = styled.div`
   justify-content: space-between;
 `;
 
-const PortfolioBtn = styled.button`
+const PortfolioBtn = styled(motion.button)`
   width: 100%;
   display: flex;
   align-items: center;
@@ -175,6 +183,19 @@ const Bar = styled.div`
   height: 30px;
   background-color: red;
   border-radius: 8px;
+`;
+
+const KrwDepositBtn = styled.button`
+  right: 20px;
+  position: absolute;
+  height: 30px;
+  border: none;
+  padding: 0px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #6b7684;
+  background-color: #f2f4f6;
+  font-weight: 500;
 `;
 
 export default AmountInfo;

@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { useRouter } from "next/router";
 import CoinInfo from "./CoinInfo";
 import CoinPrice from "./CoinPrice";
-import Link from "next/link";
 
 interface RowProps {
   name?: string;

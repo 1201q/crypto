@@ -11,6 +11,7 @@ export default function Home({ pathname }: ServerSideProps) {
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues, {
     dangerouslyForceHydrate: true,
   });
+
   const [, setPathName] = useAtom(pathnameAtom);
 
   useEffect(() => {

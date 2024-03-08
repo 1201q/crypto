@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
 
 interface HeaderProps {
@@ -14,6 +14,7 @@ const Header: React.FC<HeaderProps> = ({ tab, setTab }) => {
     <Container>
       {tab.map((select, index) => (
         <PageText
+          key={`header-${index}`}
           onClick={() => {
             setTab((prev) => {
               return prev.map((tab, i) => i === index);
@@ -38,14 +39,15 @@ const Container = styled.header`
   align-items: center;
   justify-content: flex-start;
   height: ${(props) => `${props.theme.height.header}px`};
-  background-color: #f2f4f6;
+  background-color: white;
+  border-bottom: 1px solid #f1f2f2;
   padding: 0px 20px;
   z-index: 200;
 `;
 
 const BarContainer = styled.div`
   left: 0;
-  bottom: 0;
+  bottom: -2px;
   position: absolute;
   width: 100%;
   height: 3px;
