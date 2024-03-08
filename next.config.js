@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 
 let runtimeCaching = require("next-pwa/cache");
+
 runtimeCaching.unshift({
   // MUST be the same as "start_url" in manifest.json
   urlPattern: "/",
@@ -22,7 +23,23 @@ const nextDataIndex = runtimeCaching.findIndex(
 );
 
 if (nextDataIndex !== -1) {
-  runtimeCaching[nextDataIndex].handler = "NetworkFirst";
+  runtimeCaching[nextDataIndex] = {
+    urlPattern: ({ url }) => {
+      const isSameOrigin = self.origin === url.origin;
+      if (!isSameOrigin) return false;
+      const pathname = url.pathname;
+      if (pathname.startsWith("/api/")) return false;
+      return true;
+    },
+    handler: "NetworkOnly",
+    options: {
+      cacheName: "others",
+      expiration: {
+        maxEntries: 32,
+        maxAgeSeconds: 24 * 60 * 60, // 24 hours
+      },
+    },
+  };
 } else {
   throw new Error("Failed to find next-data object in runtime caching");
 }
@@ -30,7 +47,7 @@ if (nextDataIndex !== -1) {
 const withPWA = require("next-pwa")({
   dest: "public",
   runtimeCaching,
-  register: false,
+  register: true,
   skipWaiting: true,
   buildExcludes: [/middleware-manifest.json$/],
   disable: false,
