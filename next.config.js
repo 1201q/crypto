@@ -19,7 +19,7 @@ runtimeCaching.unshift({
 });
 
 const nextDataIndex = runtimeCaching.findIndex(
-  (entry) => entry.options.cacheName === "next-data"
+  (entry) => entry.options.cacheName === "others"
 );
 
 if (nextDataIndex !== -1) {
