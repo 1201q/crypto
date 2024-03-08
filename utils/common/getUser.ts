@@ -3,7 +3,7 @@ import { admin } from "../firebase/admin";
 // 무조건 export default로 내보낼것!!
 // #ef58c8d 커밋처럼 오류남
 
-export default async function getAuth(token: string) {
+export default async function getUser(token: string) {
   let isLogin = false;
   let uid = null;
 

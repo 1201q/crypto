@@ -8,7 +8,7 @@ import { queryCodeAtom } from "@/context/atoms";
 
 import PageRender from "@/components/shared/PageRender";
 
-import getAuth from "@/utils/common/getAuth";
+import getUser from "@/utils/common/getUser";
 import { fetcher } from "@/utils/common/fetch";
 
 import { useHydrateAtoms } from "jotai/utils";
@@ -42,7 +42,7 @@ export const getServerSideProps: GetServerSideProps = async (
   const access = ctx.query.access ? true : false;
   const cookies = nookies.get(ctx);
   const coinList = await fetcher("/api/markets");
-  const { isLogin, uid } = await getAuth(cookies.token);
+  const { isLogin, uid } = await getUser(cookies.token);
 
   return {
     props: {

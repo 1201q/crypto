@@ -10,7 +10,7 @@ import PageRender from "@/components/shared/PageRender";
 import SignUpPage from "@/components/auth/SignupPage";
 import nookies from "nookies";
 
-import getAuth from "@/utils/common/getAuth";
+import getAuth from "@/utils/common/getUser";
 import { isLoginAtom } from "@/context/user";
 
 export default function Home({ pathname, isLogin }: ServerSideProps) {

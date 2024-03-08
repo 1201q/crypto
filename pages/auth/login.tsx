@@ -9,7 +9,7 @@ import { pathnameAtom } from "@/context/atoms";
 import PageRender from "@/components/shared/PageRender";
 import LoginPage from "@/components/auth/LoginPage";
 import nookies from "nookies";
-import getAuth from "@/utils/common/getAuth";
+import getAuth from "@/utils/common/getUser";
 import { isLoginAtom } from "@/context/user";
 
 export default function Home({ pathname, isLogin }: ServerSideProps) {

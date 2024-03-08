@@ -1,6 +1,6 @@
 import nookies from "nookies";
 import { useEffect } from "react";
-import getAuth from "@/utils/common/getAuth";
+import getUser from "@/utils/common/getUser";
 import { useHydrateAtoms } from "jotai/utils";
 import { pathnameAtom } from "@/context/atoms";
 
@@ -20,6 +20,7 @@ import { useUpbitAll, useUpbitSingle } from "@/utils/ws/control";
 import { isLoginAtom } from "@/context/user";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
+import { getAuth } from "firebase/auth";
 
 export default function Home({ pathname, isLogin }: ServerSideProps) {
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues, {
@@ -39,8 +40,22 @@ export default function Home({ pathname, isLogin }: ServerSideProps) {
     all.open();
     single.close();
     isLogin !== undefined && setIsLoggedIn(isLogin);
-    console.log(router);
+
+    isLogin !== undefined && reload(isLogin);
+
+    return () => {
+      isLogin !== undefined && reload(isLogin);
+    };
   }, []);
+
+  const reload = (isLogin: boolean) => {
+    getAuth().onAuthStateChanged((user) => {
+      if ((!isLogin && user) || (isLogin && !user)) {
+        router.reload();
+        console.log(user);
+      }
+    });
+  };
 
   return (
     <>
@@ -58,7 +73,7 @@ export const getServerSideProps: GetServerSideProps = async (
   const pathname = ctx.resolvedUrl;
   const coinList = await fetcher("/api/markets");
 
-  const { isLogin } = await getAuth(cookies.token);
+  const { isLogin } = await getUser(cookies.token);
 
   return {
     props: {

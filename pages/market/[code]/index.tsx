@@ -14,7 +14,7 @@ import { queryCodeAtom } from "@/context/atoms";
 import PageRender from "@/components/shared/PageRender";
 import ExchangePage from "@/components/exchange/index";
 
-import getAuth from "@/utils/common/getAuth";
+import getUser from "@/utils/common/getUser";
 import { fetcher } from "@/utils/common/fetch";
 
 import { useHydrateAtoms } from "jotai/utils";
@@ -55,7 +55,7 @@ export const getServerSideProps: GetServerSideProps = async (
   const queryCode = ctx.query.code;
   const coinList = (await fetcher("/api/markets")) as CoinListResponseType;
   const isCorrectCode = coinList.code.includes(queryCode);
-  const { isLogin, uid } = await getAuth(cookies.token);
+  const { isLogin, uid } = await getUser(cookies.token);
 
   if (!isCorrectCode) {
     return {
