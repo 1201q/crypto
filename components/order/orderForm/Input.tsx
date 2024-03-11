@@ -7,6 +7,7 @@ import {
 } from "@/context/order";
 
 import { useAtom } from "jotai";
+import { useRouter } from "next/router";
 import styled from "styled-components";
 
 interface PropsType {
@@ -15,6 +16,7 @@ interface PropsType {
 }
 
 const Input: React.FC<PropsType> = ({ headerText, type }) => {
+  const router = useRouter();
   const [keyboardVisible, setKeyboardVisible] = useAtom(
     isOrderKeyboardVisibleAtom
   );
@@ -29,6 +31,13 @@ const Input: React.FC<PropsType> = ({ headerText, type }) => {
   const handleOpenKeyboard = () => {
     setKeyboardType(type);
     setKeyboardVisible(true);
+    router.push(
+      {
+        pathname: router.pathname,
+        query: { ...router.query, open: true },
+      },
+      `${router.asPath}?`
+    );
   };
 
   return (

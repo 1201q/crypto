@@ -38,7 +38,8 @@ export default function Home({ queryCode }: ServerSideProps) {
 export const getServerSideProps: GetServerSideProps = async (
   ctx: any
 ): Promise<{ props: ServerSideProps } | { redirect: RedirectProps }> => {
-  const queryCode = ctx.query.code;
+  const queryCode = ctx.query?.code;
+
   const access = ctx.query.access ? true : false;
   const cookies = nookies.get(ctx);
   const coinList = await fetcher("/api/markets");

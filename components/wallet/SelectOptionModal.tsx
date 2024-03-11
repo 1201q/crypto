@@ -6,14 +6,17 @@ import {
 import useOutSideClick from "@/utils/hooks/useOutSideClick";
 import { motion } from "framer-motion";
 import { useAtom, useSetAtom } from "jotai";
+import { useRouter } from "next/router";
 import { useRef } from "react";
 import styled from "styled-components";
 
 const SelectOptionModal = ({ type }: { type: string }) => {
+  const router = useRouter();
   const modalRef = useRef(null);
   const setIsModalOpen = useSetAtom(isSelectOptionModalOpen);
   useOutSideClick([modalRef], () => {
     setIsModalOpen(false);
+    router.back();
   });
 
   const [assetOption, setAssetOption] = useAtom(assetSortOptionAtom);
@@ -30,31 +33,34 @@ const SelectOptionModal = ({ type }: { type: string }) => {
       >
         <HeaderContainer>정렬</HeaderContainer>
         <OptionContainer>
-          {type === "trade"
-            ? tradeOption.map((option, index) => (
-                <Option
-                  key={option.name}
-                  isselect={option.select}
-                  onClick={() => {
-                    setTradeOption(index);
-                    setIsModalOpen(false);
-                  }}
-                >
-                  {option.name}
-                </Option>
-              ))
-            : assetOption.map((option, index) => (
-                <Option
-                  key={option.name}
-                  isselect={option.select}
-                  onClick={() => {
-                    setAssetOption(index);
-                    setIsModalOpen(false);
-                  }}
-                >
-                  {option.name}
-                </Option>
-              ))}
+          {type === "trade" &&
+            tradeOption.map((option, index) => (
+              <Option
+                key={option.name}
+                isselect={option.select}
+                onClick={() => {
+                  setTradeOption(index);
+                  setIsModalOpen(false);
+                  router.back();
+                }}
+              >
+                {option.name}
+              </Option>
+            ))}
+          {type === "asset" &&
+            assetOption.map((option, index) => (
+              <Option
+                key={option.name}
+                isselect={option.select}
+                onClick={() => {
+                  setAssetOption(index);
+                  setIsModalOpen(false);
+                  router.back();
+                }}
+              >
+                {option.name}
+              </Option>
+            ))}
         </OptionContainer>
       </ModalContainer>
     </Container>
@@ -77,10 +83,10 @@ const ModalContainer = styled(motion.div)`
   position: absolute;
   bottom: 0px;
   width: 100%;
-  height: 35dvh;
+  height: fit-content;
   background-color: white;
-  border-top-right-radius: 20px;
-  border-top-left-radius: 20px;
+  border-top-right-radius: 25px;
+  border-top-left-radius: 25px;
 
   display: flex;
   flex-direction: column;
@@ -88,8 +94,7 @@ const ModalContainer = styled(motion.div)`
 `;
 
 const OptionContainer = styled.div`
-  height: calc(100% - 55px);
-  padding: 0px 0px 20px 0px;
+  padding: 0px 0px 12px 0px;
   display: flex;
   flex-direction: column;
 `;
@@ -98,7 +103,7 @@ const HeaderContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 55px;
+  height: 60px;
   color: ${(props) => props.theme.font.black};
   font-size: 18px;
   font-weight: 700;
@@ -106,7 +111,7 @@ const HeaderContainer = styled.div`
 
 const Option = styled.p<{ isselect: boolean }>`
   width: 100%;
-  height: 100%;
+  height: 55px;
   display: flex;
   align-items: center;
   justify-content: center;

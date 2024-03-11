@@ -23,22 +23,19 @@ const OrderPage = () => {
     isOpenOrderConfirmModalAtom
   );
 
-  useEffect(() => {
-    router.beforePopState(() => {
-      if (isKeyboardVisible || isOpenConfirmModal) {
-        window.history.pushState("", "");
-        router.push(router.asPath);
-        setIsKeyboardVisible(false);
-        setIsOpenConfirmModal(false);
-        return false;
-      }
+  const handleHistoryBack = () => {
+    if (router.query?.open) {
+      if (isKeyboardVisible) setIsKeyboardVisible(false);
+      else if (isOpenConfirmModal) setIsOpenConfirmModal(false);
+    }
+  };
 
-      return true;
-    });
+  useEffect(() => {
+    router.events.on("routeChangeStart", handleHistoryBack);
     return () => {
-      router.beforePopState(() => true);
+      router.events.off("routeChangeStart", handleHistoryBack);
     };
-  }, [isKeyboardVisible, isOpenConfirmModal]);
+  }, [router.query]);
 
   return (
     <>

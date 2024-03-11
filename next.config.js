@@ -74,6 +74,9 @@ const nextconfig = withPWA({
   reactStrictMode: false,
   transpilePackages: ["jotai-devtools"],
   swcMinify: true,
+  experimental: {
+    scrollRestoration: true,
+  },
   compiler: {
     styledComponents: true,
     removeConsole: {

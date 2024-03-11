@@ -74,12 +74,12 @@ export const selectedLineChartOptionAtom = atom((get) => {
   return options.find((option) => option.select) || options[1];
 });
 
-export const isSelectOptionModalOpen = atom(true);
+export const isSelectOptionModalOpen = atom(false);
 
 const assetOption = [
-  { name: "금액순", select: true },
+  { name: "평가금액순", select: true },
   { name: "수익률순", select: false },
-  { name: "손익순", select: false },
+  { name: "평가손익순", select: false },
   { name: "이름순", select: false },
 ];
 const defaultAssetSortOptionAtom = atom(assetOption);
@@ -98,6 +98,7 @@ const tradeOption = [
   { name: "전체", select: true },
   { name: "매수", select: false },
   { name: "매도", select: false },
+  { name: "입금(원화)", select: false },
 ];
 const defaultTradeSortOptionAtom = atom(tradeOption);
 export const tradeSortOptionAtom = atom(

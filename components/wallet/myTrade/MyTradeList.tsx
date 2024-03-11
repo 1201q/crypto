@@ -5,17 +5,27 @@ import {
 import { IconExchange } from "@/public/svgs";
 import { motion } from "framer-motion";
 import { useAtomValue, useSetAtom } from "jotai";
+import { useRouter } from "next/router";
 import styled from "styled-components";
 
 const MyTradeList = () => {
-  const openModal = useSetAtom(isSelectOptionModalOpen);
+  const router = useRouter();
+  const openOptionModal = useSetAtom(isSelectOptionModalOpen);
   const selectOption = useAtomValue(selectTradeSortOption);
   return (
     <>
       <SortHeader>
         <Flex
           onClick={() => {
-            openModal(true);
+            openOptionModal(true);
+            router.push(
+              {
+                pathname: router.pathname,
+                query: { ...router.query, open: true },
+              },
+              `${router.asPath}?`,
+              { shallow: true }
+            );
           }}
         >
           <p>{selectOption?.name}</p>
@@ -60,6 +70,8 @@ const SortHeader = styled.div`
 
 const Flex = styled.div`
   display: flex;
+  align-items: center;
+  height: 100%;
 `;
 
 const SelectCoin = styled(motion.button)`

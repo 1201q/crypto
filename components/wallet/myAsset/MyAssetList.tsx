@@ -6,15 +6,26 @@ import {
   isSelectOptionModalOpen,
   selectAssetSortOption,
 } from "@/context/atoms";
+import { useRouter } from "next/router";
 
 const MyAssetList = () => {
-  const set = useSetAtom(isSelectOptionModalOpen);
+  const router = useRouter();
+  const openOptionModal = useSetAtom(isSelectOptionModalOpen);
   const selectOption = useAtomValue(selectAssetSortOption);
+
   return (
     <Container>
       <SortHeader
         onClick={() => {
-          set(true);
+          openOptionModal(true);
+          router.push(
+            {
+              pathname: router.pathname,
+              query: { ...router.query, open: true },
+            },
+            `${router.asPath}?`,
+            { shallow: true }
+          );
         }}
       >
         <p>{selectOption?.name}</p>

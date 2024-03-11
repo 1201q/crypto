@@ -6,12 +6,15 @@ import { useRef } from "react";
 import useOutSideClick from "@/utils/hooks/useOutSideClick";
 import OrderKeyboardHeader from "./KeyboardHeader";
 import KeyboardContainer from "./Keyboard";
+import { useRouter } from "next/router";
 
 const KeyboardModal = () => {
+  const router = useRouter();
   const keyboardRef = useRef(null);
   const [, setVisible] = useAtom(isOrderKeyboardVisibleAtom);
   useOutSideClick([keyboardRef], () => {
     setVisible(false);
+    router.back();
   });
 
   return (

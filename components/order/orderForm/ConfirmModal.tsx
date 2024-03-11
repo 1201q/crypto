@@ -13,8 +13,10 @@ import { useAtom } from "jotai";
 
 import styled from "styled-components";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 const ConfirmModal = () => {
+  const router = useRouter();
   const BlurURL =
     "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg==";
   const { coinList } = useList();
@@ -66,6 +68,7 @@ const ConfirmModal = () => {
             transition={{ duration: 0.1 }}
             onClick={() => {
               setOpenModal(false);
+              router.back();
             }}
           >
             취소
