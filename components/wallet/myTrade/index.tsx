@@ -1,11 +1,17 @@
 import styled from "styled-components";
+import MyTradeList from "./MyTradeList";
 
 const MyTradePage = () => {
-  return <Container>1</Container>;
+  return (
+    <Container>
+      <MyTradeList />
+    </Container>
+  );
 };
 
 const Container = styled.div`
-  background-color: lightcyan;
+  position: relative;
+  background-color: white;
   min-height: calc(100dvh - 50px - 50px);
 `;
 

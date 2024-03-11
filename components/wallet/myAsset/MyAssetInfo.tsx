@@ -24,7 +24,9 @@ const AmountInfo = () => {
           <Update bgcolor={getUpdateDisplayBgColor("RISE")}>
             <PercentText>{f("change", 2)}%</PercentText>
           </Update>
-          <KrwDepositBtn>원화입금</KrwDepositBtn>
+          <KrwDepositBtn initial={{ scale: 1 }} whileTap={{ scale: 0.95 }}>
+            원화입금
+          </KrwDepositBtn>
         </Flex>
       </MyAmountContainer>
       <PortfolioContainer>
@@ -170,7 +172,7 @@ const Update = styled.div<{ bgcolor: string }>`
   align-items: center;
   justify-content: center;
   width: fit-content;
-  height: 20px;
+  height: 22px;
   border-radius: 5px;
   padding: 0px 6px;
   margin-top: 5px;
@@ -185,7 +187,7 @@ const Bar = styled.div`
   border-radius: 8px;
 `;
 
-const KrwDepositBtn = styled.button`
+const KrwDepositBtn = styled(motion.button)`
   right: 20px;
   position: absolute;
   height: 30px;

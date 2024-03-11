@@ -124,9 +124,9 @@ const Update = styled.div<{ bgcolor: string }>`
   align-items: center;
   justify-content: center;
   width: fit-content;
-  height: 20px;
+  height: 22px;
   border-radius: 5px;
-  padding: 0px 6px;
+  padding: 0px 7px;
 
   transition: background-color 0.1s ease-out;
   background-color: ${(props) =>

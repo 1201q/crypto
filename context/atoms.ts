@@ -73,3 +73,48 @@ export const selectedLineChartOptionAtom = atom((get) => {
   const options = get(lineChartControllerOptionAtom);
   return options.find((option) => option.select) || options[1];
 });
+
+export const isSelectOptionModalOpen = atom(true);
+
+const assetOption = [
+  { name: "금액순", select: true },
+  { name: "수익률순", select: false },
+  { name: "손익순", select: false },
+  { name: "이름순", select: false },
+];
+const defaultAssetSortOptionAtom = atom(assetOption);
+export const assetSortOptionAtom = atom(
+  (get) => get(defaultAssetSortOptionAtom),
+  (_get, set, index) => {
+    set(defaultAssetSortOptionAtom, (prev: typeof assetOption) => {
+      return prev.map((o, oi) => ({
+        ...o,
+        select: oi === index,
+      }));
+    });
+  }
+);
+const tradeOption = [
+  { name: "전체", select: true },
+  { name: "매수", select: false },
+  { name: "매도", select: false },
+];
+const defaultTradeSortOptionAtom = atom(tradeOption);
+export const tradeSortOptionAtom = atom(
+  (get) => get(defaultTradeSortOptionAtom),
+  (_get, set, index) => {
+    set(defaultTradeSortOptionAtom, (prev: typeof tradeOption) => {
+      return prev.map((o, oi) => ({
+        ...o,
+        select: oi === index,
+      }));
+    });
+  }
+);
+export const selectTradeSortOption = atom((get) =>
+  get(tradeSortOptionAtom).find((option) => option.select)
+);
+export const selectAssetSortOption = atom((get) =>
+  get(assetSortOptionAtom).find((option) => option.select)
+);
+export const selectTradeCoinOption = atom(null);

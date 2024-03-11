@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import AmountInfo from "./myAsset/MyAssetInfo";
-import MyAssetList from "./myAsset/MyAssetList";
+import AmountInfo from "./MyAssetInfo";
+import MyAssetList from "./MyAssetList";
 
-const MyAmountPage = () => {
+const MyAssetPage = () => {
   return (
     <Container>
       <AmountInfo />
@@ -17,4 +17,4 @@ const Container = styled.div`
   min-height: calc(100dvh - 50px - 50px);
 `;
 
-export default MyAmountPage;
+export default MyAssetPage;

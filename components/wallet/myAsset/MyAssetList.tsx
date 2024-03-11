@@ -1,17 +1,28 @@
 import { IconExchange } from "@/public/svgs";
 import styled from "styled-components";
 import MyAssetItem from "./MyAssetRow";
+import { useSetAtom, useAtomValue } from "jotai";
+import {
+  isSelectOptionModalOpen,
+  selectAssetSortOption,
+} from "@/context/atoms";
 
 const MyAssetList = () => {
+  const set = useSetAtom(isSelectOptionModalOpen);
+  const selectOption = useAtomValue(selectAssetSortOption);
   return (
     <Container>
-      <SortHeader>
-        <p>평가금액순</p>
+      <SortHeader
+        onClick={() => {
+          set(true);
+        }}
+      >
+        <p>{selectOption?.name}</p>
         <IconExchange width={13} height={13} />
       </SortHeader>
       <ListContainer>
         <MyAssetItem /> <MyAssetItem /> <MyAssetItem /> <MyAssetItem />{" "}
-        <MyAssetItem /> <MyAssetItem />
+        <MyAssetItem /> <MyAssetItem /> <MyAssetItem /> <MyAssetItem />
       </ListContainer>
     </Container>
   );
@@ -26,6 +37,7 @@ const SortHeader = styled.div`
   top: 50px;
   display: flex;
   align-items: center;
+  justify-content: flex-start;
 
   cursor: pointer;
   height: 45px;
