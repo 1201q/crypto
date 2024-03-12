@@ -118,7 +118,7 @@ const SelectSortCoinModal = () => {
             totalCount={filteredCoins?.length}
             fixedItemHeight={45}
           /> */}
-          {filteredCoins.map((coin) => (
+          {filteredCoins?.map((coin) => (
             <Option
               isAll={false}
               onClick={() => {
