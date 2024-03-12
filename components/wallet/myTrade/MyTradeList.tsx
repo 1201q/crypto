@@ -1,6 +1,8 @@
 import {
   isSelectOptionModalOpen,
+  isSelectSortCoinModalOpenAtom,
   selectTradeSortOption,
+  selectSortCoinAtom,
 } from "@/context/atoms";
 import { IconExchange } from "@/public/svgs";
 import { motion } from "framer-motion";
@@ -11,7 +13,9 @@ import styled from "styled-components";
 const MyTradeList = () => {
   const router = useRouter();
   const openOptionModal = useSetAtom(isSelectOptionModalOpen);
+  const openSelectCoinModal = useSetAtom(isSelectSortCoinModalOpenAtom);
   const selectOption = useAtomValue(selectTradeSortOption);
+  const selectSortCoin = useAtomValue(selectSortCoinAtom);
   return (
     <>
       <SortHeader>
@@ -31,8 +35,22 @@ const MyTradeList = () => {
           <p>{selectOption?.name}</p>
           <IconExchange width={13} height={13} />
         </Flex>
-        <SelectCoin initial={{ scale: 1 }} whileTap={{ scale: 0.95 }}>
-          전체보기
+        <SelectCoin
+          initial={{ scale: 1 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => {
+            router.push(
+              {
+                pathname: router.pathname,
+                query: { ...router.query, open: true },
+              },
+              `${router.asPath}?`,
+              { shallow: true }
+            );
+            openSelectCoinModal(true);
+          }}
+        >
+          {!selectSortCoin ? "전체보기" : selectSortCoin?.korean_name}
         </SelectCoin>
       </SortHeader>
       <div style={{ height: "100dvh" }}>1</div>

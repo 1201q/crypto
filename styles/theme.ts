@@ -35,6 +35,7 @@ export const theme = {
     lightRed: "#fff3f3",
     darkRed: "#85303E",
     darkBlue: "#28528F",
+    modalBg: "rgba(0, 0, 0, 0.7)",
   },
   height: { ...height, ...calculatedHeight },
 };

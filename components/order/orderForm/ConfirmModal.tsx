@@ -96,7 +96,7 @@ const Container = styled(motion.div)`
   width: 100%;
   overflow-y: hidden;
   z-index: 200;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: ${(props) => props.theme.bg.modalBg};
 `;
 const ModalContainer = styled(motion.div)`
   position: absolute;

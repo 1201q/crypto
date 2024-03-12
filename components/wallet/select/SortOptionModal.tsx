@@ -1,6 +1,7 @@
 import {
   assetSortOptionAtom,
   isSelectOptionModalOpen,
+  isSelectSortCoinModalOpenAtom,
   tradeSortOptionAtom,
 } from "@/context/atoms";
 import useOutSideClick from "@/utils/hooks/useOutSideClick";
@@ -10,10 +11,11 @@ import { useRouter } from "next/router";
 import { useRef } from "react";
 import styled from "styled-components";
 
-const SelectOptionModal = ({ type }: { type: string }) => {
+const SortOptionModal = ({ type }: { type: string }) => {
   const router = useRouter();
   const modalRef = useRef(null);
-  const setIsModalOpen = useSetAtom(isSelectOptionModalOpen);
+  const setIsModalOpen = useSetAtom(isSelectSortCoinModalOpenAtom);
+
   useOutSideClick([modalRef], () => {
     setIsModalOpen(false);
     router.back();
@@ -43,6 +45,8 @@ const SelectOptionModal = ({ type }: { type: string }) => {
                   setIsModalOpen(false);
                   router.back();
                 }}
+                initial={{ backgroundColor: "white" }}
+                whileTap={{ backgroundColor: "#f2f4f6" }}
               >
                 {option.name}
               </Option>
@@ -57,6 +61,8 @@ const SelectOptionModal = ({ type }: { type: string }) => {
                   setIsModalOpen(false);
                   router.back();
                 }}
+                initial={{ backgroundColor: "white" }}
+                whileTap={{ backgroundColor: "#f2f4f6" }}
               >
                 {option.name}
               </Option>
@@ -76,7 +82,7 @@ const Container = styled(motion.div)`
   height: 100dvh;
   overflow-y: hidden;
   z-index: 200;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: ${(props) => props.theme.bg.modalBg};
   transform: translateX(-50%);
 `;
 const ModalContainer = styled(motion.div)`
@@ -109,7 +115,7 @@ const HeaderContainer = styled.div`
   font-weight: 700;
 `;
 
-const Option = styled.p<{ isselect: boolean }>`
+const Option = styled(motion.div)<{ isselect: boolean }>`
   width: 100%;
   height: 55px;
   display: flex;
@@ -123,4 +129,4 @@ const Option = styled.p<{ isselect: boolean }>`
   cursor: pointer;
 `;
 
-export default SelectOptionModal;
+export default SortOptionModal;

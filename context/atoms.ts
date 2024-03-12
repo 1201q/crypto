@@ -1,5 +1,6 @@
 import { atom } from "jotai";
 import { singleWebsocketDataAtom } from "./websocket";
+import { MarketListDataType } from "@/types/types";
 
 export const queryCodeAtom = atom<string | undefined>("");
 
@@ -75,6 +76,7 @@ export const selectedLineChartOptionAtom = atom((get) => {
 });
 
 export const isSelectOptionModalOpen = atom(false);
+export const isSelectSortCoinModalOpenAtom = atom(false);
 
 const assetOption = [
   { name: "평가금액순", select: true },
@@ -119,3 +121,5 @@ export const selectAssetSortOption = atom((get) =>
   get(assetSortOptionAtom).find((option) => option.select)
 );
 export const selectTradeCoinOption = atom(null);
+
+export const selectSortCoinAtom = atom<null | MarketListDataType>(null);

@@ -4,10 +4,15 @@ import Header from "./Header";
 import MyAssetPage from "./myAsset/index";
 import MyTradePage from "./myTrade/index";
 import { AnimatePresence } from "framer-motion";
-import SelectOptionModal from "./SelectOptionModal";
+import SortOptionModal from "./select/SortOptionModal";
+import SelectCoinModal from "./select/SelectSortCoinModal";
 import { useAtom } from "jotai";
-import { isSelectOptionModalOpen } from "@/context/atoms";
+import {
+  isSelectOptionModalOpen,
+  isSelectSortCoinModalOpenAtom,
+} from "@/context/atoms";
 import { useRouter } from "next/router";
+import SelectSortCoinModal from "./select/SelectSortCoinModal";
 
 const WalletPage = () => {
   const router = useRouter();
@@ -15,19 +20,23 @@ const WalletPage = () => {
   const [isAssetModalVisible, setIsAssetModalVisible] = useAtom(
     isSelectOptionModalOpen
   );
+  const [isSelectCoinModalVisible, setIsSelectCoinModalVisible] = useAtom(
+    isSelectSortCoinModalOpenAtom
+  );
 
   useEffect(() => {
-    if (isAssetModalVisible) {
+    if (isAssetModalVisible || isSelectCoinModalVisible) {
       document.body.style.overflow = "hidden";
     }
     return () => {
       document.body.style.overflow = "unset";
     };
-  }, [isAssetModalVisible]);
+  }, [isAssetModalVisible, isSelectCoinModalVisible]);
 
   const handleHistoryBack = () => {
     if (router.query?.open) {
       if (isAssetModalVisible) setIsAssetModalVisible(false);
+      if (isSelectCoinModalVisible) setIsSelectCoinModalVisible(false);
     }
   };
 
@@ -46,11 +55,12 @@ const WalletPage = () => {
       <MenuTab />
       <AnimatePresence>
         {isAssetModalVisible && tab[0] === true && (
-          <SelectOptionModal type={"asset"} />
+          <SortOptionModal type={"asset"} />
         )}
         {isAssetModalVisible && tab[1] === true && (
-          <SelectOptionModal type={"trade"} />
+          <SortOptionModal type={"trade"} />
         )}
+        {isSelectCoinModalVisible && tab[1] === true && <SelectSortCoinModal />}
       </AnimatePresence>
     </>
   );
