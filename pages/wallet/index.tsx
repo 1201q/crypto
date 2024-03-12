@@ -6,6 +6,7 @@ import PageRender from "@/components/shared/PageRender";
 import WalletPage from "@/components/wallet/index";
 import { useEffect } from "react";
 import { useAtom } from "jotai";
+import { fetcher } from "@/utils/common/fetch";
 
 export default function Home({ pathname }: ServerSideProps) {
   useHydrateAtoms([[pathnameAtom, pathname]] as ServerSideInitialValues, {
@@ -25,6 +26,12 @@ export const getServerSideProps: GetServerSideProps = async (
   ctx: any
 ): Promise<{ props: ServerSideProps }> => {
   let pathname = ctx?.resolvedUrl;
+  const coinList = await fetcher("/api/markets");
 
-  return { props: { pathname } };
+  return {
+    props: {
+      pathname,
+      fallback: { "/api/markets": coinList },
+    },
+  };
 };
