@@ -9,7 +9,7 @@ import useOutSideClick from "@/utils/hooks/useOutSideClick";
 import { motion } from "framer-motion";
 import { useAtom, useSetAtom } from "jotai";
 import { useRouter } from "next/router";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import styled from "styled-components";
 import useSearchAndFilter from "./hooks/useSearchAndFilter";
 import { Virtuoso } from "react-virtuoso";
@@ -27,13 +27,8 @@ const SelectSortCoinModal = () => {
     router.back();
   });
 
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [inputRef]);
-
   const [, setSelectSortCoin] = useAtom(selectSortCoinAtom);
+  console.log(filteredCoins?.length);
 
   return (
     <Container>
@@ -66,7 +61,6 @@ const SelectSortCoinModal = () => {
               }}
             />
             <Input
-              ref={inputRef}
               type="text"
               placeholder="가상자산을 검색해보세요"
               maxLength={20}
@@ -93,16 +87,17 @@ const SelectSortCoinModal = () => {
               setIsModalOpen(false);
               router.back();
             }}
-            isAll={true}
+            $isAll={true}
           >
             전체보기
           </Option>
-          {/* <Virtuoso
+
+          <Virtuoso
             data={filteredCoins}
-            style={{ height: "calc(100% - 155px)" }}
+            style={{ height: "calc(90dvh - 155px)" }}
             itemContent={(index, coin) => (
               <Option
-                isAll={false}
+                $isAll={false}
                 onClick={() => {
                   setSelectSortCoin(coin);
                   setIsModalOpen(false);
@@ -117,22 +112,7 @@ const SelectSortCoinModal = () => {
             )}
             totalCount={filteredCoins?.length}
             fixedItemHeight={45}
-          /> */}
-          {filteredCoins?.map((coin) => (
-            <Option
-              isAll={false}
-              onClick={() => {
-                setSelectSortCoin(coin);
-                setIsModalOpen(false);
-                router.back();
-              }}
-              initial={{ backgroundColor: "white" }}
-              whileTap={{ backgroundColor: "#f2f4f6" }}
-              key={coin.market}
-            >
-              {coin.korean_name}
-            </Option>
-          ))}
+          />
         </OptionContainer>
       </ModalContainer>
     </Container>
@@ -222,7 +202,7 @@ const Input = styled.input`
   background: none;
 `;
 
-const Option = styled(motion.div)<{ isAll: boolean }>`
+const Option = styled(motion.div)<{ $isAll: boolean }>`
   display: flex;
   align-items: center;
   width: 100%;
@@ -230,9 +210,9 @@ const Option = styled(motion.div)<{ isAll: boolean }>`
   padding: 0px 20px;
   background: none;
   font-size: 17px;
-  font-weight: ${(props) => (props.isAll ? 400 : 400)};
+  font-weight: ${(props) => (props.$isAll ? 400 : 400)};
   color: ${(props) =>
-    props.isAll ? props.theme.font.blue : props.theme.font.darkgray};
+    props.$isAll ? props.theme.font.blue : props.theme.font.darkgray};
   cursor: pointer;
 `;
 
