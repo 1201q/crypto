@@ -1,5 +1,4 @@
 import {
-  isOrderKeyboardVisibleAtom,
   orderAmountAtom,
   orderKeyboardTypeAtom,
   orderSideAtom,
@@ -10,11 +9,12 @@ import styled from "styled-components";
 
 import { IconX } from "@/public/svgs";
 import React from "react";
+import { useRouter } from "next/router";
 
 const KeyboardHeader = () => {
+  const router = useRouter();
   const [type] = useAtom(orderKeyboardTypeAtom);
   const [side] = useAtom(orderSideAtom);
-  const [, setVisible] = useAtom(isOrderKeyboardVisibleAtom);
   const [, setAmount] = useAtom(orderAmountAtom);
   const [, setTotal] = useAtom(orderTotalAtom);
 
@@ -36,7 +36,7 @@ const KeyboardHeader = () => {
         </ResetBtn>
         <CloseBtn
           onClick={() => {
-            setVisible(false);
+            router.back();
           }}
           side={side}
         >

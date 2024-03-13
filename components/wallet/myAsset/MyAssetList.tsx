@@ -2,30 +2,17 @@ import { IconExchange } from "@/public/svgs";
 import styled from "styled-components";
 import MyAssetItem from "./MyAssetRow";
 import { useSetAtom, useAtomValue } from "jotai";
-import {
-  isSelectOptionModalOpen,
-  selectAssetSortOption,
-} from "@/context/atoms";
-import { useRouter } from "next/router";
+import { modalAtom, selectAssetSortOption } from "@/context/atoms";
 
 const MyAssetList = () => {
-  const router = useRouter();
-  const openOptionModal = useSetAtom(isSelectOptionModalOpen);
   const selectOption = useAtomValue(selectAssetSortOption);
+  const setModal = useSetAtom(modalAtom);
 
   return (
     <Container>
       <SortHeader
         onClick={() => {
-          openOptionModal(true);
-          router.push(
-            {
-              pathname: router.pathname,
-              query: { ...router.query, open: true },
-            },
-            `${router.asPath}?`,
-            { shallow: true }
-          );
+          setModal("assetOption");
         }}
       >
         <p>{selectOption?.name}</p>

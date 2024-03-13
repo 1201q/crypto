@@ -1,5 +1,5 @@
+import { modalAtom } from "@/context/atoms";
 import {
-  isOrderKeyboardVisibleAtom,
   orderKeyboardTypeAtom,
   orderSideAtom,
   orderTotalAtom,
@@ -7,7 +7,7 @@ import {
 } from "@/context/order";
 
 import { useAtom } from "jotai";
-import { useRouter } from "next/router";
+
 import styled from "styled-components";
 
 interface PropsType {
@@ -16,28 +16,17 @@ interface PropsType {
 }
 
 const Input: React.FC<PropsType> = ({ headerText, type }) => {
-  const router = useRouter();
-  const [keyboardVisible, setKeyboardVisible] = useAtom(
-    isOrderKeyboardVisibleAtom
-  );
   const [keyboardType, setKeyboardType] = useAtom(orderKeyboardTypeAtom);
   const [orderside] = useAtom(orderSideAtom);
 
   const [displayOrderAmount] = useAtom(displayOrderAmountAtom);
   const [orderTotal] = useAtom(orderTotalAtom);
-
-  const isFocus = keyboardType === type && keyboardVisible;
+  const [modal, setModal] = useAtom(modalAtom);
+  const isFocus = keyboardType === type && modal === "orderKeyboard";
 
   const handleOpenKeyboard = () => {
     setKeyboardType(type);
-    setKeyboardVisible(true);
-    router.push(
-      {
-        pathname: router.pathname,
-        query: { ...router.query, open: true },
-      },
-      `${router.asPath}?`
-    );
+    setModal("orderKeyboard");
   };
 
   return (

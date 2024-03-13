@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import HeadMeta from "./Meta/HeadMeta";
-import WelcomePopup from "../market/LoginPlzPopup";
+import ModalRender from "./ModalRender";
 
 interface PageRenderProps {
   Render: React.FC;
@@ -21,6 +21,7 @@ const PageRender: React.FC<PageRenderProps> = ({
       <HeadMeta title={title} description={description} />
       <Mobile bgColor={bgColor || "white"}>
         <Render />
+        <ModalRender />
       </Mobile>
     </Container>
   );

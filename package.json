@@ -24,6 +24,7 @@
     "framer-motion": "^10.18.0",
     "jotai": "^2.6.1",
     "jotai-devtools": "^0.8.0",
+    "jotai-location": "^0.5.4",
     "jotai-optics": "^0.3.2",
     "lightweight-charts": "^4.1.2",
     "lodash": "^4.17.21",

@@ -36,7 +36,9 @@ const ExchangeChart = () => {
           isValidating={isValidating}
         />
       </Chart>
+
       <ChartInfo latestData={latestData} firstData={firstData} />
+
       <ChartController />
     </Container>
   );

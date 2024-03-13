@@ -1,11 +1,23 @@
-import { selectedLineChartOptionAtom } from "@/context/atoms";
+import { isCorrectPage, selectedLineChartOptionAtom } from "@/context/atoms";
 import { LineChartPropsType } from "@/types/types";
 import f from "@/utils/common/formatting";
 import dayjs from "dayjs";
 import { useAtom } from "jotai";
 import React from "react";
 import { useMemo } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const skeletonLoading = keyframes`
+  0% {
+    background-color: #E9EBEE;
+  }
+  50% {
+    background-color: #F7F8F9;
+  }
+  100% {
+    background-color: #E9EBEE;
+  }
+`;
 
 interface PropsType {
   latestData: LineChartPropsType;
@@ -42,24 +54,34 @@ const ChartInfo: React.FC<PropsType> = ({ latestData, firstData }) => {
     }
   };
 
+  const [isCorret] = useAtom(isCorrectPage);
+
   return (
     <Container>
-      <Line>
-        <YesterDay>{option?.name}전보다</YesterDay>
-        {renderData && (
-          <Percent color={getTextColor(firstData.value, latestData.value)}>
-            {renderData.percent}%
-          </Percent>
-        )}
-        {renderData && (
-          <Price color={getTextColor(firstData.value, latestData.value)}>
-            ({renderData.price}원)
-          </Price>
-        )}
-      </Line>
-      <Line>
-        <StartDate>{startDate && `${startDate}부터`}</StartDate>
-      </Line>
+      {isCorret && renderData ? (
+        <Line>
+          <YesterDay>{option?.name}전보다</YesterDay>
+          {renderData && (
+            <Percent color={getTextColor(firstData.value, latestData.value)}>
+              {renderData.percent}%
+            </Percent>
+          )}
+          {renderData && (
+            <Price color={getTextColor(firstData.value, latestData.value)}>
+              ({renderData.price}원)
+            </Price>
+          )}
+        </Line>
+      ) : (
+        <Loading width={40} height={15} />
+      )}
+      {isCorret && renderData ? (
+        <Line>
+          <StartDate>{startDate && `${startDate}부터`}</StartDate>
+        </Line>
+      ) : (
+        <Loading width={30} height={13} />
+      )}
     </Container>
   );
 };
@@ -104,6 +126,18 @@ const StartDate = styled.p`
   font-size: 13px;
   letter-spacing: -0.5px;
   color: #6b7684;
+`;
+
+const Loading = styled.div<{ width: number; height: number }>`
+  display: flex;
+  align-items: center;
+  height: ${(props) => `${props.height}px`};
+  width: ${(props) => `${props.width}%`};
+  min-width: 130px;
+  max-width: 250px;
+  margin-bottom: 7px;
+  border-radius: 5px;
+  animation: ${skeletonLoading} 2s infinite;
 `;
 
 export default React.memo(ChartInfo);

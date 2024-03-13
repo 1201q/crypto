@@ -11,12 +11,6 @@ export const orderAmountOptionsAtom = atom([
   { name: "100%", select: false, value: 100 },
 ]);
 
-// 가상 키보드 display 유무
-export const isOrderKeyboardVisibleAtom = atom(false);
-
-// order confirm 모달 display 유무
-export const isOpenOrderConfirmModalAtom = atom(false);
-
 // 노출할 키보드 타입
 export const orderKeyboardTypeAtom = atom<"total" | "amount">("total");
 

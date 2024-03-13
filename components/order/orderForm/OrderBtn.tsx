@@ -1,12 +1,11 @@
-import { buyOrderDataAtom, isOpenOrderConfirmModalAtom } from "@/context/order";
+import { modalAtom } from "@/context/atoms";
 import { motion } from "framer-motion";
-import { useAtom, useSetAtom } from "jotai";
-import { useRouter } from "next/router";
+import { useSetAtom } from "jotai";
+
 import styled from "styled-components";
 
 const OrderBtn = ({ side }: { side: "buy" | "sell" }) => {
-  const router = useRouter();
-  const setModalOpen = useSetAtom(isOpenOrderConfirmModalAtom);
+  const setModal = useSetAtom(modalAtom);
 
   return (
     <Btn
@@ -15,14 +14,7 @@ const OrderBtn = ({ side }: { side: "buy" | "sell" }) => {
       initial={{ scale: 1 }}
       transition={{ duration: 0.1 }}
       onClick={() => {
-        setModalOpen(true);
-        router.push(
-          {
-            pathname: router.pathname,
-            query: { ...router.query, open: true },
-          },
-          `${router.asPath}?`
-        );
+        setModal("orderConfirm");
       }}
     >
       {side === "buy" ? "매수" : "매도"}

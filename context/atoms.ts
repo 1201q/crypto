@@ -1,6 +1,7 @@
 import { atom } from "jotai";
 import { singleWebsocketDataAtom } from "./websocket";
 import { MarketListDataType } from "@/types/types";
+import { atomWithHash } from "jotai-location";
 
 export const queryCodeAtom = atom<string | undefined>("");
 
@@ -75,9 +76,6 @@ export const selectedLineChartOptionAtom = atom((get) => {
   return options.find((option) => option.select) || options[1];
 });
 
-export const isSelectOptionModalOpen = atom(false);
-export const isSelectSortCoinModalOpenAtom = atom(false);
-
 const assetOption = [
   { name: "평가금액순", select: true },
   { name: "수익률순", select: false },
@@ -123,3 +121,5 @@ export const selectAssetSortOption = atom((get) =>
 export const selectTradeCoinOption = atom(null);
 
 export const selectSortCoinAtom = atom<null | MarketListDataType>(null);
+
+export const modalAtom = atomWithHash("modal", "");

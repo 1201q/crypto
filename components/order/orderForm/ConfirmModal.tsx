@@ -1,6 +1,5 @@
 import {
   buyOrderDataAtom,
-  isOpenOrderConfirmModalAtom,
   orderSideAtom,
   sellOrderDataAtom,
 } from "@/context/order";
@@ -22,7 +21,7 @@ const ConfirmModal = () => {
   const { coinList } = useList();
 
   const [side] = useAtom(orderSideAtom);
-  const [, setOpenModal] = useAtom(isOpenOrderConfirmModalAtom);
+
   const [buyOrderData] = useAtom(buyOrderDataAtom);
   const [sellOrderData] = useAtom(sellOrderDataAtom);
 
@@ -67,7 +66,6 @@ const ConfirmModal = () => {
             initial={{ scale: 1 }}
             transition={{ duration: 0.1 }}
             onClick={() => {
-              setOpenModal(false);
               router.back();
             }}
           >

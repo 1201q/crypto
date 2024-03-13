@@ -1,13 +1,10 @@
-import {
-  isSelectSortCoinModalOpenAtom,
-  selectSortCoinAtom,
-} from "@/context/atoms";
+import { selectSortCoinAtom } from "@/context/atoms";
 import { IconX } from "@/public/svgs";
 import { IconSearch } from "@/public/svgs";
 
 import useOutSideClick from "@/utils/hooks/useOutSideClick";
 import { motion } from "framer-motion";
-import { useAtom, useSetAtom } from "jotai";
+import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 import { useRef } from "react";
 import styled from "styled-components";
@@ -18,17 +15,13 @@ const SelectSortCoinModal = () => {
   const router = useRouter();
   const modalRef = useRef(null);
 
-  const setIsModalOpen = useSetAtom(isSelectSortCoinModalOpenAtom);
-  const { inputRef, keyword, onChange, clearInput, filteredCoins } =
-    useSearchAndFilter();
+  const { keyword, onChange, clearInput, filteredCoins } = useSearchAndFilter();
 
   useOutSideClick([modalRef], () => {
-    setIsModalOpen(false);
     router.back();
   });
 
   const [, setSelectSortCoin] = useAtom(selectSortCoinAtom);
-  console.log(filteredCoins?.length);
 
   return (
     <Container>
@@ -43,7 +36,6 @@ const SelectSortCoinModal = () => {
           <p>코인선택</p>
           <button
             onClick={() => {
-              setIsModalOpen(false);
               router.back();
             }}
           >
@@ -84,7 +76,7 @@ const SelectSortCoinModal = () => {
             whileTap={{ backgroundColor: "#f2f4f6" }}
             onClick={() => {
               setSelectSortCoin(null);
-              setIsModalOpen(false);
+
               router.back();
             }}
             $isAll={true}
@@ -100,7 +92,7 @@ const SelectSortCoinModal = () => {
                 $isAll={false}
                 onClick={() => {
                   setSelectSortCoin(coin);
-                  setIsModalOpen(false);
+
                   router.back();
                 }}
                 initial={{ backgroundColor: "white" }}

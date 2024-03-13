@@ -1,9 +1,4 @@
-import {
-  assetSortOptionAtom,
-  isSelectOptionModalOpen,
-  isSelectSortCoinModalOpenAtom,
-  tradeSortOptionAtom,
-} from "@/context/atoms";
+import { assetSortOptionAtom, tradeSortOptionAtom } from "@/context/atoms";
 import useOutSideClick from "@/utils/hooks/useOutSideClick";
 import { motion } from "framer-motion";
 import { useAtom, useSetAtom } from "jotai";
@@ -14,10 +9,8 @@ import styled from "styled-components";
 const SortOptionModal = ({ type }: { type: string }) => {
   const router = useRouter();
   const modalRef = useRef(null);
-  const setIsModalOpen = useSetAtom(isSelectSortCoinModalOpenAtom);
 
   useOutSideClick([modalRef], () => {
-    setIsModalOpen(false);
     router.back();
   });
 
@@ -39,10 +32,10 @@ const SortOptionModal = ({ type }: { type: string }) => {
             tradeOption.map((option, index) => (
               <Option
                 key={option.name}
-                isselect={option.select}
+                $isselect={option.select}
                 onClick={() => {
                   setTradeOption(index);
-                  setIsModalOpen(false);
+
                   router.back();
                 }}
                 initial={{ backgroundColor: "white" }}
@@ -55,10 +48,10 @@ const SortOptionModal = ({ type }: { type: string }) => {
             assetOption.map((option, index) => (
               <Option
                 key={option.name}
-                isselect={option.select}
+                $isselect={option.select}
                 onClick={() => {
                   setAssetOption(index);
-                  setIsModalOpen(false);
+
                   router.back();
                 }}
                 initial={{ backgroundColor: "white" }}
@@ -115,7 +108,7 @@ const HeaderContainer = styled.div`
   font-weight: 700;
 `;
 
-const Option = styled(motion.div)<{ isselect: boolean }>`
+const Option = styled(motion.div)<{ $isselect: boolean }>`
   width: 100%;
   height: 55px;
   display: flex;
@@ -123,9 +116,9 @@ const Option = styled(motion.div)<{ isselect: boolean }>`
   justify-content: center;
   background: none;
   font-size: 17px;
-  font-weight: ${(props) => (props.isselect ? 700 : 400)};
+  font-weight: ${(props) => (props.$isselect ? 700 : 400)};
   color: ${(props) =>
-    props.isselect ? props.theme.font.blue : props.theme.font.darkgray};
+    props.$isselect ? props.theme.font.blue : props.theme.font.darkgray};
   cursor: pointer;
 `;
 

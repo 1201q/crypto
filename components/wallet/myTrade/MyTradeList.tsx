@@ -1,35 +1,24 @@
 import {
-  isSelectOptionModalOpen,
-  isSelectSortCoinModalOpenAtom,
   selectTradeSortOption,
   selectSortCoinAtom,
+  modalAtom,
 } from "@/context/atoms";
 import { IconExchange } from "@/public/svgs";
 import { motion } from "framer-motion";
 import { useAtomValue, useSetAtom } from "jotai";
-import { useRouter } from "next/router";
+
 import styled from "styled-components";
 
 const MyTradeList = () => {
-  const router = useRouter();
-  const openOptionModal = useSetAtom(isSelectOptionModalOpen);
-  const openSelectCoinModal = useSetAtom(isSelectSortCoinModalOpenAtom);
   const selectOption = useAtomValue(selectTradeSortOption);
   const selectSortCoin = useAtomValue(selectSortCoinAtom);
+  const setModal = useSetAtom(modalAtom);
   return (
     <>
       <SortHeader>
         <Flex
           onClick={() => {
-            openOptionModal(true);
-            router.push(
-              {
-                pathname: router.pathname,
-                query: { ...router.query, open: true },
-              },
-              `${router.asPath}?`,
-              { shallow: true }
-            );
+            setModal("tradeOption");
           }}
         >
           <p>{selectOption?.name}</p>
@@ -39,15 +28,7 @@ const MyTradeList = () => {
           initial={{ scale: 1 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => {
-            router.push(
-              {
-                pathname: router.pathname,
-                query: { ...router.query, open: true },
-              },
-              `${router.asPath}?`,
-              { shallow: true }
-            );
-            openSelectCoinModal(true);
+            setModal("selectCoin");
           }}
         >
           {!selectSortCoin ? "전체보기" : selectSortCoin?.korean_name}
