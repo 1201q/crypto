@@ -9,6 +9,9 @@ import { useAtomValue, useSetAtom } from "jotai";
 
 import styled from "styled-components";
 
+import TradeItem from "../item/TradeItem";
+import DateDivider from "./DateDivider";
+
 const MyTradeList = () => {
   const selectOption = useAtomValue(selectTradeSortOption);
   const selectSortCoin = useAtomValue(selectSortCoinAtom);
@@ -34,7 +37,22 @@ const MyTradeList = () => {
           {!selectSortCoin ? "전체보기" : selectSortCoin?.korean_name}
         </SelectCoin>
       </SortHeader>
-      <div style={{ height: "100dvh" }}>1</div>
+      <div style={{ minHeight: "100dvh" }}>
+        <TradeItem /> <TradeItem />
+        <DateDivider /> <TradeItem /> <TradeItem /> <TradeItem /> <TradeItem />
+        <TradeItem /> <TradeItem /> <TradeItem />
+        <TradeItem /> <TradeItem /> <TradeItem /> <TradeItem /> <TradeItem />{" "}
+        <TradeItem /> <TradeItem /> <TradeItem />
+        <TradeItem /> <DateDivider />
+        <TradeItem /> <TradeItem /> <TradeItem /> <TradeItem /> <TradeItem />{" "}
+        <TradeItem /> <TradeItem />
+        <TradeItem /> <TradeItem /> <TradeItem /> <DateDivider /> <TradeItem />{" "}
+        <TradeItem /> <TradeItem /> <TradeItem /> <TradeItem />
+        <TradeItem /> <TradeItem /> <TradeItem /> <TradeItem /> <TradeItem />{" "}
+        <TradeItem /> <TradeItem /> <TradeItem />
+        <TradeItem /> <TradeItem /> <TradeItem /> <TradeItem /> <TradeItem />
+        <TradeItem />
+      </div>
     </>
   );
 };

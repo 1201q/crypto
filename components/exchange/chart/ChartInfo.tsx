@@ -73,14 +73,14 @@ const ChartInfo: React.FC<PropsType> = ({ latestData, firstData }) => {
           )}
         </Line>
       ) : (
-        <Loading width={40} height={15} />
+        <Loading width={200} height={15} />
       )}
       {isCorret && renderData ? (
         <Line>
           <StartDate>{startDate && `${startDate}부터`}</StartDate>
         </Line>
       ) : (
-        <Loading width={30} height={13} />
+        <Loading width={130} height={13} />
       )}
     </Container>
   );
@@ -132,9 +132,8 @@ const Loading = styled.div<{ width: number; height: number }>`
   display: flex;
   align-items: center;
   height: ${(props) => `${props.height}px`};
-  width: ${(props) => `${props.width}%`};
-  min-width: 130px;
-  max-width: 250px;
+  width: ${(props) => `${props.width}px`};
+
   margin-bottom: 7px;
   border-radius: 5px;
   animation: ${skeletonLoading} 2s infinite;

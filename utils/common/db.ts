@@ -2,19 +2,23 @@ import {
   doc,
   getDoc,
   setDoc,
+  updateDoc,
   onSnapshot,
   WithFieldValue,
   DocumentData,
 } from "firebase/firestore";
 import { dbService } from "../firebase/client";
 
-// user가 wallet이 생성되었는지 반환  없다면 false를 반환
-export const getIsWalletCreation = async (uid: string): Promise<boolean> => {
+// data가 존재하는지
+export const getIsDataCreation = async (
+  collectionName: string,
+  docName: string
+): Promise<boolean> => {
   try {
-    const docRef = doc(dbService, "wallet", uid);
+    const docRef = doc(dbService, collectionName, docName);
     const docSnap = await getDoc(docRef);
-    const hasWallet = docSnap.exists();
-    return hasWallet;
+    const hasData = docSnap.exists();
+    return hasData;
   } catch (error) {
     throw error;
   }
@@ -30,6 +34,21 @@ export const newDoc = async <T extends WithFieldValue<DocumentData>>(
   try {
     await setDoc(dataRef, initData);
     console.log(`Wallet for UID ${docName} created successfully.`);
+  } catch (error) {
+    console.log(`실패`, error);
+  }
+};
+
+export const updateTargetDoc = async <T extends WithFieldValue<DocumentData>>(
+  collectionName: string,
+  docName: string,
+  data: T
+): Promise<void> => {
+  const dataRef = doc(dbService, collectionName, docName);
+
+  try {
+    await updateDoc(dataRef, data);
+    console.log("성공");
   } catch (error) {
     console.log(`실패`, error);
   }

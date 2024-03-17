@@ -1,8 +1,9 @@
 import { IconExchange } from "@/public/svgs";
 import styled from "styled-components";
-import MyAssetItem from "./MyAssetRow";
+
 import { useSetAtom, useAtomValue } from "jotai";
 import { modalAtom, selectAssetSortOption } from "@/context/atoms";
+import WalletItem from "../item/AssetItem";
 
 const MyAssetList = () => {
   const selectOption = useAtomValue(selectAssetSortOption);
@@ -19,8 +20,7 @@ const MyAssetList = () => {
         <IconExchange width={13} height={13} />
       </SortHeader>
       <ListContainer>
-        <MyAssetItem /> <MyAssetItem /> <MyAssetItem /> <MyAssetItem />{" "}
-        <MyAssetItem /> <MyAssetItem /> <MyAssetItem /> <MyAssetItem />
+        <WalletItem />
       </ListContainer>
     </Container>
   );

@@ -114,7 +114,7 @@ function getPercent(percent: number): string {
 }
 
 function getCode(code: string): string {
-  return code.replace("KRW-", "");
+  return code?.replace("KRW-", "");
 }
 
 function getPlus(change: string): string {

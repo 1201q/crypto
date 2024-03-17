@@ -1,9 +1,11 @@
 import SectionLine from "@/components/exchange/others/SectionLine";
 import f from "@/utils/common/formatting";
 import { motion } from "framer-motion";
+import { useRouter } from "next/router";
 import styled from "styled-components";
 
 const AmountInfo = () => {
+  const router = useRouter();
   const getUpdateDisplayBgColor = (change: string | undefined) => {
     if (change === "RISE") {
       return "#DF5068";
@@ -22,9 +24,15 @@ const AmountInfo = () => {
         <Flex>
           <AllAmountText>{f("fixedPrice", 2022000)} </AllAmountText>
           <Update bgcolor={getUpdateDisplayBgColor("RISE")}>
-            <PercentText>{f("change", 2)}%</PercentText>
+            <PercentText>{f("change", 0.2)}%</PercentText>
           </Update>
-          <KrwDepositBtn initial={{ scale: 1 }} whileTap={{ scale: 0.95 }}>
+          <KrwDepositBtn
+            initial={{ scale: 1 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => {
+              router.push("/wallet/deposit");
+            }}
+          >
             원화입금
           </KrwDepositBtn>
         </Flex>
@@ -162,7 +170,7 @@ const PortfolioBtnText = styled.p`
 `;
 
 const PercentText = styled.p`
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   color: white;
 `;
@@ -174,11 +182,10 @@ const Update = styled.div<{ bgcolor: string }>`
   width: fit-content;
   height: 22px;
   border-radius: 5px;
-  padding: 0px 6px;
-  margin-top: 5px;
+  padding: 0px 8px;
+  margin-top: 6px;
+  background-color: ${(props) => props.bgcolor};
   transition: background-color 0.1s ease-out;
-  background-color: ${(props) =>
-    props.bgcolor ? props.bgcolor : props.theme.bg.gray};
 `;
 
 const Bar = styled.div`
