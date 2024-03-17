@@ -33,22 +33,12 @@ export const displayOrderAmountAtom = atom((get) => {
   return !incluesPoint ? int : int + decimal;
 });
 
-export const buyOrderDataAtom = atom((get) => {
+export const orderDataAtom = atom((get) => {
   const side = get(orderSideAtom);
   const queryCode = get(queryCodeAtom);
   const type = "market";
   const price = get(tickerDataAtom)?.tp || 0;
   const total = Number(get(orderTotalAtom));
-
-  return { code: queryCode, type, side, price, total };
-});
-
-export const sellOrderDataAtom = atom((get) => {
-  const side = get(orderSideAtom);
-  const queryCode = get(queryCodeAtom);
-  const type = "market";
-  const price = get(tickerDataAtom)?.tp || 0;
-  const total = Number(get(orderAmountAtom));
 
   return { code: queryCode, type, side, price, total };
 });

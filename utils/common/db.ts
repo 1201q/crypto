@@ -27,13 +27,14 @@ export const getIsDataCreation = async (
 export const newDoc = async <T extends WithFieldValue<DocumentData>>(
   collectionName: string,
   docName: string,
-  initData: T
+  initData: T,
+  callback: () => void
 ): Promise<void> => {
   const dataRef = doc(dbService, collectionName, docName);
 
   try {
     await setDoc(dataRef, initData);
-    console.log(`Wallet for UID ${docName} created successfully.`);
+    callback();
   } catch (error) {
     console.log(`실패`, error);
   }
@@ -42,13 +43,14 @@ export const newDoc = async <T extends WithFieldValue<DocumentData>>(
 export const updateTargetDoc = async <T extends WithFieldValue<DocumentData>>(
   collectionName: string,
   docName: string,
-  data: T
+  data: T,
+  callback: () => void
 ): Promise<void> => {
   const dataRef = doc(dbService, collectionName, docName);
 
   try {
     await updateDoc(dataRef, data);
-    console.log("성공");
+    callback();
   } catch (error) {
     console.log(`실패`, error);
   }
@@ -56,22 +58,17 @@ export const updateTargetDoc = async <T extends WithFieldValue<DocumentData>>(
 
 export const observeDataChanges = async <T>(
   collectionName: string,
-  docName: string
+  docName: string,
+  callback: (data: T) => void
 ) => {
   const dataRef = doc(dbService, collectionName, docName);
-  let latestData: T | null = null;
 
   const unsubscribe = onSnapshot(dataRef, (snapshot) => {
     if (snapshot.exists()) {
       const newData = snapshot.data() as T;
-      latestData = newData;
+      if (callback) callback(newData);
     }
   });
 
-  return {
-    getLatestData: () => {
-      return latestData;
-    },
-    stopListening: unsubscribe,
-  };
+  return unsubscribe;
 };

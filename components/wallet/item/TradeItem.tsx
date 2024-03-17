@@ -9,7 +9,7 @@ import styled from "styled-components";
 interface ItemPropsType {
   time?: string;
   code?: string;
-  type?: "buy" | "sell" | "krw";
+  side?: "buy" | "sell" | "krw";
   total?: number;
   amount?: number;
 }
@@ -17,7 +17,7 @@ interface ItemPropsType {
 const AssetItem: React.FC<ItemPropsType> = ({
   time,
   code = "KRW-BTT",
-  type = "buy",
+  side = "buy",
   total = 100000,
   amount = 0.12321,
 }) => {
@@ -49,22 +49,24 @@ const AssetItem: React.FC<ItemPropsType> = ({
       <InfoContainer>
         <TopContainer>
           <NameContainer>
-            <p>{type !== "krw" ? getKR(coinList.data, code) : "원화"}</p>
+            <p>{side !== "krw" ? getKR(coinList.data, code) : "원화"}</p>
           </NameContainer>
           <p style={{ textAlign: "right" }}>{f("fixedPrice", total)}원</p>
         </TopContainer>
         <BottomContainer>
           <StatusContainer>
-            <BottomText>{dayjs().format("HH:mm")}</BottomText>
+            <BottomText>{dayjs(time).format("HH:mm")}</BottomText>
             <TypeText>
               |{" "}
-              {type === "buy" ? "매수" : type === "sell" ? "매도" : "원화입금"}
+              {side === "buy" ? "매수" : side === "sell" ? "매도" : "원화입금"}
             </TypeText>
           </StatusContainer>
           <StatusContainer>
-            <BottomText>
-              {amount} {f("code", code)}
-            </BottomText>
+            {side !== "krw" && (
+              <BottomText>
+                {amount} {f("code", code)}
+              </BottomText>
+            )}
           </StatusContainer>
         </BottomContainer>
       </InfoContainer>

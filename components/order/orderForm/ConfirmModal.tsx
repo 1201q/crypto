@@ -1,8 +1,4 @@
-import {
-  buyOrderDataAtom,
-  orderSideAtom,
-  sellOrderDataAtom,
-} from "@/context/order";
+import { orderSideAtom, orderDataAtom } from "@/context/order";
 import f from "@/utils/common/formatting";
 import getKR from "@/utils/common/getKR";
 import { useList } from "@/utils/hooks/useList";
@@ -13,6 +9,7 @@ import { useAtom } from "jotai";
 import styled from "styled-components";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import useOrder from "../hooks/useOrder";
 
 const ConfirmModal = () => {
   const router = useRouter();
@@ -21,9 +18,9 @@ const ConfirmModal = () => {
   const { coinList } = useList();
 
   const [side] = useAtom(orderSideAtom);
+  const [orderData] = useAtom(orderDataAtom);
 
-  const [buyOrderData] = useAtom(buyOrderDataAtom);
-  const [sellOrderData] = useAtom(sellOrderDataAtom);
+  const { onClick } = useOrder();
 
   return (
     <Container>
@@ -38,7 +35,7 @@ const ConfirmModal = () => {
             <Image
               src={`${process.env.NEXT_PUBLIC_LOGO_API_URL}${f(
                 "code",
-                buyOrderData.code
+                orderData.code
               )}.png`}
               alt={"logo"}
               width={23}
@@ -49,11 +46,11 @@ const ConfirmModal = () => {
           </CodeIcon>
         </IconContainer>
         <OrderInfoContainer>
-          <Name>{getKR(coinList.data, buyOrderData.code)}</Name>
+          <Name>{getKR(coinList.data, orderData.code)}</Name>
           <Price>
             {side === "buy"
-              ? `${f("fixedPrice", buyOrderData.total)}원`
-              : `${sellOrderData.total.toLocaleString()}`}
+              ? `${f("fixedPrice", orderData.total)}원`
+              : `${orderData.total.toLocaleString()}`}
           </Price>
           <PriceType color={side === "buy" ? "#df5068" : "#448aef"}>
             {`시장가 ${side === "buy" ? "매수" : "매도"} 주문`}
@@ -77,6 +74,9 @@ const ConfirmModal = () => {
             initial={{ scale: 1 }}
             transition={{ duration: 0.1 }}
             color={"white"}
+            onClick={() => {
+              onClick();
+            }}
           >
             {side === "buy" ? "매수" : "매도"}
           </Button>

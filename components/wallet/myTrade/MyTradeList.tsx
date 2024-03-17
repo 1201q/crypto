@@ -11,11 +11,19 @@ import styled from "styled-components";
 
 import TradeItem from "../item/TradeItem";
 import DateDivider from "./DateDivider";
+import { walletTradeListDataAtom } from "@/context/wallet";
+import { KRwTradeDataType, OtherTradeDataType } from "@/types/types";
+import dayjs from "dayjs";
 
 const MyTradeList = () => {
   const selectOption = useAtomValue(selectTradeSortOption);
   const selectSortCoin = useAtomValue(selectSortCoinAtom);
   const setModal = useSetAtom(modalAtom);
+
+  const data = useAtomValue(walletTradeListDataAtom);
+
+  console.log(dayjs("2024-03-17T17:40:35+09:00").unix());
+
   return (
     <>
       <SortHeader>
@@ -38,20 +46,30 @@ const MyTradeList = () => {
         </SelectCoin>
       </SortHeader>
       <div style={{ minHeight: "100dvh" }}>
-        <TradeItem /> <TradeItem />
-        <DateDivider /> <TradeItem /> <TradeItem /> <TradeItem /> <TradeItem />
-        <TradeItem /> <TradeItem /> <TradeItem />
-        <TradeItem /> <TradeItem /> <TradeItem /> <TradeItem /> <TradeItem />{" "}
-        <TradeItem /> <TradeItem /> <TradeItem />
-        <TradeItem /> <DateDivider />
-        <TradeItem /> <TradeItem /> <TradeItem /> <TradeItem /> <TradeItem />{" "}
-        <TradeItem /> <TradeItem />
-        <TradeItem /> <TradeItem /> <TradeItem /> <DateDivider /> <TradeItem />{" "}
-        <TradeItem /> <TradeItem /> <TradeItem /> <TradeItem />
-        <TradeItem /> <TradeItem /> <TradeItem /> <TradeItem /> <TradeItem />{" "}
-        <TradeItem /> <TradeItem /> <TradeItem />
-        <TradeItem /> <TradeItem /> <TradeItem /> <TradeItem /> <TradeItem />
-        <TradeItem />
+        {data.map((v, i) => {
+          if (v.side === "krw") {
+            const d = v as KRwTradeDataType;
+            return (
+              <TradeItem
+                code={"KRW"}
+                total={d.total}
+                side={"krw"}
+                time={d.timestamp}
+              />
+            ); // 타입 지정
+          } else {
+            const d = v as OtherTradeDataType;
+            return (
+              <TradeItem
+                code={d.code}
+                total={d.total}
+                amount={d.amount}
+                side={d.side}
+                time={d.timestamp}
+              />
+            ); // 타입지정
+          }
+        })}
       </div>
     </>
   );

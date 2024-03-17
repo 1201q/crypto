@@ -214,3 +214,27 @@ export interface LineChartPropsType {
   low?: number;
   volume?: number;
 }
+
+// // db
+export interface KRwTradeDataType {
+  id: string;
+  timestamp: string;
+  total: number;
+  side?: "krw";
+}
+
+export interface OtherTradeDataType {
+  amount: number;
+  code: string;
+  id: string;
+  price: number;
+  side: "buy" | "sell";
+  timestamp: string;
+  total: number;
+  type: "market";
+}
+
+export interface WalletTradeDataType {
+  krw?: KRwTradeDataType[];
+  trade?: OtherTradeDataType[];
+}
