@@ -7,7 +7,7 @@ interface ReduceType {
 }
 
 export const walletTradeDataAtom = atom<WalletTradeDataType | null>(null);
-export const walletTradeListDataAtom = atom((get) => {
+export const sortedTradeDataAtom = atom((get) => {
   const tradeData = get(walletTradeDataAtom);
   const trades = tradeData
     ? [...(tradeData?.krw ?? []), ...(tradeData.trade ?? [])]
@@ -17,7 +17,12 @@ export const walletTradeListDataAtom = atom((get) => {
     (a, b) => dayjs(b.timestamp).unix() - dayjs(a.timestamp).unix()
   );
 
-  const reducedArray = sortArray.reduce((acc, current) => {
+  return sortArray;
+});
+export const reducedTradeDataAtom = atom((get) => {
+  const dataArray = get(sortedTradeDataAtom);
+
+  const reducedArray = dataArray.reduce((acc, current) => {
     const date = current.timestamp.split("T")[0];
 
     if (!acc[date]) {

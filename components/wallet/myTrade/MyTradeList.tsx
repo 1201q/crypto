@@ -11,7 +11,7 @@ import styled from "styled-components";
 
 import TradeItem from "../item/TradeItem";
 import DateDivider from "./DateDivider";
-import { walletTradeListDataAtom } from "@/context/wallet";
+import { sortedTradeDataAtom, reducedTradeDataAtom } from "@/context/wallet";
 
 import { GroupedVirtuoso } from "react-virtuoso";
 
@@ -20,7 +20,8 @@ const MyTradeList = () => {
   const selectSortCoin = useAtomValue(selectSortCoinAtom);
   const setModal = useSetAtom(modalAtom);
 
-  const data = useAtomValue(walletTradeListDataAtom);
+  const dateData = useAtomValue(reducedTradeDataAtom);
+  const tradeData = useAtomValue(sortedTradeDataAtom);
 
   return (
     <>
@@ -43,23 +44,22 @@ const MyTradeList = () => {
           {!selectSortCoin ? "전체보기" : selectSortCoin?.korean_name}
         </SelectCoin>
       </SortHeader>
-
       <ListContainer>
-        {data.map((dateItem, index) => (
-          <div key={dateItem[0]}>
-            <DateDivider date={dateItem[0]} />
-            {dateItem[1].map((item, i) => (
-              <TradeItem
-                key={item.id}
-                side={item.side}
-                total={item.total}
-                time={item.timestamp}
-                code={item.code}
-                amount={item.amount}
-              />
-            ))}
-          </div>
-        ))}
+        <GroupedVirtuoso
+          useWindowScroll
+          groupCounts={dateData.map((itemCount) => itemCount[1].length)}
+          itemContent={(index) => (
+            <TradeItem
+              key={tradeData[index]?.id}
+              side={tradeData[index]?.side}
+              total={tradeData[index]?.total}
+              time={tradeData[index]?.timestamp}
+              code={tradeData[index]?.code}
+              amount={tradeData[index]?.amount}
+            />
+          )}
+          groupContent={(index) => <DateDivider date={dateData[index][0]} />}
+        />
       </ListContainer>
     </>
   );
