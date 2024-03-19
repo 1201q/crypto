@@ -12,8 +12,8 @@ import styled from "styled-components";
 import TradeItem from "../item/TradeItem";
 import DateDivider from "./DateDivider";
 import { walletTradeListDataAtom } from "@/context/wallet";
-import { KRwTradeDataType, OtherTradeDataType } from "@/types/types";
-import dayjs from "dayjs";
+
+import { GroupedVirtuoso } from "react-virtuoso";
 
 const MyTradeList = () => {
   const selectOption = useAtomValue(selectTradeSortOption);
@@ -21,8 +21,6 @@ const MyTradeList = () => {
   const setModal = useSetAtom(modalAtom);
 
   const data = useAtomValue(walletTradeListDataAtom);
-
-  console.log(dayjs("2024-03-17T17:40:35+09:00").unix());
 
   return (
     <>
@@ -45,32 +43,24 @@ const MyTradeList = () => {
           {!selectSortCoin ? "전체보기" : selectSortCoin?.korean_name}
         </SelectCoin>
       </SortHeader>
-      <div style={{ minHeight: "100dvh" }}>
-        {data.map((v, i) => {
-          if (v.side === "krw") {
-            const d = v as KRwTradeDataType;
-            return (
+
+      <ListContainer>
+        {data.map((dateItem, index) => (
+          <div key={dateItem[0]}>
+            <DateDivider date={dateItem[0]} />
+            {dateItem[1].map((item, i) => (
               <TradeItem
-                code={"KRW"}
-                total={d.total}
-                side={"krw"}
-                time={d.timestamp}
+                key={item.id}
+                side={item.side}
+                total={item.total}
+                time={item.timestamp}
+                code={item.code}
+                amount={item.amount}
               />
-            ); // 타입 지정
-          } else {
-            const d = v as OtherTradeDataType;
-            return (
-              <TradeItem
-                code={d.code}
-                total={d.total}
-                amount={d.amount}
-                side={d.side}
-                time={d.timestamp}
-              />
-            ); // 타입지정
-          }
-        })}
-      </div>
+            ))}
+          </div>
+        ))}
+      </ListContainer>
     </>
   );
 };
@@ -118,6 +108,10 @@ const SelectCoin = styled(motion.button)`
   color: #6b7684;
   background-color: #f2f4f6;
   font-weight: 500;
+`;
+
+const ListContainer = styled.div`
+  min-height: ${(props) => props.theme.height.walletTradeList};
 `;
 
 export default MyTradeList;

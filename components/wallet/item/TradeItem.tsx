@@ -7,19 +7,19 @@ import Image from "next/image";
 import styled from "styled-components";
 
 interface ItemPropsType {
-  time?: string;
-  code?: string;
-  side?: "buy" | "sell" | "krw";
-  total?: number;
+  time: string;
+  code: string;
+  side: "buy" | "sell" | "krw";
+  total: number;
   amount?: number;
 }
 
 const AssetItem: React.FC<ItemPropsType> = ({
   time,
-  code = "KRW-BTT",
-  side = "buy",
-  total = 100000,
-  amount = 0.12321,
+  code = "KRW",
+  side = "krw",
+  total,
+  amount,
 }) => {
   const { coinList } = useList();
 
