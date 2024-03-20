@@ -95,10 +95,10 @@ export const assetSortOptionAtom = atom(
   }
 );
 const tradeOption = [
-  { name: "전체", select: true },
-  { name: "매수", select: false },
-  { name: "매도", select: false },
-  { name: "입금(원화)", select: false },
+  { name: "전체", select: true, side: "all" },
+  { name: "매수", select: false, side: "buy" },
+  { name: "매도", select: false, side: "sell" },
+  { name: "입금(원화)", select: false, side: "krw" },
 ];
 const defaultTradeSortOptionAtom = atom(tradeOption);
 export const tradeSortOptionAtom = atom(

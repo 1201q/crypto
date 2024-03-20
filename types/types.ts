@@ -18,10 +18,12 @@ export interface ServerSideProps {
   uid?: string | null;
   coinList?: CoinListResponseType;
   queryCode?: string;
+  currentTab?: "asset" | "trade";
   access?: boolean;
   pathname?: string;
   keyword?: string | undefined;
   isFirstLogin?: boolean;
+  tradeItemId?: string;
   fallback?: { [key: string]: CoinListResponseType };
 }
 

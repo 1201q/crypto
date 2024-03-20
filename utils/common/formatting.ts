@@ -8,7 +8,8 @@ type Functiontype =
   | "plus"
   | "orderbookSize"
   | "fixedPrice"
-  | "KRW";
+  | "KRW"
+  | "decimal";
 
 export default function f(
   type: Functiontype,
@@ -33,6 +34,8 @@ export default function f(
     return getFixedPrice(value as number);
   } else if (type === "KRW") {
     return getKRW(value as string);
+  } else if (type === "decimal") {
+    return getDecimal(value as number);
   }
   return "Invalid type";
 }
@@ -137,5 +140,19 @@ function getKRW(price: string): string {
     return `${Math.round(scaledValue).toLocaleString()} 억`;
   } else {
     return `${(scaledValue / 10000).toFixed(1)} 조`;
+  }
+}
+
+function getDecimal(amount: number): string {
+  const isExistPoint = amount.toString().includes(".");
+
+  if (!isExistPoint) {
+    return amount.toLocaleString();
+  } else {
+    const split = amount.toString().split(".");
+    const int = Number(split[0]).toLocaleString();
+    const decimal = split[1];
+
+    return `${int}.${decimal}`;
   }
 }

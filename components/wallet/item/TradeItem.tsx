@@ -3,7 +3,9 @@ import getKR from "@/utils/common/getKR";
 import { useList } from "@/utils/hooks/useList";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
+
 import Image from "next/image";
+import { useRouter } from "next/router";
 import styled from "styled-components";
 
 interface ItemPropsType {
@@ -12,6 +14,9 @@ interface ItemPropsType {
   side: "buy" | "sell" | "krw";
   total: number;
   amount?: number;
+  index?: number;
+  price?: number;
+  id: string;
 }
 
 const AssetItem: React.FC<ItemPropsType> = ({
@@ -20,6 +25,8 @@ const AssetItem: React.FC<ItemPropsType> = ({
   side = "krw",
   total,
   amount,
+  price,
+  id,
 }) => {
   const { coinList } = useList();
 
@@ -31,10 +38,15 @@ const AssetItem: React.FC<ItemPropsType> = ({
     code
   )}.png`;
 
+  const router = useRouter();
+
   return (
     <Container
       initial={{ backgroundColor: "white" }}
       whileTap={{ backgroundColor: "#f2f4f6" }}
+      onClick={() => {
+        router.push(`/wallet/trade/${id}`);
+      }}
     >
       <CodeIcon>
         <Image
@@ -64,7 +76,7 @@ const AssetItem: React.FC<ItemPropsType> = ({
           <StatusContainer>
             {side !== "krw" && (
               <BottomText>
-                {amount} {f("code", code)}
+                {f("orderbookSize", price, amount)} {f("code", code)}
               </BottomText>
             )}
           </StatusContainer>

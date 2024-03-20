@@ -92,7 +92,6 @@ const SelectSortCoinModal = () => {
                 $isAll={false}
                 onClick={() => {
                   setSelectSortCoin(coin);
-
                   router.back();
                 }}
                 initial={{ backgroundColor: "white" }}

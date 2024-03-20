@@ -1,7 +1,7 @@
 import { assetSortOptionAtom, tradeSortOptionAtom } from "@/context/atoms";
 import useOutSideClick from "@/utils/hooks/useOutSideClick";
 import { motion } from "framer-motion";
-import { useAtom, useSetAtom } from "jotai";
+import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 import { useRef } from "react";
 import styled from "styled-components";

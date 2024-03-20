@@ -4,10 +4,11 @@ import HeadMeta from "./Meta/HeadMeta";
 import ModalRender from "./ModalRender";
 
 interface PageRenderProps {
-  Render: React.FC;
+  Render: React.FC<any>;
   title?: string | undefined;
   description?: string | undefined;
   bgColor?: string;
+  props?: any;
 }
 
 const PageRender: React.FC<PageRenderProps> = ({
@@ -15,12 +16,13 @@ const PageRender: React.FC<PageRenderProps> = ({
   title,
   description,
   bgColor,
+  props,
 }) => {
   return (
     <Container>
       <HeadMeta title={title} description={description} />
       <Mobile bgColor={bgColor || "white"}>
-        <Render />
+        <Render {...props} />
         <ModalRender />
       </Mobile>
     </Container>

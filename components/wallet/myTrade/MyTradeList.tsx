@@ -34,15 +34,17 @@ const MyTradeList = () => {
           <p>{selectOption?.name}</p>
           <IconExchange width={13} height={13} />
         </Flex>
-        <SelectCoin
-          initial={{ scale: 1 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => {
-            setModal("selectCoin");
-          }}
-        >
-          {!selectSortCoin ? "전체보기" : selectSortCoin?.korean_name}
-        </SelectCoin>
+        {selectOption?.side !== "krw" && (
+          <SelectCoin
+            initial={{ scale: 1 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => {
+              setModal("selectCoin");
+            }}
+          >
+            {!selectSortCoin ? "전체보기" : selectSortCoin?.korean_name}
+          </SelectCoin>
+        )}
       </SortHeader>
       <ListContainer>
         <GroupedVirtuoso
@@ -50,12 +52,15 @@ const MyTradeList = () => {
           groupCounts={dateData.map((itemCount) => itemCount[1].length)}
           itemContent={(index) => (
             <TradeItem
+              index={index}
               key={tradeData[index]?.id}
+              id={tradeData[index]?.id}
               side={tradeData[index]?.side}
               total={tradeData[index]?.total}
               time={tradeData[index]?.timestamp}
               code={tradeData[index]?.code}
               amount={tradeData[index]?.amount}
+              price={tradeData[index]?.price}
             />
           )}
           groupContent={(index) => <DateDivider date={dateData[index][0]} />}

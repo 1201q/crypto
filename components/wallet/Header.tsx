@@ -1,32 +1,30 @@
-import { Dispatch, SetStateAction } from "react";
+import { useRouter } from "next/router";
+
 import styled from "styled-components";
 
-interface HeaderProps {
-  tab: boolean[];
-  setTab: Dispatch<SetStateAction<boolean[]>>;
-}
-
-const Header: React.FC<HeaderProps> = ({ tab, setTab }) => {
-  const menu = ["보유자산", "거래내역"];
-  const selectIndex = tab.findIndex((select) => select);
+const Header: React.FC = () => {
+  const menu = [
+    { name: "보유자산", tab: "asset" },
+    { name: "거래내역", tab: "trade" },
+  ];
+  const router = useRouter();
+  const currentTab = router.query.tab;
 
   return (
     <Container>
-      {tab.map((select, index) => (
+      {menu.map((m) => (
         <PageText
-          key={`header-${index}`}
+          key={`header-${m.name}`}
           onClick={() => {
-            setTab((prev) => {
-              return prev.map((tab, i) => i === index);
-            });
+            router.replace(`/wallet/${m.tab}`);
           }}
-          isselect={select}
+          isselect={m.tab === currentTab}
         >
-          {menu[index]}
+          {m.name}
         </PageText>
       ))}
       <BarContainer>
-        <UnderBar selectIndex={selectIndex} />
+        <UnderBar selectIndex={menu.findIndex((m) => m.tab === currentTab)} />
       </BarContainer>
     </Container>
   );
