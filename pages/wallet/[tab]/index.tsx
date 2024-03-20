@@ -63,6 +63,7 @@ export const getServerSideProps: GetServerSideProps = async (
 ): Promise<{ props: ServerSideProps }> => {
   let pathname = ctx?.resolvedUrl;
   let currentTab = ctx?.query.tab;
+
   const coinList = await fetcher("/api/markets");
 
   return {

@@ -30,7 +30,10 @@ const AmountInfo = () => {
             initial={{ scale: 1 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => {
-              router.push("/wallet/deposit");
+              router.push(
+                { pathname: "/wallet/deposit", query: { access: true } },
+                "/wallet/deposit"
+              );
             }}
           >
             원화입금

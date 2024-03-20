@@ -144,10 +144,10 @@ function getKRW(price: string): string {
 }
 
 function getDecimal(amount: number): string {
-  const isExistPoint = amount.toString().includes(".");
+  const isExistPoint = amount?.toString().includes(".");
 
   if (!isExistPoint) {
-    return amount.toLocaleString();
+    return amount?.toLocaleString();
   } else {
     const split = amount.toString().split(".");
     const int = Number(split[0]).toLocaleString();

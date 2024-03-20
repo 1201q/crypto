@@ -13,7 +13,7 @@ const MenuTab = () => {
         <Tab
           key={tab.name}
           name={tab.name}
-          isSelect={tab.routing === pathname}
+          isSelect={tab.routing.split("/")[1] === pathname?.split("/")[1]}
           icon={tab.icon}
           routing={tab.routing}
         />

@@ -1,5 +1,9 @@
 import { GetServerSideProps } from "next";
-import { ServerSideProps, ServerSideInitialValues } from "@/types/types";
+import {
+  ServerSideProps,
+  ServerSideInitialValues,
+  RedirectProps,
+} from "@/types/types";
 import { useHydrateAtoms } from "jotai/utils";
 import { pathnameAtom } from "@/context/atoms";
 import PageRender from "@/components/shared/PageRender";
@@ -24,9 +28,14 @@ export default function Home({ pathname }: ServerSideProps) {
 
 export const getServerSideProps: GetServerSideProps = async (
   ctx: any
-): Promise<{ props: ServerSideProps }> => {
+): Promise<{ props: ServerSideProps } | { redirect: RedirectProps }> => {
   let pathname = ctx?.resolvedUrl;
+  const { access } = ctx?.query;
   const coinList = await fetcher("/api/markets");
+
+  if (!access) {
+    return { redirect: { destination: "/wallet/asset", permanent: false } };
+  }
 
   return {
     props: {

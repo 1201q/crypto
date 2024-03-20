@@ -45,7 +45,13 @@ const AssetItem: React.FC<ItemPropsType> = ({
       initial={{ backgroundColor: "white" }}
       whileTap={{ backgroundColor: "#f2f4f6" }}
       onClick={() => {
-        router.push(`/wallet/trade/${id}`);
+        router.push(
+          {
+            pathname: `/wallet/trade/${id}`,
+            query: { access: "true" },
+          },
+          `/wallet/trade/${id}`
+        );
       }}
     >
       <CodeIcon>
